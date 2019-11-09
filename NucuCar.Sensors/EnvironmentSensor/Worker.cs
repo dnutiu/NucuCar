@@ -26,6 +26,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 }
                 else
                 {
+                    await Task.Delay(10000, stoppingToken);
                     /* Attempt to reinitialize the sensor. */
                     sensor.InitializeSensor();
                 }
