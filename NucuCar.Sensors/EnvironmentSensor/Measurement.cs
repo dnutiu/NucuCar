@@ -1,14 +1,14 @@
 using Iot.Units;
 
-namespace NucuCar.BME680Sensor
+namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public struct Bme680Measurement
+    public struct Measurement
     {
         public Temperature Temperature { get; set; }
         public double Pressure { get; set; }
         public double Humidity { get; set; }
 
-        public Bme680Measurement(Temperature temperature, double pressure, double humidity) : this()
+        public Measurement(Temperature temperature, double pressure, double humidity) : this()
         {
             SetMeasurement(temperature, pressure, humidity);
         }

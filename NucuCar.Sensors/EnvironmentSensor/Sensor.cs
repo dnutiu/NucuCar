@@ -6,18 +6,18 @@ using Iot.Device.Bmxx80.PowerMode;
 using Iot.Units;
 using Microsoft.Extensions.Logging;
 
-namespace NucuCar.BME680Sensor
+namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Bme680Sensor : IDisposable
+    public class Sensor : IDisposable
     {
         private readonly ILogger _logger;
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
-        private Bme680Measurement _measurement;
-        private Bme680SensorState _sensorState;
+        private Measurement _measurement;
+        private SensorState _sensorState;
 
-        public Bme680Sensor(ILogger logger)
+        public Sensor(ILogger logger)
         {
             _logger = logger;
             InitializeSensor();
@@ -33,8 +33,8 @@ namespace NucuCar.BME680Sensor
                 _bme680 = new Bme680(_i2CDevice);
                 
                 /* Initialize measurement */
-                _measurement = new Bme680Measurement();
-                _sensorState = Bme680SensorState.Initialized;
+                _measurement = new Measurement();
+                _sensorState = SensorState.Initialized;
                 
                 _logger.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
             }
@@ -42,13 +42,13 @@ namespace NucuCar.BME680Sensor
             {
                 _logger.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
                 _logger.LogTrace(e.Message);
-                _sensorState = Bme680SensorState.Error;
+                _sensorState = SensorState.Error;
             }
         }
 
         internal async Task TakeMeasurement()
         {
-            if (_sensorState != Bme680SensorState.Initialized)
+            if (_sensorState != SensorState.Initialized)
             {
                 _logger.LogWarning($"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
                 _measurement.SetMeasurement(Temperature.FromCelsius(-1), -1, -1);
@@ -69,13 +69,13 @@ namespace NucuCar.BME680Sensor
         }
 
         // TODO: Make gRpc accessible.
-        public Bme680Measurement GetMeasurement()
+        public Measurement GetMeasurement()
         {
             return _measurement;
         }
 
         // TODO: Make gRpc accessible.
-        public Bme680SensorState GetState()
+        public SensorState GetState()
         {
             return _sensorState;
         }

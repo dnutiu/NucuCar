@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace NucuCar.BME680Sensor
+namespace NucuCar.Sensors.EnvironmentSensor
 {
     public class Worker : BackgroundService
     {
@@ -17,10 +17,10 @@ namespace NucuCar.BME680Sensor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var sensor = new Bme680Sensor(_logger);
+            using var sensor = new Sensor(_logger);
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (sensor.GetState() == Bme680SensorState.Initialized)
+                if (sensor.GetState() == SensorState.Initialized)
                 {
                     await sensor.TakeMeasurement();
                 }

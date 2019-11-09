@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NucuCar.Sensors.EnvironmentSensor;
 
-namespace NucuCar.BME680Sensor
+namespace NucuCar.Sensors
 {
     public class Program
     {
