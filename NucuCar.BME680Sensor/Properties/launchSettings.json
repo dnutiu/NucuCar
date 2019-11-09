@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "NucuCar.BME680Sensor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
