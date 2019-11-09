@@ -5,6 +5,7 @@
     <e p="$USER_HOME$/.Rider2019.2/system/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_NucuCar.855615882.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="NucuCar.BME680Sensor" t="IncludeRecursive">
+        <e p=".editorconfig" t="Include" />
         <e p="NucuCar.BME680Sensor.csproj" t="IncludeRecursive" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
