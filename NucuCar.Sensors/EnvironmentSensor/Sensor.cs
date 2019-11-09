@@ -3,7 +3,6 @@ using System.Device.I2c;
 using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
-using Iot.Units;
 using Microsoft.Extensions.Logging;
 
 namespace NucuCar.Sensors.EnvironmentSensor
@@ -22,7 +21,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _logger = logger;
             InitializeSensor();
         }
-        
+
         internal void InitializeSensor()
         {
             try
@@ -31,11 +30,15 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _i2CSettings = new I2cConnectionSettings(1, Bme680.DefaultI2cAddress);
                 _i2CDevice = I2cDevice.Create(_i2CSettings);
                 _bme680 = new Bme680(_i2CDevice);
-                
+
                 /* Initialize measurement */
                 _measurement = new Measurement();
+                _bme680.Reset();
+                _bme680.SetHumiditySampling(Sampling.UltraLowPower);
+                _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
+                _bme680.SetPressureSampling(Sampling.UltraLowPower);
                 _sensorState = SensorState.Initialized;
-                
+
                 _logger.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
             }
             catch (System.IO.IOException e)
@@ -50,19 +53,19 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             if (_sensorState != SensorState.Initialized)
             {
-                _logger.LogWarning($"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
-                _measurement.SetMeasurement(Temperature.FromCelsius(-1), -1, -1);
+                _logger.LogWarning(
+                    $"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
                 return;
             }
-            
+
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
-                
+
             var temperature = await _bme680.ReadTemperatureAsync();
             var pressure = await _bme680.ReadPressureAsync();
             var humidity = await _bme680.ReadHumidityAsync();
             _measurement.SetMeasurement(temperature, pressure, humidity);
-                
+
             _logger.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
             _logger.LogInformation(
                 $"{temperature.Celsius:N2} \u00B0C | {pressure} hPa | {humidity:N2} %rH");
@@ -85,6 +88,4 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _bme680?.Dispose();
         }
     }
-
-
 }
