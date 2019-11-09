@@ -6,6 +6,9 @@
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="NucuCar.BME680Sensor" t="IncludeRecursive">
         <e p=".editorconfig" t="Include" />
+        <e p="Bme680Measurement.cs" t="Include" />
+        <e p="Bme680Sensor.cs" t="Include" />
+        <e p="Bme680SensorState.cs" t="Include" />
         <e p="NucuCar.BME680Sensor.csproj" t="IncludeRecursive" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
