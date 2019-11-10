@@ -4,9 +4,9 @@ namespace NucuCar.Sensors.EnvironmentSensor
 {
     public struct Measurement
     {
-        public Temperature Temperature { get; set; }
-        public double Pressure { get; set; }
-        public double Humidity { get; set; }
+        public Temperature Temperature { get; private set; }
+        public double Pressure { get; private set; }
+        public double Humidity { get; private set; }
 
         public Measurement(Temperature temperature, double pressure, double humidity) : this()
         {

@@ -17,7 +17,10 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var sensor = new Sensor(_logger);
+            using var sensor = Sensor.Instance;
+            sensor.SetLogger(_logger);
+            sensor.InitializeSensor();
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 if (sensor.GetState() == SensorState.Initialized)

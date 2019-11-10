@@ -9,21 +9,52 @@ namespace NucuCar.Sensors.EnvironmentSensor
 {
     public class Sensor : IDisposable
     {
-        private readonly ILogger _logger;
+        private ILogger _logger;
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
         private Measurement _measurement;
         private SensorState _sensorState;
 
-        public Sensor(ILogger logger)
+        /* Singleton Instance */
+        public static Sensor Instance { get; } = new Sensor();
+
+        static Sensor()
+        {
+        }
+
+        private Sensor()
+        {
+            _sensorState = SensorState.Uninitialized;
+        }
+
+        public Measurement GetMeasurement()
+        {
+            return _measurement;
+        }
+
+        public SensorState GetState()
+        {
+            return _sensorState;
+        }
+
+        public void Dispose()
+        {
+            _bme680?.Dispose();
+        }
+
+        internal void SetLogger(ILogger logger)
         {
             _logger = logger;
-            InitializeSensor();
         }
 
         internal void InitializeSensor()
         {
+            if (_sensorState == SensorState.Initialized)
+            {
+                return;
+            }
+
             try
             {
                 /* Connect to default i2c address 0x76 */
@@ -69,23 +100,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _logger.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
             _logger.LogInformation(
                 $"{temperature.Celsius:N2} \u00B0C | {pressure} hPa | {humidity:N2} %rH");
-        }
-
-        // TODO: Make gRpc accessible.
-        public Measurement GetMeasurement()
-        {
-            return _measurement;
-        }
-
-        // TODO: Make gRpc accessible.
-        public SensorState GetState()
-        {
-            return _sensorState;
-        }
-
-        public void Dispose()
-        {
-            _bme680?.Dispose();
         }
     }
 }

@@ -11,5 +11,7 @@ Sensor capabilities:
 * Humidity
 * VOC Gas (Currently not implemented in binding)
 
+Note: Currently using the development certificate for gRpc calls.
+
 
     
