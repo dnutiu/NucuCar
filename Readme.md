@@ -12,6 +12,7 @@ Milestones:
 -
 
 - [X] Make a working BME680 module. ~~(Unit tests?)~~
+  - [ ] Add settings: gRPC enabled, Telemetry Enabled, Sensor Enabled.
 - [X] Make a gRPC test project to test the modules.
 - [ ] Add systemd config file.
 - [ ] Add makefile for easy building & installing.
