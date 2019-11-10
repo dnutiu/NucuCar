@@ -27,6 +27,7 @@ namespace NucuCar.TestClient
             httpClientHandler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             _httpClient = new HttpClient(httpClientHandler);
+            
             await EnvironmentSensorGrpcServiceTest();
         }
 
