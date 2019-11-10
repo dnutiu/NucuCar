@@ -1,6 +1,6 @@
 namespace NucuCar.Sensors
 {
-    public enum SensorState
+    public enum SensorStateEnum
     {
         Error,
         Uninitialized,

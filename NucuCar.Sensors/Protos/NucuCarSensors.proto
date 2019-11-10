@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package NucuCarGrpcSensors;
+
+service EnvironmentSensorGrpcService {
+  rpc GetSensorState(google.protobuf.Empty) returns (NucuCarSensorState) {}
+  rpc GetSensorMeasurement(google.protobuf.Empty) returns (EnvironmentSensorMeasurement) {}
+}
+
+message EnvironmentSensorMeasurement {
+  double temperature = 1;
+  double pressure = 2;
+  double humidity = 3;
+  double voc = 4;
+}
+
+message NucuCarSensorState {
+  int32 state = 1;
+}

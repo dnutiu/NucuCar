@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using NucuCarGrpcSensors;
@@ -16,11 +17,22 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _logger = logger;
         }
 
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override Task<NucuCarSensorState> GetSensorState(Empty request, ServerCallContext context)
         {
-            return Task.FromResult(new HelloReply
+            return Task.FromResult(new NucuCarSensorState()
             {
-                Message = "Hello " + request.Name
+                State = (int) _sensor.GetState()
+            });
+        }
+
+        public override Task<EnvironmentSensorMeasurement> GetSensorMeasurement(Empty request, ServerCallContext context)
+        {
+            var sensorMeasurement = _sensor.GetMeasurement();
+            return Task.FromResult(new EnvironmentSensorMeasurement()
+            {
+                Temperature = sensorMeasurement.Temperature.Celsius,
+                Humidity = sensorMeasurement.Humidity,
+                Pressure = sensorMeasurement.Pressure
             });
         }
     }

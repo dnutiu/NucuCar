@@ -18,9 +18,13 @@
     <ItemGroup>
       <_UnmanagedRegistrationCache Remove="obj\NucuCar.Sensors.csproj.UnmanagedRegistration.cache" />
       <_UnmanagedRegistrationCache Remove="obj\NucuCar.Sensors.csproj.UnmanagedRegistration.cache" />
+      <_UnmanagedRegistrationCache Remove="obj\NucuCar.Sensors.csproj.UnmanagedRegistration.cache" />
+      <_UnmanagedRegistrationCache Remove="obj\NucuCar.Sensors.csproj.UnmanagedRegistration.cache" />
     </ItemGroup>
 
     <ItemGroup>
+      <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.csproj.ResolveComReference.cache" />
+      <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.csproj.ResolveComReference.cache" />
       <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.csproj.ResolveComReference.cache" />
       <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.csproj.ResolveComReference.cache" />
     </ItemGroup>
@@ -28,9 +32,13 @@
     <ItemGroup>
       <IntermediateAssembly Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
       <IntermediateAssembly Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
+      <IntermediateAssembly Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
+      <IntermediateAssembly Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
     </ItemGroup>
 
     <ItemGroup>
+      <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.pdb" />
+      <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.pdb" />
       <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.pdb" />
       <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.pdb" />
     </ItemGroup>
@@ -38,9 +46,13 @@
     <ItemGroup>
       <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
       <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
+      <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
+      <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll" />
     </ItemGroup>
 
     <ItemGroup>
+      <ApplicationManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll.manifest" />
+      <ApplicationManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll.manifest" />
       <ApplicationManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll.manifest" />
       <ApplicationManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.dll.manifest" />
     </ItemGroup>
@@ -48,9 +60,13 @@
     <ItemGroup>
       <DeployManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.application" />
       <DeployManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.application" />
+      <DeployManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.application" />
+      <DeployManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.application" />
     </ItemGroup>
 
     <ItemGroup>
+      <ClsidMap Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.clsidmap" />
+      <ClsidMap Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.clsidmap" />
       <ClsidMap Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.clsidmap" />
       <ClsidMap Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.clsidmap" />
     </ItemGroup>
@@ -58,14 +74,12 @@
     <ItemGroup>
       <RegFreeComManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.X.manifest" />
       <RegFreeComManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.X.manifest" />
+      <RegFreeComManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.X.manifest" />
+      <RegFreeComManifest Remove="obj\Debug\netcoreapp3.0\NucuCar.Sensors.X.manifest" />
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Protobuf Include="Protos\EnvironmentSensor.proto">
+      <Protobuf Include="Protos\NucuCarSensors.proto">
         <GrpcServices>Both</GrpcServices>
         <Access>Public</Access>
         <ProtoCompile>True</ProtoCompile>

@@ -23,7 +23,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (sensor.GetState() == SensorState.Initialized)
+                if (sensor.GetState() == SensorStateEnum.Initialized)
                 {
                     await sensor.TakeMeasurement();
                 }

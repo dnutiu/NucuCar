@@ -14,7 +14,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
         private Measurement _measurement;
-        private SensorState _sensorState;
+        private SensorStateEnum _sensorStateEnum;
 
         /* Singleton Instance */
         public static Sensor Instance { get; } = new Sensor();
@@ -25,7 +25,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         private Sensor()
         {
-            _sensorState = SensorState.Uninitialized;
+            _sensorStateEnum = SensorStateEnum.Uninitialized;
         }
 
         public Measurement GetMeasurement()
@@ -33,9 +33,9 @@ namespace NucuCar.Sensors.EnvironmentSensor
             return _measurement;
         }
 
-        public SensorState GetState()
+        public SensorStateEnum GetState()
         {
-            return _sensorState;
+            return _sensorStateEnum;
         }
 
         public void Dispose()
@@ -50,7 +50,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         internal void InitializeSensor()
         {
-            if (_sensorState == SensorState.Initialized)
+            if (_sensorStateEnum == SensorStateEnum.Initialized)
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _bme680.SetHumiditySampling(Sampling.UltraLowPower);
                 _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
                 _bme680.SetPressureSampling(Sampling.UltraLowPower);
-                _sensorState = SensorState.Initialized;
+                _sensorStateEnum = SensorStateEnum.Initialized;
 
                 _logger.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
             }
@@ -76,13 +76,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
             {
                 _logger.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
                 _logger.LogTrace(e.Message);
-                _sensorState = SensorState.Error;
+                _sensorStateEnum = SensorStateEnum.Error;
             }
         }
 
         internal async Task TakeMeasurement()
         {
-            if (_sensorState != SensorState.Initialized)
+            if (_sensorStateEnum != SensorStateEnum.Initialized)
             {
                 _logger.LogWarning(
                     $"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
