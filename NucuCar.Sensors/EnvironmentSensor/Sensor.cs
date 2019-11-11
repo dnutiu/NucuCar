@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
+using NucuCarGrpcSensors;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
@@ -13,7 +14,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
-        private Measurement _measurement;
+        private EnvironmentSensorMeasurement _lastMeasurement;
         private SensorStateEnum _sensorStateEnum;
 
         /* Singleton Instance */
@@ -28,9 +29,9 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _sensorStateEnum = SensorStateEnum.Uninitialized;
         }
 
-        public Measurement GetMeasurement()
+        public EnvironmentSensorMeasurement GetMeasurement()
         {
-            return _measurement;
+            return _lastMeasurement;
         }
 
         public SensorStateEnum GetState()
@@ -63,7 +64,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _bme680 = new Bme680(_i2CDevice);
 
                 /* Initialize measurement */
-                _measurement = new Measurement();
+                _lastMeasurement = new EnvironmentSensorMeasurement();
                 _bme680.Reset();
                 _bme680.SetHumiditySampling(Sampling.UltraLowPower);
                 _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
@@ -92,14 +93,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
 
-            var temperature = await _bme680.ReadTemperatureAsync();
-            var pressure = await _bme680.ReadPressureAsync();
-            var humidity = await _bme680.ReadHumidityAsync();
-            _measurement.SetMeasurement(temperature, pressure, humidity);
+            _lastMeasurement.Temperature = (await _bme680.ReadTemperatureAsync()).Celsius;
+            _lastMeasurement.Pressure = await _bme680.ReadPressureAsync();
+            _lastMeasurement.Humidity = await _bme680.ReadHumidityAsync();
 
             _logger.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
             _logger.LogInformation(
-                $"{temperature.Celsius:N2} \u00B0C | {pressure} hPa | {humidity:N2} %rH");
+                $"{_lastMeasurement.Temperature:N2} \u00B0C | {_lastMeasurement.Pressure:N2} hPa | {_lastMeasurement.Humidity:N2} %rH");
         }
     }
 }

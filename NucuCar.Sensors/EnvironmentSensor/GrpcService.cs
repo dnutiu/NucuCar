@@ -6,12 +6,12 @@ using NucuCarGrpcSensors;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Service : EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceBase
+    public class GrpcService : EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceBase
     {
-        private readonly ILogger<Service> _logger;
+        private readonly ILogger<GrpcService> _logger;
         private readonly Sensor _sensor;
 
-        public Service(ILogger<Service> logger)
+        public GrpcService(ILogger<GrpcService> logger)
         {
             _sensor = Sensor.Instance;
             _logger = logger;
@@ -21,19 +21,14 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             return Task.FromResult(new NucuCarSensorState()
             {
-                State = (int) _sensor.GetState()
+                State = _sensor.GetState()
             });
         }
 
         public override Task<EnvironmentSensorMeasurement> GetSensorMeasurement(Empty request, ServerCallContext context)
         {
             var sensorMeasurement = _sensor.GetMeasurement();
-            return Task.FromResult(new EnvironmentSensorMeasurement()
-            {
-                Temperature = sensorMeasurement.Temperature.Celsius,
-                Humidity = sensorMeasurement.Humidity,
-                Pressure = sensorMeasurement.Pressure
-            });
+            return Task.FromResult(sensorMeasurement);
         }
     }
 }

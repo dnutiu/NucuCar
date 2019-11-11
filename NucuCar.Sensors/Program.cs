@@ -14,7 +14,7 @@ namespace NucuCar.Sensors
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) => { services.AddHostedService<Worker>(); })
+                .ConfigureServices((hostContext, services) => { services.AddHostedService<BackgroundWorker>(); })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
     }
 }

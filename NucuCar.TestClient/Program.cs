@@ -37,7 +37,7 @@ namespace NucuCar.TestClient
                 new GrpcChannelOptions {HttpClient = _httpClient});
             var client = new EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient(channel);
             var reply = await client.GetSensorStateAsync(new Empty());
-            var state = (SensorStateEnum) reply.State;
+            var state = reply.State;
             Console.WriteLine("EnviromentSensorState: " + state);
             if (state == SensorStateEnum.Initialized)
             {

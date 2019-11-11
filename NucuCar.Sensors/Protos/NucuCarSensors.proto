@@ -3,18 +3,27 @@ import "google/protobuf/empty.proto";
 
 package NucuCarGrpcSensors;
 
+// General
+
+enum SensorStateEnum {
+  Error = 0;
+  Uninitialized = 1;
+  Initialized = 2;
+}
+
+// Environment Sensor
 service EnvironmentSensorGrpcService {
   rpc GetSensorState(google.protobuf.Empty) returns (NucuCarSensorState) {}
   rpc GetSensorMeasurement(google.protobuf.Empty) returns (EnvironmentSensorMeasurement) {}
 }
 
 message EnvironmentSensorMeasurement {
-  double temperature = 1;
-  double pressure = 2;
-  double humidity = 3;
-  double voc = 4;
+  double Temperature = 1;
+  double Pressure = 2;
+  double Humidity = 3;
+  double VolatileOrganicCompound = 4;
 }
 
 message NucuCarSensorState {
-  int32 state = 1;
+  SensorStateEnum state = 1;
 }

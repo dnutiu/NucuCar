@@ -1,16 +1,18 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NucuCarGrpcSensors;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Worker : BackgroundService
+    public class BackgroundWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<BackgroundWorker> _logger;
 
 
-        public Worker(ILogger<Worker> logger)
+        public BackgroundWorker(ILogger<BackgroundWorker> logger, IConfiguration config)
         {
             _logger = logger;
         }

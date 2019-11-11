@@ -28,7 +28,7 @@ namespace NucuCar.Sensors
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<EnvironmentSensor.Service>();
+                endpoints.MapGrpcService<EnvironmentSensor.GrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>
