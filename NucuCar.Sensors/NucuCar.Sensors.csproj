@@ -6,10 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.10.1" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
-        <PackageReference Include="Grpc.Core" Version="2.25.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.25.0" />
         <PackageReference Include="Iot.Device.Bindings" Version="1.0.0" />
         <PackageReference Include="libgrpc_csharp_ext.arm7" Version="1.0.8" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />

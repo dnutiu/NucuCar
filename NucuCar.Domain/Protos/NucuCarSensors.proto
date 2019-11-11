@@ -4,7 +4,6 @@ import "google/protobuf/empty.proto";
 package NucuCarSensorsProto;
 
 // General
-
 enum SensorStateEnum {
     Error = 0;
     Uninitialized = 1;
