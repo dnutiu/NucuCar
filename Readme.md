@@ -5,14 +5,14 @@
 You can build the project then run them as you would run an executable file.
 
 ```$xslt
-dotnet build --runtime debian-arm
+dotnet build --runtime linux-arm
 ```
 
 Milestones: 
 -
 
 - [X] Make a working BME680 module. ~~(Unit tests?)~~
-  - [ ] Add settings: gRPC enabled, Telemetry Enabled, Sensor Enabled.
+  - [X] Add settings: ~~gRPC enabled~~, Telemetry Enabled, Sensor Enabled, Measurement Delay
 - [X] Make a gRPC test project to test the modules.
 - [ ] Add systemd config file.
 - [ ] Add makefile for easy building & installing.
