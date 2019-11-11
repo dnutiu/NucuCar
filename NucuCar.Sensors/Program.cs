@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NucuCar.Sensors.EnvironmentSensor;
+using NucuCar.Sensors;
 
 namespace NucuCar.Sensors
 {
@@ -14,7 +14,10 @@ namespace NucuCar.Sensors
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) => { services.AddHostedService<BackgroundWorker>(); })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<EnvironmentSensor.BackgroundWorker>();
+                })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
     }
 }

@@ -3,8 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
-using NucuCar.Sensors;
-using NucuCarGrpcSensors;
+using NucuCarSensorsProto;
 
 namespace NucuCar.TestClient
 {

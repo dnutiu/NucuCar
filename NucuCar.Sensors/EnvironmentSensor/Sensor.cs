@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
-using NucuCarGrpcSensors;
+using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {

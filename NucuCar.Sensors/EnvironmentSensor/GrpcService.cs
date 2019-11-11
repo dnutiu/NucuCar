@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using NucuCarGrpcSensors;
+using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
