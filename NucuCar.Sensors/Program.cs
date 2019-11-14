@@ -16,6 +16,7 @@ namespace NucuCar.Sensors
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddHostedService<Telemetry.BackgroundWorker>();
                     services.AddHostedService<EnvironmentSensor.BackgroundWorker>();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });

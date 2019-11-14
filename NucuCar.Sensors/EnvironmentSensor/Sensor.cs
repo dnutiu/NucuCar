@@ -1,14 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Device.I2c;
 using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
+using NucuCar.Sensors.Telemetry;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Sensor : IDisposable
+    public class Sensor : IDisposable, ITelemetrySensor
     {
         private ILogger _logger;
         private I2cConnectionSettings _i2CSettings;
@@ -100,6 +102,17 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _logger.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
             _logger.LogInformation(
                 $"{_lastMeasurement.Temperature:N2} \u00B0C | {_lastMeasurement.Pressure:N2} hPa | {_lastMeasurement.Humidity:N2} %rH");
+        }
+
+        public Dictionary<string, double> GetTelemetryData()
+        {
+            return new Dictionary<string, double>
+            {
+                ["temperature"] = _lastMeasurement.Temperature,
+                ["humidity"] = _lastMeasurement.Humidity,
+                ["pressure"] = _lastMeasurement.Pressure,
+                ["voc"] = _lastMeasurement.VolatileOrganicCompound
+            };
         }
     }
 }

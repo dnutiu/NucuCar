@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NucuCar.Sensors.Telemetry;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
@@ -21,7 +22,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             var configSection = config.GetSection("EnvironmentSensor");
             _serviceEnabled = configSection.GetValue<bool>("Enabled");
             _telemetryEnabled = configSection.GetValue<bool>("Telemetry");
-            _measurementDelay = configSection.GetValue<int>("MeasurementDelay");
+            _measurementDelay = configSection.GetValue<int>("MeasurementInterval");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,6 +35,11 @@ namespace NucuCar.Sensors.EnvironmentSensor
             using var sensor = Sensor.Instance;
             sensor.SetLogger(_logger);
             sensor.InitializeSensor();
+            if (_telemetryEnabled)
+            {
+                TelemetryService.Instance.RegisterSensor(sensor);
+            }
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 if (sensor.GetState() == SensorStateEnum.Initialized)
@@ -49,6 +55,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
                 await Task.Delay(_measurementDelay, stoppingToken);
             }
+            
+            TelemetryService.Instance.UnregisterSensor(sensor);
         }
     }
 }
