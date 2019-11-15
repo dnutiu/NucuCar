@@ -104,15 +104,25 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 $"{_lastMeasurement.Temperature:N2} \u00B0C | {_lastMeasurement.Pressure:N2} hPa | {_lastMeasurement.Humidity:N2} %rH");
         }
 
+        public string GetIdentifier()
+        {
+            return nameof(EnvironmentSensor);
+        }
+
         public Dictionary<string, double> GetTelemetryData()
         {
-            return new Dictionary<string, double>
+            Dictionary<string, double> returnValue = null;
+            if (_lastMeasurement != null)
             {
-                ["temperature"] = _lastMeasurement.Temperature,
-                ["humidity"] = _lastMeasurement.Humidity,
-                ["pressure"] = _lastMeasurement.Pressure,
-                ["voc"] = _lastMeasurement.VolatileOrganicCompound
-            };
+                returnValue = new Dictionary<string, double>
+                {
+                    ["temperature"] = _lastMeasurement.Temperature,
+                    ["humidity"] = _lastMeasurement.Humidity,
+                    ["pressure"] = _lastMeasurement.Pressure,
+                    ["voc"] = _lastMeasurement.VolatileOrganicCompound
+                };
+            }
+            return returnValue;
         }
     }
 }

@@ -53,7 +53,7 @@ namespace NucuCar.Sensors.Telemetry
                 jwt = Jose.JWT.Encode(new Dictionary<string, object>()
                 {
                     ["iat"] = DateTime.UtcNow,
-                    ["exp"] = DateTime.UtcNow.AddMinutes(60),
+                    ["exp"] = DateTime.UtcNow.AddDays(60),
                     ["aud"] = ProjectId
                 }, rsa, Jose.JwsAlgorithm.RS256);
             }
@@ -74,17 +74,27 @@ namespace NucuCar.Sensors.Telemetry
 
         public async Task StartAsync()
         {
-            var options = new ManagedMqttClientOptionsBuilder()
-                .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
-                .WithClientOptions(new MqttClientOptionsBuilder()
-                    .WithClientId($"projects/{ProjectId}/locations/{Region}/registries/{RegistryId}/devices/{DeviceId}")
-                    .WithCredentials("unused", GetMqttPassword())
-                    .WithTcpServer("mqtt.googleapis.com")
-                    .WithTls().Build())
-                .Build();
-            
             _logger.LogInformation("Starting the MQTT client.");
+            ManagedMqttClientOptions options; 
+            try
+            {
+                options = new ManagedMqttClientOptionsBuilder()
+                    .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
+                    .WithClientOptions(new MqttClientOptionsBuilder()
+                        .WithClientId($"projects/{ProjectId}/locations/{Region}/registries/{RegistryId}/devices/{DeviceId}")
+                        .WithCredentials("unused", GetMqttPassword())
+                        .WithTcpServer("mqtt.googleapis.com")
+                        .WithTls().Build())
+                    .Build();
+            }
+            catch (IOException e)
+            {
+                _logger.LogCritical(e.Message);
+                throw;
+            }
+
             await _mqttClient.StartAsync(options);
+            _logger.LogInformation("Started the MQTT client!");
         }
 
         public async Task PublishDataAsync(CancellationToken cancellationToken)
@@ -92,6 +102,11 @@ namespace NucuCar.Sensors.Telemetry
             foreach (var sensor in _registeredSensors)
             {
                 var data = sensor.GetTelemetryData();
+                if (data == null)
+                {
+                    _logger.LogWarning($"Warning! Data for {sensor.GetIdentifier()} is null!");
+                    continue;
+                }
                 await UploadData(data, cancellationToken);
             }
         }
