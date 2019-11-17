@@ -10,9 +10,8 @@
         <PackageReference Include="Iot.Device.Bindings" Version="1.0.0" />
         <PackageReference Include="jose-jwt" Version="2.5.0" />
         <PackageReference Include="libgrpc_csharp_ext.arm7" Version="1.0.8" />
+        <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.29.0-preview-002" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
-        <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.8" />
-        <PackageReference Include="Portable.BouncyCastle" Version="1.8.5.2" />
         <PackageReference Include="System.Device.Gpio" Version="1.0.0" />
     </ItemGroup>
 

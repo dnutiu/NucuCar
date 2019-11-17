@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace NucuCar.Sensors.Telemetry
@@ -7,6 +6,6 @@ namespace NucuCar.Sensors.Telemetry
     {
         string GetIdentifier();
         /* Dictionary containing the topic and the value */
-        Dictionary<string, double> GetTelemetryData();
+        Dictionary<string, object> GetTelemetryData();
     }
 }

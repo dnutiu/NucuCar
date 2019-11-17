@@ -109,12 +109,12 @@ namespace NucuCar.Sensors.EnvironmentSensor
             return nameof(EnvironmentSensor);
         }
 
-        public Dictionary<string, double> GetTelemetryData()
+        public Dictionary<string, object> GetTelemetryData()
         {
-            Dictionary<string, double> returnValue = null;
+            Dictionary<string, object> returnValue = null;
             if (_lastMeasurement != null)
             {
-                returnValue = new Dictionary<string, double>
+                returnValue = new Dictionary<string, object>
                 {
                     ["temperature"] = _lastMeasurement.Temperature,
                     ["humidity"] = _lastMeasurement.Humidity,

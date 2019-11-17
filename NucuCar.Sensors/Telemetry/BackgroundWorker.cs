@@ -8,11 +8,7 @@ namespace NucuCar.Sensors.Telemetry
 {
     public class BackgroundWorker : BackgroundService
     {
-        private readonly string _projectId;
-        private readonly string _region;
-        private readonly string _registryId;
-        private readonly string _deviceId;
-        private readonly string _rs256KeyFile;
+        private readonly string _azureIotHubConnectionString;
         private readonly bool _serviceEnabled;
         private readonly int _interval;
         private readonly ILogger _logger;
@@ -20,14 +16,9 @@ namespace NucuCar.Sensors.Telemetry
         public BackgroundWorker(ILogger<BackgroundWorker> logger, IConfiguration configuration)
         {
             _logger = logger;
-            var configSection = configuration.GetSection("Telemetry");
-            _serviceEnabled = configSection.GetValue<bool>("Enabled");
-            _interval = configSection.GetValue<int>("Interval");
-            _projectId = configSection.GetValue<string>("ProjectId");
-            _region = configSection.GetValue<string>("Region");
-            _registryId = configSection.GetValue<string>("RegistryId");
-            _deviceId = configSection.GetValue<string>("DeviceId");
-            _rs256KeyFile = configSection.GetValue<string>("RS256File");
+            _serviceEnabled = configuration.GetValue<bool>("Telemetry:Enabled");
+            _interval = configuration.GetValue<int>("Telemetry:Interval");
+            _azureIotHubConnectionString = configuration.GetValue<string>("Telemetry:AzureIotHubConnectionString");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,13 +33,9 @@ namespace NucuCar.Sensors.Telemetry
             using var telemetryService = TelemetryService.Instance;
 
             telemetryService.SetLogger(_logger);
-            telemetryService.ProjectId = _projectId;
-            telemetryService.DeviceId = _deviceId;
-            telemetryService.RegistryId = _registryId;
-            telemetryService.Region = _region;
-            telemetryService.Rs256File = _rs256KeyFile;
+            telemetryService.AzureIotHubConnectionString = _azureIotHubConnectionString;
 
-            await telemetryService.StartAsync();
+            telemetryService.Start();
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Publishing telemetry data!");
