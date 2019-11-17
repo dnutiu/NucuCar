@@ -19,7 +19,7 @@ namespace NucuCar.TestClient
         {
             foreach (var e in errs)
             {
-                Console.WriteLine("Argument parse error:", e);
+                Console.WriteLine($"Argument parse error: {e}");
             }
         }
     }
