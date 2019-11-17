@@ -37,7 +37,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             sensor.InitializeSensor();
             if (_telemetryEnabled)
             {
-                TelemetryService.Instance.RegisterSensor(sensor);
+                TelemetryPublisher.Instance.RegisterTelemeter(sensor);
             }
 
             while (!stoppingToken.IsCancellationRequested)
@@ -56,7 +56,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 await Task.Delay(_measurementDelay, stoppingToken);
             }
             
-            TelemetryService.Instance.UnregisterSensor(sensor);
+            TelemetryPublisher.Instance.UnRegisterTelemeter(sensor);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -30,16 +31,19 @@ namespace NucuCar.Sensors.Telemetry
 
             await Task.Delay(_interval, stoppingToken);
 
-            using var telemetryService = TelemetryService.Instance;
+            using var telemetryService = TelemetryPublisher.Instance;
 
             telemetryService.SetLogger(_logger);
-            telemetryService.AzureIotHubConnectionString = _azureIotHubConnectionString;
+            telemetryService.Configure(new Dictionary<string, object>()
+            {
+                ["AzureIotHubConnectionString"] = _azureIotHubConnectionString
+            });
 
             telemetryService.Start();
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Publishing telemetry data!");
-                await telemetryService.PublishDataAsync(stoppingToken);
+                await telemetryService.PublishAsync(stoppingToken);
                 await Task.Delay(_interval, stoppingToken);
             }
         }

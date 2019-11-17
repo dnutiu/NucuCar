@@ -20,5 +20,6 @@
       <PackageReference Include="Google.Protobuf" Version="3.10.1" />
       <PackageReference Include="Grpc" Version="2.25.0" />
       <PackageReference Include="Grpc.Tools" Version="2.25.0" />
+      <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.29.0-preview-002" />
     </ItemGroup>
 </Project>

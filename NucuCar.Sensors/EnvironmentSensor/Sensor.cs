@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
-using NucuCar.Sensors.Telemetry;
+using NucuCar.Domain.Telemetry;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Sensor : IDisposable, ITelemetrySensor
+    public class Sensor : IDisposable, ITelemeter
     {
         private ILogger _logger;
         private I2cConnectionSettings _i2CSettings;

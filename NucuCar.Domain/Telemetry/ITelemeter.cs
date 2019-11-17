@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace NucuCar.Sensors.Telemetry
+namespace NucuCar.Domain.Telemetry
 {
-    public interface ITelemetrySensor
+    public interface ITelemeter
     {
         string GetIdentifier();
         /* Dictionary containing the topic and the value */
