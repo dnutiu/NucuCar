@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using CommandLine;
-using static NucuCar.TestClient.NucuCarSensorsCommandLine;
+using static NucuCar.TestClient.SensorsCommandLine;
 
 namespace NucuCar.TestClient
 {
-    class Program
+    internal class Program
     {
         // ReSharper disable once ArrangeTypeMemberModifiers
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<NucuCarSensorsCommandLineOptions>(args)
+            Parser.Default.ParseArguments<SensorsCommandLineOptions>(args)
                 .WithParsed(opts => { RunSensorsTestCommand(opts).GetAwaiter().GetResult(); })
                 .WithNotParsed(HandleParseError);
         }

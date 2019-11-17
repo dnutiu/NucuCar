@@ -9,20 +9,20 @@ using NucuCarSensorsProto;
 namespace NucuCar.TestClient
 {
     [Verb("sensors", HelpText = "Test the gRPC sensors services.")]
-    public class NucuCarSensorsCommandLineOptions
+    public class SensorsCommandLineOptions
     {
         [Option('u', "url", Required = false, HelpText = "The url and port of the gRPC server.",
             Default = "https://localhost:8000")]
         public string GrpcServiceAddress { get; set; }
     }
 
-    public class NucuCarSensorsCommandLine
+    public class SensorsCommandLine
     {
         public string GrpcServiceAddress { get; set; }
 
-        public static async Task RunSensorsTestCommand(NucuCarSensorsCommandLineOptions options)
+        public static async Task RunSensorsTestCommand(SensorsCommandLineOptions options)
         {
-            var sensorsCommandLine = new NucuCarSensorsCommandLine();
+            var sensorsCommandLine = new SensorsCommandLine();
             sensorsCommandLine.GrpcServiceAddress = options.GrpcServiceAddress;
 
             await sensorsCommandLine.EnvironmentSensorGrpcServiceTest();
