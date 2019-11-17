@@ -81,8 +81,4 @@
     <ItemGroup>
       <ProjectReference Include="..\NucuCar.Domain\NucuCar.Domain.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Certificates" />
-    </ItemGroup>
 </Project>
