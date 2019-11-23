@@ -8,7 +8,7 @@ using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using NucuCarSensorsProto;
 
-namespace NucuCar.TestClient
+namespace NucuCar.TestClient.Sensors
 {
     public class SensorsCmd
     {
