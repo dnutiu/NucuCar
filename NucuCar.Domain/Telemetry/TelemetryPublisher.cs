@@ -22,8 +22,6 @@ namespace NucuCar.Domain.Telemetry
         public abstract Task StartAsync();
         public abstract bool Publish(int timeout);
         public abstract Task PublishAsync(CancellationToken cancellationToken);
-        public abstract void Configure(Dictionary<string, object> config);
-        
         public bool RegisterTelemeter(ITelemeter t)
         {
             if (RegisteredTelemeters.Contains(t)) return false;

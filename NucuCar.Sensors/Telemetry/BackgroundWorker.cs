@@ -34,11 +34,9 @@ namespace NucuCar.Sensors.Telemetry
             using var telemetryService = TelemetryPublisher.Instance;
 
             telemetryService.Logger = _logger;
-            telemetryService.Configure(new Dictionary<string, object>()
-            {
-                ["AzureIotHubConnectionString"] = _azureIotHubConnectionString
-            });
-
+            telemetryService.ConnectionString = _azureIotHubConnectionString;
+            telemetryService.TelemetrySource = "NucuCar.Sensors";
+            
             telemetryService.Start();
             while (!stoppingToken.IsCancellationRequested)
             {

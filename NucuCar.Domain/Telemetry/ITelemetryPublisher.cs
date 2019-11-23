@@ -9,7 +9,6 @@ namespace NucuCar.Domain.Telemetry
     {
         void Start();
         Task StartAsync();
-        void Configure(Dictionary<string, object> config);
         bool RegisterTelemeter(ITelemeter t);
         bool UnRegisterTelemeter(ITelemeter t);
         Task PublishAsync(CancellationToken cancellationToken);

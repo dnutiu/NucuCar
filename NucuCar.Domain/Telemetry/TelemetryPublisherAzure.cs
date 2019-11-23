@@ -29,10 +29,6 @@ namespace NucuCar.Domain.Telemetry
             }
             Logger.LogInformation("Started the AzureTelemetryPublisher!");
         }
-        public override void Configure(Dictionary<string, object> config)
-        {
-            ConnectionString = config.GetValueOrDefault("AzureIotHubConnectionString").ToString();
-        }
 
         public override async Task PublishAsync(CancellationToken cancellationToken)
         {
