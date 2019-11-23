@@ -10,9 +10,9 @@ using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
-    public class Sensor : IDisposable, ITelemeter
+    public class Bme680Sensor : IDisposable, ITelemeter
     {
-        private ILogger _logger;
+        public ILogger Logger;
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
@@ -20,13 +20,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private SensorStateEnum _sensorStateEnum;
 
         /* Singleton Instance */
-        public static Sensor Instance { get; } = new Sensor();
+        public static Bme680Sensor Instance { get; } = new Bme680Sensor();
 
-        static Sensor()
+        static Bme680Sensor()
         {
         }
 
-        private Sensor()
+        private Bme680Sensor()
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
         }
@@ -44,11 +44,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
         public void Dispose()
         {
             _bme680?.Dispose();
-        }
-
-        internal void SetLogger(ILogger logger)
-        {
-            _logger = logger;
         }
 
         internal void InitializeSensor()
@@ -73,12 +68,12 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _bme680.SetPressureSampling(Sampling.UltraLowPower);
                 _sensorStateEnum = SensorStateEnum.Initialized;
 
-                _logger.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
+                Logger?.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
             }
             catch (System.IO.IOException e)
             {
-                _logger.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
-                _logger.LogTrace(e.Message);
+                Logger?.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
+                Logger?.LogTrace(e.Message);
                 _sensorStateEnum = SensorStateEnum.Error;
             }
         }
@@ -87,7 +82,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             if (_sensorStateEnum != SensorStateEnum.Initialized)
             {
-                _logger.LogWarning(
+                Logger?.LogWarning(
                     $"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
                 return;
             }
@@ -99,8 +94,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _lastMeasurement.Pressure = await _bme680.ReadPressureAsync();
             _lastMeasurement.Humidity = await _bme680.ReadHumidityAsync();
 
-            _logger.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
-            _logger.LogInformation(
+            Logger?.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
+            Logger?.LogInformation(
                 $"{_lastMeasurement.Temperature:N2} \u00B0C | {_lastMeasurement.Pressure:N2} hPa | {_lastMeasurement.Humidity:N2} %rH");
         }
 

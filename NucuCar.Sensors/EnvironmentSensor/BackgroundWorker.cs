@@ -31,8 +31,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 return;
             }
 
-            using var sensor = Sensor.Instance;
-            sensor.SetLogger(_logger);
+            using var sensor = Bme680Sensor.Instance;
+            sensor.Logger = _logger;
             sensor.InitializeSensor();
             if (_telemetryEnabled)
             {
