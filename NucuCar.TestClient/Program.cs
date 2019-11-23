@@ -1,4 +1,6 @@
 ﻿using CommandLine;
+using NucuCar.TestClient.Sensors;
+using NucuCar.TestClient.Telemetry;
 
 namespace NucuCar.TestClient
 {

@@ -1,4 +1,5 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NucuCar.Domain.Telemetry;
 
-namespace NucuCar.TestClient
+namespace NucuCar.TestClient.Telemetry
 {
     public class AzureTelemetryPublishCmd
     {

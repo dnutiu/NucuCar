@@ -1,4 +1,5 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ using Microsoft.Azure.EventHubs;
 using Microsoft.Extensions.Logging;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace NucuCar.TestClient
+namespace NucuCar.TestClient.Telemetry
 {
     public class AzureTelemetryReaderCmd
     {
