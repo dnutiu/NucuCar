@@ -5,7 +5,7 @@ structures that are shared across the project.
 
 ## Telemetry
 
-It provides usesful classes and abstractions for implementing telemetry
+It provides useful classes and abstractions for implementing telemetry
 in individual components. All telemetry publishers use the MQTT protocol unless specified
 otherwise.
 
@@ -30,3 +30,8 @@ The connection string can be passed to the application via `appsettings.json` or
 dotnet run --Telemetry:AzureIotHubConnectionString=CONNECTION_STRING
 export Telemetry:AzureIotHubConnectionString=CONNECTION_STRING
 ```
+
+### Reader
+
+A telemetry reader can be found in NucuCar.TestClient. You'll need a connection string that can be found in
+Azure's IoT Hub Build-In Endpoints setting.

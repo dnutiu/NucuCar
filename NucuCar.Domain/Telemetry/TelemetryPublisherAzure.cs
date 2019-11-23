@@ -12,14 +12,15 @@ namespace NucuCar.Domain.Telemetry
     public class TelemetryPublisherAzure : TelemetryPublisher, IDisposable
     {
         // Needs to be configured via the Configure method or setup directly.
-        public string AzureIotHubConnectionString { get; set; }
+        public string ConnectionString { get; set; }
+        public string TelemetrySource { private get; set; }
         protected DeviceClient DeviceClient;
-
+        
         public override void Start()
         {
             try
             {
-                DeviceClient = DeviceClient.CreateFromConnectionString(AzureIotHubConnectionString, TransportType.Mqtt);
+                DeviceClient = DeviceClient.CreateFromConnectionString(ConnectionString, TransportType.Mqtt);
             }
             catch (FormatException)
             {
@@ -30,7 +31,7 @@ namespace NucuCar.Domain.Telemetry
         }
         public override void Configure(Dictionary<string, object> config)
         {
-            AzureIotHubConnectionString = config.GetValueOrDefault("AzureIotHubConnectionString").ToString();
+            ConnectionString = config.GetValueOrDefault("AzureIotHubConnectionString").ToString();
         }
 
         public override async Task PublishAsync(CancellationToken cancellationToken)
@@ -43,10 +44,15 @@ namespace NucuCar.Domain.Telemetry
                     Logger.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
                     continue;
                 }
+                var metadata = new Dictionary<string, object>
+                {
+                    ["source"] = TelemetrySource ?? nameof(TelemetryPublisherAzure),
+                    ["id"] = telemeter.GetIdentifier(),
+                    ["timestamp"] = DateTime.Now,
+                    ["data"] = data,
+                };
                 
-                data["id"] = telemeter.GetIdentifier();
-                data["timestamp"] = DateTime.Now;
-                await PublishViaMqtt(data, cancellationToken);
+                await PublishViaMqtt(metadata, cancellationToken);
             }
         }
 

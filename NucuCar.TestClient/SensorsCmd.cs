@@ -1,28 +1,32 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Logging;
 using NucuCarSensorsProto;
 
 namespace NucuCar.TestClient
 {
-    [Verb("sensors", HelpText = "Test the gRPC sensors services.")]
-    public class SensorsCommandLineOptions
+    public class SensorsCmd
     {
-        [Option('u', "url", Required = false, HelpText = "The url and port of the gRPC server.",
-            Default = "https://localhost:8000")]
-        public string GrpcServiceAddress { get; set; }
-    }
-
-    public class SensorsCommandLine
-    {
-        public string GrpcServiceAddress { get; set; }
-
-        public static async Task RunSensorsTestCommand(SensorsCommandLineOptions options)
+        [Verb("sensors", HelpText = "Test the gRPC sensors services.")]
+        public class SensorsCmdOptions
         {
-            var sensorsCommandLine = new SensorsCommandLine();
+            [Option('u', "url", Required = false, HelpText = "The url and port of the gRPC server.",
+                Default = "https://localhost:8000")]
+            public string GrpcServiceAddress { get; set; }
+        }
+        
+        public string GrpcServiceAddress { get; set; }
+        private static ILogger _logger;
+        
+        public static async Task RunSensorsTestCommand(SensorsCmdOptions options)
+        {
+            _logger = LoggerFactory.Create(builder => { builder.AddConsole(); }).CreateLogger<SensorsCmd>();
+            var sensorsCommandLine = new SensorsCmd();
             sensorsCommandLine.GrpcServiceAddress = options.GrpcServiceAddress;
 
             await sensorsCommandLine.EnvironmentSensorGrpcServiceTest();
@@ -34,9 +38,11 @@ namespace NucuCar.TestClient
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
             // Allow untrusted certificates.
-            var httpClientHandler = new HttpClientHandler();
-            httpClientHandler.ServerCertificateCustomValidationCallback =
-                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
             var httpClient = new HttpClient(httpClientHandler);
 
 
@@ -45,15 +51,15 @@ namespace NucuCar.TestClient
             var client = new EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient(channel);
             var reply = await client.GetSensorStateAsync(new Empty());
             var state = reply.State;
-            Console.WriteLine("EnvironmentSensorState: " + state);
+            _logger.LogInformation("EnvironmentSensorState: " + state);
             if (state == SensorStateEnum.Initialized)
             {
                 var measurement = await client.GetSensorMeasurementAsync(new Empty());
-                Console.WriteLine(
+                _logger.LogInformation(
                     $"t: {measurement.Temperature} | h: {measurement.Humidity} | p: {measurement.Pressure}");
             }
 
-            Console.WriteLine("Done");
+            _logger.LogInformation("Done");
         }
     }
 }
