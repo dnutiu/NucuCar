@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NucuCar.Domain.Telemetry
 {
-    public abstract class TelemetryPublisher : ITelemetryPublisher, IDisposable
+    public abstract class TelemetryPublisher : IDisposable
     {
         protected string ConnectionString { get; set; }
         protected string TelemetrySource { get; set; }
