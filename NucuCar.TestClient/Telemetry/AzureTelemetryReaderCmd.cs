@@ -30,7 +30,7 @@ namespace NucuCar.TestClient.Telemetry
         {
             _logger = LoggerFactory.Create(builder => { builder.AddConsole(); })
                 .CreateLogger<AzureTelemetryReaderCmd>();
-
+            
             _eventHubClient = EventHubClient.CreateFromConnectionString(opts.EventHubConnectionString);
 
             var runtimeInfo = await _eventHubClient.GetRuntimeInformationAsync();

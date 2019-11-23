@@ -17,7 +17,7 @@ namespace NucuCar.TestClient.Telemetry
         {
             [Option('c', "connectionString", Required = true,
                 HelpText = "The publisher's connection string. Get it from the Device.")]
-            public string PublisherConnectionString { get;  set; }
+            public string PublisherConnectionString { get; set; }
 
             [Option('m', "message", Required = true, HelpText = "The message to publish")]
             public string PublisherJsonMessage { get; set; }
@@ -45,18 +45,20 @@ namespace NucuCar.TestClient.Telemetry
 
         public static async Task RunAzurePublisherTelemetryTest(AzureTelemetryPublishOptions opts)
         {
-            var telemetryPublisher = new TelemetryPublisherAzure {TelemetrySource = "TestClient"};
-            var anonymousTelemeter =
-                new DummyTelemeter(
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(opts.PublisherJsonMessage));
             var logger = LoggerFactory.Create(builder => { builder.AddConsole(); })
                 .CreateLogger<AzureTelemetryPublishCmd>();
 
+            var telemetryPublisher =
+                TelemetryPublisherAzure.CreateFromConnectionString(opts.PublisherConnectionString,
+                    "NucuCar.TestClient", logger);
+
+            var anonymousTelemeter =
+                new DummyTelemeter(
+                    JsonConvert.DeserializeObject<Dictionary<string, object>>(opts.PublisherJsonMessage));
+
+
             logger.LogInformation($"Publishing message: {opts.PublisherJsonMessage}");
-            telemetryPublisher.ConnectionString = opts.PublisherConnectionString;
             telemetryPublisher.RegisterTelemeter(anonymousTelemeter);
-            telemetryPublisher.Logger = logger;
-            telemetryPublisher.Start();
             await telemetryPublisher.PublishAsync(CancellationToken.None);
         }
     }

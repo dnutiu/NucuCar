@@ -19,10 +19,9 @@ namespace NucuCar.Sensors.EnvironmentSensor
         public BackgroundWorker(ILogger<BackgroundWorker> logger, IConfiguration config)
         {
             _logger = logger;
-            var configSection = config.GetSection("EnvironmentSensor");
-            _serviceEnabled = configSection.GetValue<bool>("Enabled");
-            _telemetryEnabled = configSection.GetValue<bool>("Telemetry");
-            _measurementDelay = configSection.GetValue<int>("MeasurementInterval");
+            _serviceEnabled = config.GetValue<bool>("EnvironmentSensor:Enabled");
+            _telemetryEnabled = config.GetValue<bool>("EnvironmentSensor:Telemetry");
+            _measurementDelay = config.GetValue<int>("EnvironmentSensor:MeasurementInterval");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,7 +36,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             sensor.InitializeSensor();
             if (_telemetryEnabled)
             {
-                TelemetryPublisher.Instance.RegisterTelemeter(sensor);
+                SensorTelemetryPublisher.Instance.RegisterTelemeter(sensor);
             }
 
             while (!stoppingToken.IsCancellationRequested)
@@ -56,7 +55,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 await Task.Delay(_measurementDelay, stoppingToken);
             }
             
-            TelemetryPublisher.Instance.UnRegisterTelemeter(sensor);
+            SensorTelemetryPublisher.Instance.UnRegisterTelemeter(sensor);
         }
     }
 }

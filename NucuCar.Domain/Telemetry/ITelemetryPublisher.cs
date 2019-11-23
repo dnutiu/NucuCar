@@ -7,11 +7,8 @@ namespace NucuCar.Domain.Telemetry
 {
     public interface ITelemetryPublisher
     {
-        void Start();
-        Task StartAsync();
         bool RegisterTelemeter(ITelemeter t);
         bool UnRegisterTelemeter(ITelemeter t);
         Task PublishAsync(CancellationToken cancellationToken);
-        bool Publish(int timeout);
     }
 }

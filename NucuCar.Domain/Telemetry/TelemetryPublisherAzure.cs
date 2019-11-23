@@ -9,14 +9,11 @@ using Newtonsoft.Json;
 
 namespace NucuCar.Domain.Telemetry
 {
-    public class TelemetryPublisherAzure : TelemetryPublisher, IDisposable
+    public class TelemetryPublisherAzure : TelemetryPublisher
     {
-        // Needs to be configured via the Configure method or setup directly.
-        public string ConnectionString { get; set; }
-        public string TelemetrySource { private get; set; }
-        protected DeviceClient DeviceClient;
-        
-        public override void Start()
+        protected readonly DeviceClient DeviceClient;
+
+        public TelemetryPublisherAzure(TelemetryPublisherBuilderOptions opts) : base(opts)
         {
             try
             {
@@ -24,10 +21,31 @@ namespace NucuCar.Domain.Telemetry
             }
             catch (FormatException)
             {
-                Logger.LogCritical("Can't start telemetry service! Malformed connection string!");
+                Logger?.LogCritical("Can't start telemetry service! Malformed connection string!");
                 throw;
             }
-            Logger.LogInformation("Started the AzureTelemetryPublisher!");
+
+            Logger?.LogInformation("Started the AzureTelemetryPublisher!");
+        }
+
+        public static TelemetryPublisher CreateFromConnectionString(string connectionString)
+        {
+            return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
+                {ConnectionString = connectionString, TelemetrySource = "TelemetryPublisherAzure"});
+        }
+        
+        public static TelemetryPublisher CreateFromConnectionString(string connectionString,
+            string telemetrySource)
+        {
+            return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
+                {ConnectionString = connectionString, TelemetrySource = telemetrySource});
+        }
+        
+        public static TelemetryPublisher CreateFromConnectionString(string connectionString,
+            string telemetrySource, ILogger logger)
+        {
+            return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
+                {ConnectionString = connectionString, TelemetrySource = telemetrySource, Logger = logger});
         }
 
         public override async Task PublishAsync(CancellationToken cancellationToken)
@@ -37,9 +55,10 @@ namespace NucuCar.Domain.Telemetry
                 var data = telemeter.GetTelemetryData();
                 if (data == null)
                 {
-                    Logger.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
+                    Logger?.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
                     continue;
                 }
+
                 var metadata = new Dictionary<string, object>
                 {
                     ["source"] = TelemetrySource ?? nameof(TelemetryPublisherAzure),
@@ -47,7 +66,7 @@ namespace NucuCar.Domain.Telemetry
                     ["timestamp"] = DateTime.Now,
                     ["data"] = data,
                 };
-                
+
                 await PublishViaMqtt(metadata, cancellationToken);
             }
         }
@@ -56,31 +75,20 @@ namespace NucuCar.Domain.Telemetry
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                Logger.LogInformation("Stopping the AzureTelemetryPublisher, cancellation requested.");
+                Logger?.LogInformation("Stopping the AzureTelemetryPublisher, cancellation requested.");
                 await DeviceClient.CloseAsync(cancellationToken);
                 return;
             }
+
             var messageString = JsonConvert.SerializeObject(data);
             var message = new Message(Encoding.ASCII.GetBytes(messageString));
-            Logger.LogDebug($"Telemetry message: {message}");
+            Logger?.LogDebug($"Telemetry message: {message}");
             await DeviceClient.SendEventAsync(message, cancellationToken);
         }
-        
-        public void Dispose()
+
+        public override void Dispose()
         {
-            DeviceClient.CloseAsync().GetAwaiter().GetResult();
+            DeviceClient?.CloseAsync().GetAwaiter().GetResult();
         }
-        
-        public override bool Publish(int timeout)
-        {
-            throw new NotImplementedException();
-        }
-        
-#pragma warning disable 1998
-        public override async Task StartAsync()
-        {
-            throw new NotImplementedException();
-        }
-#pragma warning restore 1998
     }
 }

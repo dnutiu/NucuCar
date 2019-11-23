@@ -6,21 +6,22 @@ using Microsoft.Extensions.Logging;
 
 namespace NucuCar.Domain.Telemetry
 {
-    public abstract class TelemetryPublisher : ITelemetryPublisher
+    public abstract class TelemetryPublisher : ITelemetryPublisher, IDisposable
     {
+        protected string ConnectionString { get; set; }
+        protected string TelemetrySource { get; set; }
         protected readonly List<ITelemeter> RegisteredTelemeters;
         // ReSharper disable once UnassignedField.Global
-        public ILogger Logger;
+        protected readonly ILogger Logger;
 
-        protected TelemetryPublisher()
+        protected TelemetryPublisher(TelemetryPublisherBuilderOptions opts)
         {
+            ConnectionString = opts.ConnectionString;
+            TelemetrySource = opts.TelemetrySource;
+            Logger = opts.Logger;
             RegisteredTelemeters = new List<ITelemeter>(5);
         }
-        
-        public abstract void Start();
 
-        public abstract Task StartAsync();
-        public abstract bool Publish(int timeout);
         public abstract Task PublishAsync(CancellationToken cancellationToken);
         public bool RegisterTelemeter(ITelemeter t)
         {
@@ -36,5 +37,7 @@ namespace NucuCar.Domain.Telemetry
             RegisteredTelemeters.Remove(t);
             return true;
         }
+
+        public abstract void Dispose();
     }
 }

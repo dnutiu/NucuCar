@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +8,6 @@ namespace NucuCar.Sensors.Telemetry
 {
     public class BackgroundWorker : BackgroundService
     {
-        private readonly string _azureIotHubConnectionString;
         private readonly bool _serviceEnabled;
         private readonly int _interval;
         private readonly ILogger _logger;
@@ -19,7 +17,8 @@ namespace NucuCar.Sensors.Telemetry
             _logger = logger;
             _serviceEnabled = configuration.GetValue<bool>("Telemetry:Enabled");
             _interval = configuration.GetValue<int>("Telemetry:Interval");
-            _azureIotHubConnectionString = configuration.GetValue<string>("Telemetry:AzureIotHubConnectionString");
+            var azureIotHubConnectionString = configuration.GetValue<string>("Telemetry:AzureIotHubConnectionString");
+            SensorTelemetryPublisher.CreateSingleton(azureIotHubConnectionString, "NucuCar.Sensors", logger);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,19 +30,20 @@ namespace NucuCar.Sensors.Telemetry
 
             await Task.Delay(_interval, stoppingToken);
 
-            using var telemetryService = TelemetryPublisher.Instance;
+            var telemetryService = SensorTelemetryPublisher.Instance;
 
-            telemetryService.Logger = _logger;
-            telemetryService.ConnectionString = _azureIotHubConnectionString;
-            telemetryService.TelemetrySource = "NucuCar.Sensors";
-            
-            telemetryService.Start();
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Publishing telemetry data!");
                 await telemetryService.PublishAsync(stoppingToken);
                 await Task.Delay(_interval, stoppingToken);
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            SensorTelemetryPublisher.Instance?.Dispose();
         }
     }
 }
