@@ -30,6 +30,7 @@ namespace NucuCar.Domain.Telemetry
 
         public static TelemetryPublisher CreateFromConnectionString(string connectionString)
         {
+            Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {ConnectionString = connectionString, TelemetrySource = "TelemetryPublisherAzure"});
         }
@@ -37,6 +38,8 @@ namespace NucuCar.Domain.Telemetry
         public static TelemetryPublisher CreateFromConnectionString(string connectionString,
             string telemetrySource)
         {
+            Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
+            Guard.ArgumentNotNullOrWhiteSpace(nameof(telemetrySource), telemetrySource);
             return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {ConnectionString = connectionString, TelemetrySource = telemetrySource});
         }
@@ -44,6 +47,9 @@ namespace NucuCar.Domain.Telemetry
         public static TelemetryPublisher CreateFromConnectionString(string connectionString,
             string telemetrySource, ILogger logger)
         {
+            Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
+            Guard.ArgumentNotNullOrWhiteSpace(nameof(telemetrySource), telemetrySource);
+            Guard.ArgumentNotNull(nameof(logger), logger);
             return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {ConnectionString = connectionString, TelemetrySource = telemetrySource, Logger = logger});
         }
