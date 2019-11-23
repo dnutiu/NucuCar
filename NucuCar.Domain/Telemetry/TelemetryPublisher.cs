@@ -9,7 +9,8 @@ namespace NucuCar.Domain.Telemetry
     public abstract class TelemetryPublisher : ITelemetryPublisher
     {
         protected readonly List<ITelemeter> RegisteredTelemeters;
-        protected ILogger Logger;
+        // ReSharper disable once UnassignedField.Global
+        public ILogger Logger;
 
         protected TelemetryPublisher()
         {
@@ -22,11 +23,6 @@ namespace NucuCar.Domain.Telemetry
         public abstract bool Publish(int timeout);
         public abstract Task PublishAsync(CancellationToken cancellationToken);
         public abstract void Configure(Dictionary<string, object> config);
-
-        public void SetLogger(ILogger logger)
-        {
-            Logger = logger;
-        }
         
         public bool RegisterTelemeter(ITelemeter t)
         {

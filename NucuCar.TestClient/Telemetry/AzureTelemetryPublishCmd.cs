@@ -55,7 +55,7 @@ namespace NucuCar.TestClient.Telemetry
             logger.LogInformation($"Publishing message: {opts.PublisherJsonMessage}");
             telemetryPublisher.ConnectionString = opts.PublisherConnectionString;
             telemetryPublisher.RegisterTelemeter(anonymousTelemeter);
-            telemetryPublisher.SetLogger(logger);
+            telemetryPublisher.Logger = logger;
             telemetryPublisher.Start();
             await telemetryPublisher.PublishAsync(CancellationToken.None);
         }
