@@ -32,8 +32,13 @@ dotnet build --runtime linux-arm
 - [X] Make a working BME680 module. ~~(Unit tests?)~~
   - [X] Add settings: ~~gRPC enabled~~, Telemetry Enabled, Sensor Enabled, Measurement Delay
 - [X] Make a gRPC test project to test the modules.
+- [ ] Pretty document domain module.
+- [ ] Attempt some unit tests on sensors.
+  - [ ] Grpc
+  - [ ] Telemetry
+  - [ ] Sensor read?
 - [ ] Add systemd config file.
-- [ ] Add makefile for easy building & installing.
+- [ ] Add option to publish in a single file.
 - [ ] ~~Make a .Net Core web api project. Add support for BME680.~~ Replaced by gRPC.
 - [ ] Buy a toy car with H-Bridge.
 - [ ] Make a H-Bridge Module to interface with it.
@@ -42,7 +47,6 @@ dotnet build --runtime linux-arm
 - [ ] Figure out how to integrate camera to stream to the dekstop.
 - [ ] Buy mobile 4G router.
 - [ ] Figure out how to make a reverse VPN connection on boot. (Hint: SSH tunneling)
-- [ ] Add telemetry streaming to GCP's Iot Core
 - [ ] Improve the desktop application.
 - [ ] Add additional sensors
   - [ ] GPS
