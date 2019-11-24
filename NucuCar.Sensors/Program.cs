@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -15,7 +16,17 @@ namespace NucuCar.Sensors
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Telemetry.BackgroundWorker>();
+                    var config = hostContext.Configuration;
+
+                    // Singletons
+                    services.AddSingleton<Telemetry.SensorTelemetry>();
+
+                    // Workers
+                    if (config.GetValue<bool>("Telemetry:Enabled"))
+                    {
+                        services.AddHostedService<Telemetry.TelemetryBackgroundWorker>();
+                    }
+
                     services.AddHostedService<EnvironmentSensor.BackgroundWorker>();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
