@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NucuCar.Domain.Telemetry;
@@ -16,18 +15,18 @@ namespace NucuCar.Sensors.EnvironmentSensor
     public class Bme680Worker : BackgroundService
     {
         private readonly bool _telemetryEnabled;
-        private readonly int _measurementDelay;
+        private readonly int _measurementInterval;
         private readonly ILogger<Bme680Worker> _logger;
         private readonly TelemetryPublisher _telemetryPublisher;
         private readonly Bme680Sensor _bme680Sensor;
 
 
-        public Bme680Worker(ILogger<Bme680Worker> logger, IConfiguration config,
+        public Bme680Worker(ILogger<Bme680Worker> logger, Bme680Config config,
             SensorTelemetry sensorTelemetry, Bme680Sensor bme680Sensor)
         {
             _logger = logger;
-            _telemetryEnabled = config.GetValue<bool>("EnvironmentSensor:Telemetry");
-            _measurementDelay = config.GetValue<int>("EnvironmentSensor:MeasurementInterval");
+            _telemetryEnabled = config.TelemetryEnabled;
+            _measurementInterval = config.MeasurementInterval;
             _telemetryPublisher = sensorTelemetry.Publisher;
             _bme680Sensor = bme680Sensor;
         }
@@ -54,7 +53,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                     _bme680Sensor.InitializeSensor();
                 }
 
-                await Task.Delay(_measurementDelay, stoppingToken);
+                await Task.Delay(_measurementInterval, stoppingToken);
             }
 
             _telemetryPublisher?.UnRegisterTelemeter(_bme680Sensor);

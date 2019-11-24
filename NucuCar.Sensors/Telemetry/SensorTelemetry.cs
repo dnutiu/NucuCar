@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NucuCar.Domain.Telemetry;
 
@@ -8,13 +7,13 @@ namespace NucuCar.Sensors.Telemetry
     {
         public TelemetryPublisher Publisher { get; }
 
-        public SensorTelemetry(ILogger<SensorTelemetry> logger, IConfiguration configuration)
+        public SensorTelemetry(ILogger<SensorTelemetry> logger, TelemetryConfig configuration)
         {
-            if (configuration.GetValue<bool>("Telemetry:Enabled"))
+            if (configuration.ServiceEnabled)
             {
                 Publisher = new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {
-                    ConnectionString = configuration.GetValue<string>("Telemetry:ConnectionString"),
+                    ConnectionString = configuration.ConnectionString,
                     TelemetrySource = "NucuCar.Sensors",
                     Logger = logger
                 });

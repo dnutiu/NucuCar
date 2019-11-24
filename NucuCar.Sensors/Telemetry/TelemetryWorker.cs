@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NucuCar.Domain.Telemetry;
@@ -16,11 +15,11 @@ namespace NucuCar.Sensors.Telemetry
         private readonly ILogger _logger;
         private readonly TelemetryPublisher _telemetryPublisher;
 
-        public TelemetryWorker(ILogger<TelemetryWorker> logger, IConfiguration configuration,
+        public TelemetryWorker(ILogger<TelemetryWorker> logger, TelemetryConfig config,
             SensorTelemetry sensorTelemetry)
         {
             _logger = logger;
-            _interval = configuration.GetValue<int>("Telemetry:Interval");
+            _interval = config.PublishInterval;
             _telemetryPublisher = sensorTelemetry.Publisher;
             if (_telemetryPublisher == null)
             {

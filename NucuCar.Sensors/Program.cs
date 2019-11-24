@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NucuCar.Sensors.EnvironmentSensor;
+using NucuCar.Sensors.Telemetry;
 
 namespace NucuCar.Sensors
 {
@@ -16,23 +18,17 @@ namespace NucuCar.Sensors
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    var config = hostContext.Configuration;
-
+                    // Transient
+                    services.AddTransient<TelemetryConfig>();
+                    services.AddTransient<Bme680Config>();
+                    
                     // Singletons
-                    services.AddSingleton<Telemetry.SensorTelemetry>();
-                    services.AddSingleton<EnvironmentSensor.Bme680Sensor>();
+                    services.AddSingleton<SensorTelemetry>();
+                    services.AddSingleton<Bme680Sensor>();
 
                     // Workers
-                    if (config.GetValue<bool>("Telemetry:Enabled"))
-                    {
-                        services.AddHostedService<Telemetry.TelemetryWorker>();
-                    }
-
-                    if (config.GetValue<bool>("EnvironmentSensor:Enabled"))
-                    {
-                        services.AddHostedService<EnvironmentSensor.Bme680Worker>();
-                    }
-                    
+                    services.AddHostedService<TelemetryWorker>();
+                    services.AddHostedService<Bme680Worker>();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
