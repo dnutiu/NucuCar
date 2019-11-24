@@ -3,8 +3,6 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <UserSecretsId>dotnet-NucuCar.BME680Sensor-28FAAD8B-A31F-4BBE-9FF7-30F192D82D6E</UserSecretsId>
-        <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
-        <PublishSingleFile>true</PublishSingleFile>
     </PropertyGroup>
     
     <ItemGroup>
