@@ -15,7 +15,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
     /// </summary>
     public class Bme680Worker : BackgroundService
     {
-        private readonly bool _serviceEnabled;
         private readonly bool _telemetryEnabled;
         private readonly int _measurementDelay;
         private readonly ILogger<Bme680Worker> _logger;
@@ -27,7 +26,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
             SensorTelemetry sensorTelemetry, Bme680Sensor bme680Sensor)
         {
             _logger = logger;
-            _serviceEnabled = config.GetValue<bool>("EnvironmentSensor:Enabled");
             _telemetryEnabled = config.GetValue<bool>("EnvironmentSensor:Telemetry");
             _measurementDelay = config.GetValue<int>("EnvironmentSensor:MeasurementInterval");
             _telemetryPublisher = sensorTelemetry.Publisher;
@@ -36,11 +34,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!_serviceEnabled)
-            {
-                return;
-            }
-            
             if (_telemetryEnabled)
             {
                 _telemetryPublisher?.RegisterTelemeter(_bme680Sensor);
@@ -51,6 +44,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 /* If sensor is ok attempt to read. */
                 if (_bme680Sensor.GetState() == SensorStateEnum.Initialized)
                 {
+                    _logger.LogInformation("Taking measurement!");
                     await _bme680Sensor.TakeMeasurement();
                 }
                 /* Else attempt to re-initialize. */
