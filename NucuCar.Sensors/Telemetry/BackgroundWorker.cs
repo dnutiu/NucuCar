@@ -17,10 +17,10 @@ namespace NucuCar.Sensors.Telemetry
             _logger = logger;
             _serviceEnabled = configuration.GetValue<bool>("Telemetry:Enabled");
             _interval = configuration.GetValue<int>("Telemetry:Interval");
-            var azureIotHubConnectionString = configuration.GetValue<string>("Telemetry:AzureIotHubConnectionString");
+            var connectionString = configuration.GetValue<string>("Telemetry:ConnectionString");
             if (_serviceEnabled)
             {
-                SensorTelemetryPublisher.CreateSingleton(azureIotHubConnectionString, "NucuCar.Sensors", logger);
+                SensorTelemetryPublisher.CreateSingleton(connectionString, "NucuCar.Sensors", logger);
             }
         }
 
