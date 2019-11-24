@@ -38,7 +38,7 @@ dotnet build --runtime linux-arm
   - [ ] Telemetry
   - [ ] Sensor read?
 - [ ] Add systemd config file.
-- [ ] Add option to publish in a single file.
+- [X] Add option to publish in a single file.
 - [ ] ~~Make a .Net Core web api project. Add support for BME680.~~ Replaced by gRPC.
 - [ ] Buy a toy car with H-Bridge.
 - [ ] Make a H-Bridge Module to interface with it.
