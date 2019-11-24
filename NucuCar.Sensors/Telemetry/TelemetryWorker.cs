@@ -10,13 +10,13 @@ namespace NucuCar.Sensors.Telemetry
     /// <summary>
     /// Telemetry service, which pools the telemetry sources and pushes telemetry data to the cloud.
     /// </summary>
-    public class TelemetryBackgroundWorker : BackgroundService
+    public class TelemetryWorker : BackgroundService
     {
         private readonly int _interval;
         private readonly ILogger _logger;
         private readonly TelemetryPublisher _telemetryPublisher;
 
-        public TelemetryBackgroundWorker(ILogger<TelemetryBackgroundWorker> logger, IConfiguration configuration,
+        public TelemetryWorker(ILogger<TelemetryWorker> logger, IConfiguration configuration,
             SensorTelemetry sensorTelemetry)
         {
             _logger = logger;

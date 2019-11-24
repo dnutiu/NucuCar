@@ -20,15 +20,23 @@ namespace NucuCar.Sensors
 
                     // Singletons
                     services.AddSingleton<Telemetry.SensorTelemetry>();
+                    services.AddSingleton<EnvironmentSensor.Bme680Sensor>();
 
                     // Workers
                     if (config.GetValue<bool>("Telemetry:Enabled"))
                     {
-                        services.AddHostedService<Telemetry.TelemetryBackgroundWorker>();
+                        services.AddHostedService<Telemetry.TelemetryWorker>();
                     }
 
-                    services.AddHostedService<EnvironmentSensor.BackgroundWorker>();
+                    if (config.GetValue<bool>("EnvironmentSensor:Enabled"))
+                    {
+                        services.AddHostedService<EnvironmentSensor.Bme680Worker>();
+                    }
+                    
                 })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<GrpcStartup>();
+                });
     }
 }

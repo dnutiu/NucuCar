@@ -29,7 +29,7 @@ namespace NucuCar.Sensors
             app.UseEndpoints(endpoints =>
             {
                 // Add the gRPC services here.
-                endpoints.MapGrpcService<EnvironmentSensor.GrpcService>();
+                endpoints.MapGrpcService<EnvironmentSensor.Bme680GrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>

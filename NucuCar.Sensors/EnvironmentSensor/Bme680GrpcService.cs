@@ -10,14 +10,14 @@ namespace NucuCar.Sensors.EnvironmentSensor
     /// EnvironmentSensor's gRPC service.
     /// It allows reading the sensor's data using remote procedure calls.
     /// </summary>
-    public class GrpcService : EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceBase
+    public class Bme680GrpcService : EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceBase
     {
-        private readonly ILogger<GrpcService> _logger;
+        private readonly ILogger<Bme680GrpcService> _logger;
         private readonly Bme680Sensor _bme680Sensor;
 
-        public GrpcService(ILogger<GrpcService> logger)
+        public Bme680GrpcService(ILogger<Bme680GrpcService> logger, Bme680Sensor bme680Sensor)
         {
-            _bme680Sensor = Bme680Sensor.Instance;
+            _bme680Sensor = bme680Sensor;
             _logger = logger;
         }
 
