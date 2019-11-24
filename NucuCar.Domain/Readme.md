@@ -27,8 +27,8 @@ a connection string of the form:
 
 The connection string can be passed to the application via `appsettings.json` or command line arguments or environment variables:
 ```
-dotnet run --Telemetry:AzureIotHubConnectionString=CONNECTION_STRING
-export Telemetry:AzureIotHubConnectionString=CONNECTION_STRING
+dotnet run --Telemetry:ConnectionString=CONNECTION_STRING
+export Telemetry:ConnectionString=CONNECTION_STRING
 ```
 
 ### Reader
