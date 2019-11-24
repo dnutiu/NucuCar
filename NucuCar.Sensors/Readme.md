@@ -1,4 +1,5 @@
-The service will gather sensor data and provide access to it via gRPC.
+This application will read sensors data periodically,
+provide access to it via gRPC and publish telemetry to the cloud.
 
 ## Installation How-To
 
@@ -25,7 +26,7 @@ The address ` 0x76` will be used to communicate with the sensor.
 
 ### Environment Sensor
 
-Worker service for the [BME680](https://www.bosch-sensortec.com/bst/products/all_products/bme680) enviromental sensor from Bosh.
+Worker service for the [BME680](https://www.bosch-sensortec.com/bst/products/all_products/bme680) environmental sensor from Bosh.
 
 Sensor capabilities:
 
