@@ -9,20 +9,20 @@ namespace NucuCar.Sensors.Telemetry
         private static object _palock = new object();
         public static TelemetryPublisher Instance { get; private set; }
 
+        /// <summary>
+        /// Creates a telemetry publisher instance see <see cref="TelemetryPublisher"/>.
+        /// </summary>
         public static TelemetryPublisher CreateSingleton(string connectionString, string telemetrySource,
             ILogger logger)
         {
-            if (Instance == null)
+            lock (_palock)
             {
-                lock (_palock)
-                {
-                    var telemetryPublisher =
-                        TelemetryPublisherAzure.CreateFromConnectionString(connectionString, telemetrySource, logger);
-                    Instance = telemetryPublisher;
-                }
+                if (Instance != null) return Instance;
+                var telemetryPublisher =
+                    TelemetryPublisherAzure.CreateFromConnectionString(connectionString, telemetrySource, logger);
+                Instance = telemetryPublisher;
+                return Instance;
             }
-
-            return Instance;
         }
 
         private static void ReleaseUnmanagedResources()

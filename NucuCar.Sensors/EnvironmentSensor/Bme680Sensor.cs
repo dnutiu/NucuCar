@@ -10,6 +10,10 @@ using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
+    /// <summary>
+    /// Abstraction for the BME680 sensor.
+    /// See: https://www.bosch-sensortec.com/bst/products/all_products/bme680
+    /// </summary>
     public class Bme680Sensor : IDisposable, ITelemeter
     {
         public ILogger Logger;
@@ -117,6 +121,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                     ["voc"] = _lastMeasurement.VolatileOrganicCompound
                 };
             }
+
             return returnValue;
         }
     }

@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace NucuCar.Sensors.Telemetry
 {
+    /// <summary>
+    /// Telemetry service, which pools the telemetry sources and pushes telemetry data to the cloud.
+    /// </summary>
     public class BackgroundWorker : BackgroundService
     {
         private readonly bool _serviceEnabled;

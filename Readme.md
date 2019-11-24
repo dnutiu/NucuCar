@@ -32,7 +32,7 @@ dotnet build --runtime linux-arm -p:PublishSingleFile=true
 - [X] Make a working BME680 module. ~~(Unit tests?)~~
   - [X] Add settings: ~~gRPC enabled~~, Telemetry Enabled, Sensor Enabled, Measurement Delay
 - [X] Make a gRPC test project to test the modules.
-- [ ] Pretty document domain module.
+- [X] Pretty document domain module.
 - [ ] Attempt some unit tests on sensors.
   - [ ] Grpc
   - [ ] Telemetry

@@ -6,6 +6,10 @@ using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
+    /// <summary>
+    /// EnvironmentSensor's gRPC service.
+    /// It allows reading the sensor's data using remote procedure calls.
+    /// </summary>
     public class GrpcService : EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceBase
     {
         private readonly ILogger<GrpcService> _logger;
@@ -26,7 +30,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
             });
         }
 
-        public override Task<EnvironmentSensorMeasurement> GetSensorMeasurement(Empty request, ServerCallContext context)
+        public override Task<EnvironmentSensorMeasurement> GetSensorMeasurement(Empty request,
+            ServerCallContext context)
         {
             _logger?.LogDebug($"Calling {nameof(GetSensorMeasurement)}.");
             var sensorMeasurement = _bme680Sensor.GetMeasurement();

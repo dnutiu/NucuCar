@@ -28,13 +28,24 @@ namespace NucuCar.Domain.Telemetry
             Logger?.LogInformation("Started the AzureTelemetryPublisher!");
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="TelemetryPublisher"/> that is used to publish data to Microsoft Azure.
+        /// </summary>
+        /// <param name="connectionString">The device connection string for Microsoft Azure IoT hub device.</param>
+        /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
         public static TelemetryPublisher CreateFromConnectionString(string connectionString)
         {
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {ConnectionString = connectionString, TelemetrySource = "TelemetryPublisherAzure"});
         }
-        
+
+        /// <summary>
+        /// Creates an instance of <see cref="TelemetryPublisher"/> that is used to publish data to Microsoft Azure.
+        /// </summary>
+        /// <param name="connectionString">Device connection string for Microsoft Azure IoT hub device.</param>
+        /// <param name="telemetrySource">String that is used to identify the source of the telemetry data.</param>
+        /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
         public static TelemetryPublisher CreateFromConnectionString(string connectionString,
             string telemetrySource)
         {
@@ -43,7 +54,14 @@ namespace NucuCar.Domain.Telemetry
             return new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
                 {ConnectionString = connectionString, TelemetrySource = telemetrySource});
         }
-        
+
+        /// <summary>
+        /// Creates an instance of <see cref="TelemetryPublisher"/> that is used to publish data to Microsoft Azure.
+        /// </summary>
+        /// <param name="connectionString">Device connection string for Microsoft Azure IoT hub device.</param>
+        /// <param name="telemetrySource">String that is used to identify the source of the telemetry data.</param>
+        /// <param name="logger">An <see cref="ILogger"/> logger instance. </param>
+        /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
         public static TelemetryPublisher CreateFromConnectionString(string connectionString,
             string telemetrySource, ILogger logger)
         {

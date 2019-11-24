@@ -25,9 +25,10 @@ namespace NucuCar.Sensors
 
             app.UseRouting();
             app.UseHttpsRedirection();
-            
+
             app.UseEndpoints(endpoints =>
             {
+                // Add the gRPC services here.
                 endpoints.MapGrpcService<EnvironmentSensor.GrpcService>();
 
                 endpoints.MapGet("/",

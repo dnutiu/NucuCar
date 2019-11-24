@@ -8,6 +8,10 @@ using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
+    /// <summary>
+    /// EnvironmentSensor's background service worker.
+    /// It does periodic reads from the sensors and publishes telemetry data if the option is enabled.
+    /// </summary>
     public class BackgroundWorker : BackgroundService
     {
         private readonly bool _serviceEnabled;
@@ -54,7 +58,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
                 await Task.Delay(_measurementDelay, stoppingToken);
             }
-            
+
             SensorTelemetryPublisher.Instance.UnRegisterTelemeter(sensor);
         }
     }
