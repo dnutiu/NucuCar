@@ -11,12 +11,8 @@ namespace NucuCar.Sensors.Telemetry
         {
             if (configuration.ServiceEnabled)
             {
-                Publisher = new TelemetryPublisherAzure(new TelemetryPublisherBuilderOptions()
-                {
-                    ConnectionString = configuration.ConnectionString,
-                    TelemetrySource = "NucuCar.Sensors",
-                    Logger = logger
-                });
+                Publisher = TelemetryPublisherAzure.CreateFromConnectionString(configuration.ConnectionString,
+                    "NucuCar.Sensors", logger);
             }
             else
             {
