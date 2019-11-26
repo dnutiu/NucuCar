@@ -18,10 +18,9 @@ namespace NucuCar.Sensors
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    // Transient
-                    services.AddTransient<TelemetryConfig>();
-                    services.AddTransient<Bme680Config>();
-                    
+                    services.Configure<TelemetryConfig>(hostContext.Configuration.GetSection("Telemetry"));
+                    services.Configure<Bme680Config>(hostContext.Configuration.GetSection("EnvironmentSensor"));
+
                     // Singletons
                     services.AddSingleton<SensorTelemetry>();
                     services.AddSingleton<Bme680Sensor>();
@@ -30,9 +29,6 @@ namespace NucuCar.Sensors
                     services.AddHostedService<TelemetryWorker>();
                     services.AddHostedService<Bme680Worker>();
                 })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<GrpcStartup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
     }
 }

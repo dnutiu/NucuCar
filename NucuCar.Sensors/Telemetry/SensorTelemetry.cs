@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NucuCar.Domain.Telemetry;
 
 namespace NucuCar.Sensors.Telemetry
@@ -7,11 +8,11 @@ namespace NucuCar.Sensors.Telemetry
     {
         public TelemetryPublisher Publisher { get; }
 
-        public SensorTelemetry(ILogger<SensorTelemetry> logger, TelemetryConfig configuration)
+        public SensorTelemetry(ILogger<SensorTelemetry> logger, IOptions<TelemetryConfig> options)
         {
-            if (configuration.ServiceEnabled)
+            if (options.Value.ServiceEnabled)
             {
-                Publisher = TelemetryPublisherAzure.CreateFromConnectionString(configuration.ConnectionString,
+                Publisher = TelemetryPublisherAzure.CreateFromConnectionString(options.Value.ConnectionString,
                     "NucuCar.Sensors", logger);
             }
             else

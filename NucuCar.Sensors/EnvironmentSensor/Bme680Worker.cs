@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NucuCar.Domain.Telemetry;
 using NucuCar.Sensors.Telemetry;
 using NucuCarSensorsProto;
@@ -21,12 +22,12 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private readonly Bme680Sensor _bme680Sensor;
 
 
-        public Bme680Worker(ILogger<Bme680Worker> logger, Bme680Config config,
+        public Bme680Worker(ILogger<Bme680Worker> logger, IOptions<Bme680Config> options,
             SensorTelemetry sensorTelemetry, Bme680Sensor bme680Sensor)
         {
             _logger = logger;
-            _telemetryEnabled = config.TelemetryEnabled;
-            _measurementInterval = config.MeasurementInterval;
+            _telemetryEnabled = options.Value.TelemetryEnabled;
+            _measurementInterval = options.Value.MeasurementInterval;
             _telemetryPublisher = sensorTelemetry.Publisher;
             _bme680Sensor = bme680Sensor;
         }

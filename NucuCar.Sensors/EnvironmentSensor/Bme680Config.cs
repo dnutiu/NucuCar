@@ -1,18 +1,11 @@
-using Microsoft.Extensions.Configuration;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace NucuCar.Sensors.EnvironmentSensor
 {
     public class Bme680Config
     {
-        public bool SensorEnabled { get; }
-        public bool TelemetryEnabled { get; }
-        public int MeasurementInterval { get; }
-        
-        public Bme680Config(IConfiguration configuration)
-        {
-            SensorEnabled = configuration.GetValue<bool>("EnvironmentSensor:Enabled");
-            TelemetryEnabled = configuration.GetValue<bool>("EnvironmentSensor:TelemetryEnabled");
-            MeasurementInterval = configuration.GetValue<int>("EnvironmentSensor:MeasurementInterval");
-        }
+        public bool ServiceEnabled { get; set; }
+        public bool TelemetryEnabled { get; set; }
+        public int MeasurementInterval { get; set; }
     }
 }

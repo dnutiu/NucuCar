@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NucuCar.Domain.Telemetry;
 using NucuCarSensorsProto;
 
@@ -23,11 +24,11 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private EnvironmentSensorMeasurement _lastMeasurement;
         private SensorStateEnum _sensorStateEnum;
 
-        public Bme680Sensor(ILogger<Bme680Sensor> logger, Bme680Config configuration)
+        public Bme680Sensor(ILogger<Bme680Sensor> logger, IOptions<Bme680Config> options)
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
             _logger = logger;
-            if (configuration.SensorEnabled)
+            if (options.Value.ServiceEnabled)
             {
                 InitializeSensor();
             }
