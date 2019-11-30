@@ -15,7 +15,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
     /// Abstraction for the BME680 sensor.
     /// See: https://www.bosch-sensortec.com/bst/products/all_products/bme680
     /// </summary>
-    public class Bme680Sensor : IDisposable, ITelemeter
+    public class Bme680Sensor : IDisposable, ITelemeter, ISensor<Bme680Sensor>
     {
         private readonly ILogger _logger;
         private I2cConnectionSettings _i2CSettings;
@@ -42,15 +42,16 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _logger?.LogInformation("BME680 Sensor is disabled!");
                 _sensorStateEnum = SensorStateEnum.Disabled;
             }
+
+            Object = this;
         }
 
-        // TODO Make more generic, Add interface and remove virtual
+        // TODO Make more generic
         public virtual EnvironmentSensorMeasurement GetMeasurement()
         {
             return _lastMeasurement;
         }
 
-        // TODO: Add interface and remove virtual
         public virtual SensorStateEnum GetState()
         {
             return _sensorStateEnum;
@@ -135,5 +136,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
             return returnValue;
         }
+
+        public Bme680Sensor Object { get; }
     }
 }
