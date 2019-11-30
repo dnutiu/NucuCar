@@ -23,33 +23,33 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
             _mockSensor = new Mock<Bme680Sensor>();
         }
 
-
-        [Fact]
-        public void Test_GetSensorState()
-        {
-            var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
-            var result = service.GetSensorState(null, null).Result;
-
-            // Default sensor state is error
-            Assert.Equal(SensorStateEnum.Error, result.State);
-
-            // Verify that the sensor get state method is called.
-            _mockSensor.Verify(s => s.GetState(), Times.AtLeastOnce());
-            
-            _mockSensor.Setup(s => s.GetState()).Returns(SensorStateEnum.Initialized);
-            result = service.GetSensorState(null, null).Result;
-            Assert.Equal(SensorStateEnum.Initialized, result.State);
-        }
-        
-        [Fact]
-        public void Test_GetSensorMeasurement()
-        {
-            var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
-            service.GetSensorMeasurement(null, null);
-            
-            // Verify that the sensor get measurement method is called.
-            _mockSensor.Verify(s => s.GetMeasurement(), Times.AtLeastOnce());
-
-        }
+//
+//        [Fact]
+//        public void Test_GetSensorState()
+//        {
+//            var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
+//            var result = service.GetSensorState(null, null).Result;
+//
+//            // Default sensor state is error
+//            Assert.Equal(SensorStateEnum.Error, result.State);
+//
+//            // Verify that the sensor get state method is called.
+//            _mockSensor.Verify(s => s.GetState(), Times.AtLeastOnce());
+//            
+//            _mockSensor.Setup(s => s.GetState()).Returns(SensorStateEnum.Initialized);
+//            result = service.GetSensorState(null, null).Result;
+//            Assert.Equal(SensorStateEnum.Initialized, result.State);
+//        }
+//        
+//        [Fact]
+//        public void Test_GetSensorMeasurement()
+//        {
+//            var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
+//            service.GetSensorMeasurement(null, null);
+//            
+//            // Verify that the sensor get measurement method is called.
+//            _mockSensor.Verify(s => s.GetMeasurement(), Times.AtLeastOnce());
+//
+//        }
     }
 }

@@ -24,6 +24,7 @@ namespace NucuCar.Sensors
                     // Singletons
                     services.AddSingleton<SensorTelemetry>();
                     services.AddSingleton<Bme680Sensor>();
+                    services.AddSingleton<ISensor<Bme680Sensor>>();
 
                     // Workers
                     services.AddHostedService<TelemetryWorker>();
