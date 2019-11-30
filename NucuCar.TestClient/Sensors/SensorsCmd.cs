@@ -1,6 +1,8 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using Google.Protobuf.WellKnownTypes;
@@ -19,10 +21,10 @@ namespace NucuCar.TestClient.Sensors
                 Default = "https://localhost:8000")]
             public string GrpcServiceAddress { get; set; }
         }
-        
+
         public string GrpcServiceAddress { get; set; }
         private static ILogger _logger;
-        
+
         public static async Task RunSensorsTestCommand(SensorsCmdOptions options)
         {
             _logger = LoggerFactory.Create(builder => { builder.AddConsole(); }).CreateLogger<SensorsCmd>();
@@ -49,17 +51,35 @@ namespace NucuCar.TestClient.Sensors
             var channel = GrpcChannel.ForAddress(GrpcServiceAddress,
                 new GrpcChannelOptions {HttpClient = httpClient});
             var client = new EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient(channel);
-            var reply = await client.GetSensorStateAsync(new Empty());
-            var state = reply.State;
-            _logger.LogInformation("EnvironmentSensorState: " + state);
-            if (state == SensorStateEnum.Initialized)
+            
+            var cts = new CancellationTokenSource();
+
+            Console.CancelKeyPress += (s, e) =>
             {
+                e.Cancel = true;
+                cts.Cancel();
+                Console.WriteLine("Shutting down...");
+            };
+
+            while (true)
+            {
+                if (cts.Token.IsCancellationRequested)
+                {
+                    break;
+                }
+                await Task.Delay(1000);
+                
+                var reply = await client.GetSensorStateAsync(new Empty());
+                var state = reply.State;
+
+                _logger.LogInformation("EnvironmentSensorState: " + state);
+                if (state != SensorStateEnum.Initialized) continue;
+
                 var measurement = await client.GetSensorMeasurementAsync(new Empty());
                 _logger.LogInformation(
-                    $"t: {measurement.Temperature} | h: {measurement.Humidity} | p: {measurement.Pressure}");
+                    $"ENVIRONMENT_SENSOR=temperature:{measurement.Temperature}|humidity:{measurement.Humidity}|" +
+                    $"pressure:{measurement.Pressure}|voc:{measurement.VolatileOrganicCompound}|ts:{DateTime.Now}");
             }
-
-            _logger.LogInformation("Done");
         }
     }
 }
