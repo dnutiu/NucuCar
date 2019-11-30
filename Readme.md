@@ -2,6 +2,11 @@
 
 ## Solution Information
 
+An attempt to create a remote controlled toy car. 
+Powered by Raspberry Pi and .Net Core 3.0.
+
+[![Board Status](https://dev.azure.com/dnutiu-pub/7cbb8fd5-fa56-4314-b57d-920730d3084d/f3d592ae-fe9f-4aca-805d-6878896da467/_apis/work/boardbadge/d748b115-c743-4367-be78-efa3f448e1e8?columnOptions=1)](https://dev.azure.com/dnutiu-pub/7cbb8fd5-fa56-4314-b57d-920730d3084d/_boards/board/t/f3d592ae-fe9f-4aca-805d-6878896da467/Microsoft.RequirementCategory/)
+
 ### NucuCar.Domain
 
 Holds common classes and interfaces that are required by the other projects. 
