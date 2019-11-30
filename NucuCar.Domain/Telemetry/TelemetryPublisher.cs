@@ -12,6 +12,13 @@ namespace NucuCar.Domain.Telemetry
     public abstract class TelemetryPublisher : IDisposable
     {
         /// <summary>
+        /// Parameter less constructor, mainly used for testing.
+        /// </summary>
+        public TelemetryPublisher()
+        {
+        }
+
+        /// <summary>
         /// Raw connection string that is used to connect to the cloud service. Should be parsed if required.
         /// </summary>
         protected string ConnectionString { get; set; }

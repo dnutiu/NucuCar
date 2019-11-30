@@ -24,6 +24,11 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private EnvironmentSensorMeasurement _lastMeasurement;
         private SensorStateEnum _sensorStateEnum;
 
+        public Bme680Sensor()
+        {
+            
+        }
+        
         public Bme680Sensor(ILogger<Bme680Sensor> logger, IOptions<Bme680Config> options)
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
@@ -39,12 +44,14 @@ namespace NucuCar.Sensors.EnvironmentSensor
             }
         }
 
-        public EnvironmentSensorMeasurement GetMeasurement()
+        // TODO Make more generic, Add interface and remove virtual
+        public virtual EnvironmentSensorMeasurement GetMeasurement()
         {
             return _lastMeasurement;
         }
 
-        public SensorStateEnum GetState()
+        // TODO: Add interface and remove virtual
+        public virtual SensorStateEnum GetState()
         {
             return _sensorStateEnum;
         }
@@ -54,7 +61,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _bme680?.Dispose();
         }
 
-        internal void InitializeSensor()
+        public void InitializeSensor()
         {
             if (_sensorStateEnum == SensorStateEnum.Initialized)
             {
@@ -85,8 +92,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _sensorStateEnum = SensorStateEnum.Error;
             }
         }
-
-        internal async Task TakeMeasurement()
+        
+        public async Task TakeMeasurement()
         {
             if (_sensorStateEnum != SensorStateEnum.Initialized)
             {

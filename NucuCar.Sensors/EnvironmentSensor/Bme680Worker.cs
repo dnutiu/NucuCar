@@ -16,6 +16,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
     public class Bme680Worker : BackgroundService
     {
         private readonly bool _telemetryEnabled;
+        private readonly bool _serviceEnabled;
         private readonly int _measurementInterval;
         private readonly ILogger<Bme680Worker> _logger;
         private readonly TelemetryPublisher _telemetryPublisher;
@@ -27,6 +28,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             _logger = logger;
             _telemetryEnabled = options.Value.TelemetryEnabled;
+            _serviceEnabled = options.Value.ServiceEnabled;
             _measurementInterval = options.Value.MeasurementInterval;
             _telemetryPublisher = sensorTelemetry.Publisher;
             _bme680Sensor = bme680Sensor;
@@ -34,6 +36,10 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            if (_serviceEnabled)
+            {
+                return;
+            }
             if (_telemetryEnabled)
             {
                 _telemetryPublisher?.RegisterTelemeter(_bme680Sensor);
