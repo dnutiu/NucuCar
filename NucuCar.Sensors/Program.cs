@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.EnvironmentSensor;
@@ -23,9 +22,8 @@ namespace NucuCar.Sensors
 
                     // Singletons
                     services.AddSingleton<SensorTelemetry>();
-                    services.AddSingleton<Bme680Sensor>();
-                    services.AddSingleton<ISensor<Bme680Sensor>>();
-
+                    services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
+                    
                     // Workers
                     services.AddHostedService<TelemetryWorker>();
                     services.AddHostedService<Bme680Worker>();

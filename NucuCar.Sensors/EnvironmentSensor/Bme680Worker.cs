@@ -36,7 +36,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (_serviceEnabled)
+            if (!_serviceEnabled)
             {
                 return;
             }
