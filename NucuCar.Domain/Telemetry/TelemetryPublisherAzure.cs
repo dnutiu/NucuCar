@@ -106,7 +106,7 @@ namespace NucuCar.Domain.Telemetry
 
             var messageString = JsonConvert.SerializeObject(data);
             var message = new Message(Encoding.ASCII.GetBytes(messageString));
-            Logger?.LogDebug($"Telemetry message: {message}");
+            Logger?.LogDebug($"Telemetry message: {messageString}");
             await DeviceClient.SendEventAsync(message, cancellationToken);
         }
 
