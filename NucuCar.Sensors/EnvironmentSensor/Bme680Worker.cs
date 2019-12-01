@@ -45,6 +45,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _telemetryPublisher?.RegisterTelemeter(_bme680Sensor.Object);
             }
 
+            _bme680Sensor.Object.InitializeSensor();
             while (!stoppingToken.IsCancellationRequested)
             {
                 /* If sensor is ok attempt to read. */

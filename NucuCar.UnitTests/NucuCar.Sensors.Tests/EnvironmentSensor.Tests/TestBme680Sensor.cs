@@ -1,22 +1,30 @@
+using System.Threading.Tasks;
 using NucuCar.Sensors.EnvironmentSensor;
 using NucuCarSensorsProto;
 
 namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
 {
-    public partial class Bme680GrpcServiceTest
+    public class TestBme680Sensor : Bme680Sensor
     {
-        public class TestBme680Sensor : Bme680Sensor
+        public override Task TakeMeasurement()
         {
-            // TODO Make more generic
-            public override EnvironmentSensorMeasurement GetMeasurement()
-            {
-                return new EnvironmentSensorMeasurement();
-            }
+            return Task.CompletedTask;
+        }
+        
+        public override void InitializeSensor()
+        {
             
-            public override SensorStateEnum GetState()
-            {
-                return SensorStateEnum.Error;
-            }
+        }
+        
+        // TODO Make more generic
+        public override EnvironmentSensorMeasurement GetMeasurement()
+        {
+            return new EnvironmentSensorMeasurement();
+        }
+        
+        public override SensorStateEnum GetState()
+        {
+            return SensorStateEnum.Error;
         }
     }
 }

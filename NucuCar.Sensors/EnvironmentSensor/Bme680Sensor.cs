@@ -33,11 +33,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
             _logger = logger;
-            if (options.Value.ServiceEnabled)
-            {
-                InitializeSensor();
-            }
-            else
+            if (!options.Value.ServiceEnabled)
             {
                 _logger?.LogInformation("BME680 Sensor is disabled!");
                 _sensorStateEnum = SensorStateEnum.Disabled;
@@ -62,9 +58,9 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _bme680?.Dispose();
         }
 
-        public void InitializeSensor()
+        public virtual void InitializeSensor()
         {
-            if (_sensorStateEnum == SensorStateEnum.Initialized)
+            if (_sensorStateEnum == SensorStateEnum.Initialized || _sensorStateEnum == SensorStateEnum.Disabled)
             {
                 return;
             }
@@ -94,7 +90,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             }
         }
         
-        public async Task TakeMeasurement()
+        public virtual async Task TakeMeasurement()
         {
             if (_sensorStateEnum != SensorStateEnum.Initialized)
             {
