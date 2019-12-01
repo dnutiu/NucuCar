@@ -126,6 +126,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             {
                 returnValue = new Dictionary<string, object>
                 {
+                    ["sensor_state"] = _sensorStateEnum,
                     ["temperature"] = _lastMeasurement.GetValueOrDefault("temperature"),
                     ["humidity"] = _lastMeasurement.GetValueOrDefault("humidity"),
                     ["pressure"] = _lastMeasurement.GetValueOrDefault("pressure"),
