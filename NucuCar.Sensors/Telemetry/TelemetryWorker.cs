@@ -13,6 +13,7 @@ namespace NucuCar.Sensors.Telemetry
     public class TelemetryWorker : BackgroundService
     {
         private readonly int _interval;
+        private readonly bool _serviceEnabled;
         private readonly ILogger _logger;
         private readonly TelemetryPublisher _telemetryPublisher;
 
@@ -21,20 +22,31 @@ namespace NucuCar.Sensors.Telemetry
         {
             _logger = logger;
             _interval = options.Value.PublishInterval;
+            _serviceEnabled = options.Value.ServiceEnabled;
             _telemetryPublisher = sensorTelemetry.Publisher;
             if (_telemetryPublisher == null)
             {
-                logger.LogCritical("Invalid state! TelemetryPublisher is null!");
+                logger?.LogCritical("Invalid state! TelemetryPublisher is null!");
             }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            if (!_serviceEnabled)
+            {
+                return;
+            }
+            if (_telemetryPublisher == null)
+            {
+                _logger?.LogCritical("Invalid state! TelemetryPublisher is null!");
+                return;
+            }
+            
             await Task.Delay(_interval, stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Is publishing telemetry data!");
                 await _telemetryPublisher.PublishAsync(stoppingToken);
+                _logger?.LogDebug("Telemetry data published!");
                 await Task.Delay(_interval, stoppingToken);
             }
         }

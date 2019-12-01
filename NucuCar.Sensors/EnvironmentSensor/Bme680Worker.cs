@@ -51,7 +51,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 /* If sensor is ok attempt to read. */
                 if (_bme680Sensor.Object.GetState() == SensorStateEnum.Initialized)
                 {
-                    _logger.LogInformation("Taking measurement!");
                     await _bme680Sensor.Object.TakeMeasurement();
                 }
                 /* Else attempt to re-initialize. */

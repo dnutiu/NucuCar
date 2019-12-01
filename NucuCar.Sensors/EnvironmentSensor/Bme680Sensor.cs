@@ -21,14 +21,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
-        private EnvironmentSensorMeasurement _lastMeasurement;
+        private Dictionary<string, double> _lastMeasurement;
         private SensorStateEnum _sensorStateEnum;
 
         public Bme680Sensor()
         {
-            
         }
-        
+
         public Bme680Sensor(ILogger<Bme680Sensor> logger, IOptions<Bme680Config> options)
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
@@ -42,8 +41,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             Object = this;
         }
 
-        // TODO Make more generic
-        public virtual EnvironmentSensorMeasurement GetMeasurement()
+        public virtual Dictionary<string, double> GetMeasurement()
         {
             return _lastMeasurement;
         }
@@ -65,6 +63,8 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 return;
             }
 
+            _lastMeasurement = new Dictionary<string, double>();
+
             try
             {
                 /* Connect to default i2c address 0x76 */
@@ -73,7 +73,6 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _bme680 = new Bme680(_i2CDevice);
 
                 /* Initialize measurement */
-                _lastMeasurement = new EnvironmentSensorMeasurement();
                 _bme680.Reset();
                 _bme680.SetHumiditySampling(Sampling.UltraLowPower);
                 _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
@@ -89,7 +88,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 _sensorStateEnum = SensorStateEnum.Error;
             }
         }
-        
+
         public virtual async Task TakeMeasurement()
         {
             if (_sensorStateEnum != SensorStateEnum.Initialized)
@@ -102,13 +101,17 @@ namespace NucuCar.Sensors.EnvironmentSensor
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
 
-            _lastMeasurement.Temperature = (await _bme680.ReadTemperatureAsync()).Celsius;
-            _lastMeasurement.Pressure = await _bme680.ReadPressureAsync();
-            _lastMeasurement.Humidity = await _bme680.ReadHumidityAsync();
+            _lastMeasurement["temperature"] = (await _bme680.ReadTemperatureAsync()).Celsius;
+            _lastMeasurement["pressure"] = await _bme680.ReadPressureAsync();
+            _lastMeasurement["humidity"] = await _bme680.ReadHumidityAsync();
+            _lastMeasurement["voc"] = 0.0; // Not implemented.
 
-            _logger?.LogInformation($"{DateTimeOffset.Now}:BME680: reading");
+            _logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
             _logger?.LogInformation(
-                $"{_lastMeasurement.Temperature:N2} \u00B0C | {_lastMeasurement.Pressure:N2} hPa | {_lastMeasurement.Humidity:N2} %rH");
+                $"temperature:{_lastMeasurement.GetValueOrDefault("temperature"):N2} \u00B0C|" +
+                $"pressure:{_lastMeasurement.GetValueOrDefault("pressure"):N2} hPa|" +
+                $"humidity:{_lastMeasurement.GetValueOrDefault("humidity"):N2} %rH|" +
+                $"voc:{_lastMeasurement.GetValueOrDefault("voc")}");
         }
 
         public string GetIdentifier()
@@ -123,10 +126,10 @@ namespace NucuCar.Sensors.EnvironmentSensor
             {
                 returnValue = new Dictionary<string, object>
                 {
-                    ["temperature"] = _lastMeasurement.Temperature,
-                    ["humidity"] = _lastMeasurement.Humidity,
-                    ["pressure"] = _lastMeasurement.Pressure,
-                    ["voc"] = _lastMeasurement.VolatileOrganicCompound
+                    ["temperature"] = _lastMeasurement.GetValueOrDefault("temperature"),
+                    ["humidity"] = _lastMeasurement.GetValueOrDefault("humidity"),
+                    ["pressure"] = _lastMeasurement.GetValueOrDefault("pressure"),
+                    ["voc"] = _lastMeasurement.GetValueOrDefault("voc")
                 };
             }
 

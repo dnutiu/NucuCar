@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -35,7 +36,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             _logger?.LogDebug($"Calling {nameof(GetSensorMeasurement)}.");
             var sensorMeasurement = _bme680Sensor.Object.GetMeasurement();
-            return Task.FromResult(sensorMeasurement);
+            return Task.FromResult(new EnvironmentSensorMeasurement()
+            {
+                Temperature = sensorMeasurement.GetValueOrDefault("temperature", -1.0),
+                Humidity = sensorMeasurement.GetValueOrDefault("pressure", -1.0),
+                Pressure = sensorMeasurement.GetValueOrDefault("humidity",-1.0),
+                VolatileOrganicCompound = sensorMeasurement.GetValueOrDefault("voc", -1.0),
+            });
         }
     }
 }

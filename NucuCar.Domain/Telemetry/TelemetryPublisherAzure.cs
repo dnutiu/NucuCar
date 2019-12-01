@@ -25,7 +25,7 @@ namespace NucuCar.Domain.Telemetry
                 throw;
             }
 
-            Logger?.LogInformation("Started the AzureTelemetryPublisher!");
+            Logger?.LogDebug("Started the AzureTelemetryPublisher!");
         }
 
         /// <summary>

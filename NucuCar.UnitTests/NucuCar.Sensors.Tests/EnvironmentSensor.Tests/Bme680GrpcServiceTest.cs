@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NucuCar.Sensors;
@@ -8,18 +9,20 @@ using Xunit.Abstractions;
 
 namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
 {
-    public partial class Bme680GrpcServiceTest
+    public class Bme680GrpcServiceTest
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly Mock<ILogger<Bme680GrpcService>> _mockLogger;
         private readonly Mock<ISensor<Bme680Sensor>> _mockSensor;
+        private readonly Mock<TestBme680Sensor> _mockTestSensor;
 
         public Bme680GrpcServiceTest(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
             _mockLogger = new Mock<ILogger<Bme680GrpcService>>();
             _mockSensor = new Mock<ISensor<Bme680Sensor>>();
-            _mockSensor.Setup(ms => ms.Object).Returns(new Mock<TestBme680Sensor>().Object);
+            _mockTestSensor = new Mock<TestBme680Sensor>();
+            _mockSensor.Setup(ms => ms.Object).Returns(_mockTestSensor.Object);
         }
 
 
@@ -43,9 +46,10 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
         [Fact]
         public void Test_GetSensorMeasurement()
         {
+            _mockTestSensor.Setup(s => s.GetMeasurement()).Returns(new Dictionary<string, double>());
             var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
             service.GetSensorMeasurement(null, null);
-            
+
             // Verify that the sensor get measurement method is called.
             _mockSensor.Verify(s => s.Object.GetMeasurement(), Times.AtLeastOnce());
 
