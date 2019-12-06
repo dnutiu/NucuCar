@@ -6,6 +6,7 @@ using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NucuCar.Domain.Sensors;
 using NucuCar.Domain.Telemetry;
 using NucuCarSensorsProto;
 

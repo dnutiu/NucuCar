@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NucuCar.Domain.Sensors;
 using NucuCar.Sensors;
 using NucuCar.Sensors.EnvironmentSensor;
 using NucuCarSensorsProto;

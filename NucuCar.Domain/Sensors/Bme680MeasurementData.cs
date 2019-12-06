@@ -1,4 +1,4 @@
-namespace NucuCar.Sensors.EnvironmentSensor
+namespace NucuCar.Domain.Sensors
 {
     public class Bme680MeasurementData
     {

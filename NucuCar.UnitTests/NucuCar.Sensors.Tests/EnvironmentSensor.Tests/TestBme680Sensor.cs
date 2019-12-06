@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NucuCar.Domain.Sensors;
 using NucuCar.Sensors.EnvironmentSensor;
 using NucuCarSensorsProto;
 
