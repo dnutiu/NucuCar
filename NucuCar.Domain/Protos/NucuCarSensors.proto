@@ -13,15 +13,13 @@ enum SensorStateEnum {
 
 // Environment Sensor
 service EnvironmentSensorGrpcService {
-    rpc GetSensorState(google.protobuf.Empty) returns (NucuCarSensorState) {}
-    rpc GetSensorMeasurement(google.protobuf.Empty) returns (EnvironmentSensorMeasurement) {}
+    rpc GetState(google.protobuf.Empty) returns (NucuCarSensorState) {}
+    rpc GetMeasurement(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
 }
 
-message EnvironmentSensorMeasurement {
-    double Temperature = 1;
-    double Pressure = 2;
-    double Humidity = 3;
-    double VolatileOrganicCompound = 4;
+message NucuCarSensorResponse {
+    SensorStateEnum State = 1;
+    string JsonData = 2;
 }
 
 message NucuCarSensorState {

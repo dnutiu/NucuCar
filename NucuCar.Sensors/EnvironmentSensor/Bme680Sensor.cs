@@ -21,7 +21,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
         private Bme680 _bme680;
-        private Dictionary<string, double> _lastMeasurement;
+        private Bme680MeasurementData _lastMeasurement;
         private SensorStateEnum _sensorStateEnum;
 
         public Bme680Sensor()
@@ -41,7 +41,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             Object = this;
         }
 
-        public virtual Dictionary<string, double> GetMeasurement()
+        public virtual Bme680MeasurementData GetMeasurement()
         {
             return _lastMeasurement;
         }
@@ -63,7 +63,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 return;
             }
 
-            _lastMeasurement = new Dictionary<string, double>();
+            _lastMeasurement = new Bme680MeasurementData();
 
             try
             {
@@ -101,17 +101,17 @@ namespace NucuCar.Sensors.EnvironmentSensor
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
 
-            _lastMeasurement["temperature"] = (await _bme680.ReadTemperatureAsync()).Celsius;
-            _lastMeasurement["pressure"] = await _bme680.ReadPressureAsync();
-            _lastMeasurement["humidity"] = await _bme680.ReadHumidityAsync();
-            _lastMeasurement["voc"] = 0.0; // Not implemented.
+            _lastMeasurement.Temperature = (await _bme680.ReadTemperatureAsync()).Celsius;
+            _lastMeasurement.Pressure = await _bme680.ReadPressureAsync();
+            _lastMeasurement.Humidity = await _bme680.ReadHumidityAsync();
+            _lastMeasurement.VolatileOrganicCompounds = 0.0; // Not implemented.
 
             _logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
             _logger?.LogInformation(
-                $"temperature:{_lastMeasurement.GetValueOrDefault("temperature"):N2} \u00B0C|" +
-                $"pressure:{_lastMeasurement.GetValueOrDefault("pressure"):N2} hPa|" +
-                $"humidity:{_lastMeasurement.GetValueOrDefault("humidity"):N2} %rH|" +
-                $"voc:{_lastMeasurement.GetValueOrDefault("voc")}");
+                $"temperature:{_lastMeasurement.Temperature:N2} \u00B0C|" +
+                $"pressure:{_lastMeasurement.Pressure:N2} hPa|" +
+                $"humidity:{_lastMeasurement.Humidity:N2} %rH|" +
+                $"voc:{_lastMeasurement.VolatileOrganicCompounds}");
         }
 
         public string GetIdentifier()
@@ -127,10 +127,10 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 returnValue = new Dictionary<string, object>
                 {
                     ["sensor_state"] = _sensorStateEnum,
-                    ["temperature"] = _lastMeasurement.GetValueOrDefault("temperature"),
-                    ["humidity"] = _lastMeasurement.GetValueOrDefault("humidity"),
-                    ["pressure"] = _lastMeasurement.GetValueOrDefault("pressure"),
-                    ["voc"] = _lastMeasurement.GetValueOrDefault("voc")
+                    ["temperature"] = _lastMeasurement.Temperature,
+                    ["humidity"] = _lastMeasurement.Humidity,
+                    ["pressure"] = _lastMeasurement.Pressure,
+                    ["voc"] = _lastMeasurement.VolatileOrganicCompounds
                 };
             }
 

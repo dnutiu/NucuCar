@@ -8,6 +8,7 @@ using CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NucuCarSensorsProto;
 
 namespace NucuCar.TestClient.Sensors
@@ -69,16 +70,14 @@ namespace NucuCar.TestClient.Sensors
                 }
                 await Task.Delay(1000);
                 
-                var reply = await client.GetSensorStateAsync(new Empty());
+                var reply = await client.GetStateAsync(new Empty());
                 var state = reply.State;
 
                 _logger.LogInformation("EnvironmentSensorState: " + state);
                 if (state != SensorStateEnum.Initialized) continue;
 
-                var measurement = await client.GetSensorMeasurementAsync(new Empty());
-                _logger.LogInformation(
-                    $"ENVIRONMENT_SENSOR=temperature:{measurement.Temperature}|humidity:{measurement.Humidity}|" +
-                    $"pressure:{measurement.Pressure}|voc:{measurement.VolatileOrganicCompound}|ts:{DateTime.Now}");
+                var measurementJson = await client.GetMeasurementAsync(new Empty());
+                _logger.LogInformation(measurementJson.JsonData);
             }
         }
     }

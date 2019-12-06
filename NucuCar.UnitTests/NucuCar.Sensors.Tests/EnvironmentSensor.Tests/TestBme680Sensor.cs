@@ -17,9 +17,9 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
             
         }
         
-        public override Dictionary<string, double> GetMeasurement()
+        public override Bme680MeasurementData GetMeasurement()
         {
-            return new Dictionary<string, double>();
+            return new Bme680MeasurementData();
         }
         
         public override SensorStateEnum GetState()
