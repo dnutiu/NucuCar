@@ -129,7 +129,7 @@ namespace NucuCar.Domain.Telemetry
                     await DeviceClient.SendEventAsync(message, cts.Token);
                     break;
                 }
-                catch (OperationCanceledException e)
+                catch (OperationCanceledException)
                 {
                     retry += 1;
                     Logger?.LogWarning($"Telemetry not sent! Retry {retry}.");
