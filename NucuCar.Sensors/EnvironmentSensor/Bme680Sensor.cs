@@ -18,6 +18,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
     /// </summary>
     public class Bme680Sensor : IDisposable, ITelemeter, ISensor<Bme680Sensor>
     {
+        private readonly bool _telemetryEnabled;
         private readonly ILogger _logger;
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
@@ -33,11 +34,13 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             _sensorStateEnum = SensorStateEnum.Uninitialized;
             _logger = logger;
-            if (!options.Value.ServiceEnabled)
+            if (!options.Value.Enabled)
             {
                 _logger?.LogInformation("BME680 Sensor is disabled!");
                 _sensorStateEnum = SensorStateEnum.Disabled;
             }
+
+            _telemetryEnabled = options.Value.Telemetry;
 
             Object = this;
         }
@@ -94,9 +97,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         {
             if (_sensorStateEnum != SensorStateEnum.Initialized)
             {
-                _logger?.LogWarning(
-                    $"{DateTimeOffset.Now}:BME680: Attempting to take measurement while sensor is not initialized!");
-                return;
+                throw new InvalidOperationException("Can't take measurement on uninitialized sensor!");
             }
 
             /* Force the sensor to take a measurement. */
@@ -123,7 +124,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
         public Dictionary<string, object> GetTelemetryData()
         {
             Dictionary<string, object> returnValue = null;
-            if (_lastMeasurement != null)
+            if (_lastMeasurement != null && _telemetryEnabled)
             {
                 returnValue = new Dictionary<string, object>
                 {
