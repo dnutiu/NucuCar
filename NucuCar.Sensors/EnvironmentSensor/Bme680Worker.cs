@@ -39,7 +39,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 /* If sensor is ok attempt to read. */
                 if (_bme680Sensor.Object.GetState() == SensorStateEnum.Initialized)
                 {
-                    await _bme680Sensor.Object.TakeMeasurement();
+                    await _bme680Sensor.Object.TakeMeasurementAsync();
                 }
                 /* Else attempt to re-initialize. */
                 else if (_bme680Sensor.Object.GetState() == SensorStateEnum.Uninitialized ||

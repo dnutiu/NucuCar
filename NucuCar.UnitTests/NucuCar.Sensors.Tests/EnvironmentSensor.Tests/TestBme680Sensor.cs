@@ -8,7 +8,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
 {
     public class TestBme680Sensor : Bme680Sensor
     {
-        public override Task TakeMeasurement()
+        public override Task TakeMeasurementAsync()
         {
             return Task.CompletedTask;
         }
