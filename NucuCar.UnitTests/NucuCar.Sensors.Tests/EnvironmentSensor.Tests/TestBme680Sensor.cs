@@ -13,7 +13,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
             return Task.CompletedTask;
         }
         
-        public override void InitializeSensor()
+        public override void Initialize()
         {
             
         }

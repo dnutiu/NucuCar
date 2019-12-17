@@ -1,5 +1,6 @@
 namespace NucuCar.Domain.Sensors
 {
+    // TODO Make generic, reuse nucucarsensor response or modify this.
     public class Bme680MeasurementData
     {
         public double Temperature { get; set; }

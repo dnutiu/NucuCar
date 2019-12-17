@@ -57,7 +57,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _bme680?.Dispose();
         }
 
-        public override void InitializeSensor()
+        public override void Initialize()
         {
             if (SensorStateEnum == SensorStateEnum.Initialized || SensorStateEnum == SensorStateEnum.Disabled)
             {

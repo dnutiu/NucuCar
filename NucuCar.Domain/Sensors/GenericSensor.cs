@@ -10,7 +10,7 @@ namespace NucuCar.Domain.Sensors
         protected ILogger Logger;
         protected SensorStateEnum SensorStateEnum;
 
-        public abstract void InitializeSensor();
+        public abstract void Initialize();
         public abstract Task TakeMeasurementAsync();
         public abstract Bme680MeasurementData GetMeasurement();
         public abstract SensorStateEnum GetState();

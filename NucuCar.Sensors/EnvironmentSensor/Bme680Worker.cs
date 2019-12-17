@@ -33,7 +33,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             _logger.LogInformation("Starting sensor worker");
             _telemetryPublisher?.RegisterTelemeter(_bme680Sensor.Object);
 
-            _bme680Sensor.Object.InitializeSensor();
+            _bme680Sensor.Object.Initialize();
             while (!stoppingToken.IsCancellationRequested)
             {
                 /* If sensor is ok attempt to read. */
@@ -46,7 +46,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
                          _bme680Sensor.Object.GetState() == SensorStateEnum.Error)
                 {
                     await Task.Delay(10000, stoppingToken);
-                    _bme680Sensor.Object.InitializeSensor();
+                    _bme680Sensor.Object.Initialize();
                 }
 
                 await Task.Delay(_measurementInterval, stoppingToken);
