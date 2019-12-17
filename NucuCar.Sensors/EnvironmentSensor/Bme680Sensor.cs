@@ -7,7 +7,6 @@ using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Domain.Sensors;
-using NucuCar.Domain.Telemetry;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
@@ -16,7 +15,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
     /// Abstraction for the BME680 sensor.
     /// See: https://www.bosch-sensortec.com/bst/products/all_products/bme680
     /// </summary>
-    public class Bme680Sensor : GenericSensor, IDisposable, ITelemeter, ISensor<Bme680Sensor>
+    public class Bme680Sensor : GenericTelemeterSensor, IDisposable, ISensor<Bme680Sensor>
     {
         private I2cConnectionSettings _i2CSettings;
         private I2cDevice _i2CDevice;
@@ -113,12 +112,12 @@ namespace NucuCar.Sensors.EnvironmentSensor
                 $"voc:{_lastMeasurement.VolatileOrganicCompounds}");
         }
 
-        public string GetIdentifier()
+        public override string GetIdentifier()
         {
             return nameof(EnvironmentSensor);
         }
 
-        public Dictionary<string, object> GetTelemetryData()
+        public override Dictionary<string, object> GetTelemetryData()
         {
             Dictionary<string, object> returnValue = null;
             if (_lastMeasurement != null && TelemetryEnabled)
