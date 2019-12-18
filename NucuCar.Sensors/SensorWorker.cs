@@ -14,6 +14,7 @@ namespace NucuCar.Sensors
     /// </summary>
     public abstract class SensorWorker : BackgroundService
     {
+        private int _intializationDelay = 10000;
         protected int MeasurementInterval;
         protected ILogger Logger;
         protected TelemetryPublisher TelemetryPublisher;
@@ -22,22 +23,27 @@ namespace NucuCar.Sensors
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Logger.LogInformation("Starting sensor worker");
+            var sensorIdentifier = Sensor.GetIdentifier();
+            Logger.LogInformation($"Starting sensor worker for {sensorIdentifier}");
             TelemetryPublisher?.RegisterTelemeter(Sensor);
 
             Sensor.Initialize();
             while (!stoppingToken.IsCancellationRequested)
             {
+                var sensorState = Sensor.GetState();
                 /* If sensor is ok attempt to read. */
-                if (Sensor.GetState() == SensorStateEnum.Initialized)
+                if (sensorState == SensorStateEnum.Initialized)
                 {
                     await Sensor.TakeMeasurementAsync();
                 }
                 /* Else attempt to re-initialize. */
-                else if (Sensor.GetState() == SensorStateEnum.Uninitialized ||
-                         Sensor.GetState() == SensorStateEnum.Error)
+                else if (sensorState == SensorStateEnum.Uninitialized ||
+                         sensorState == SensorStateEnum.Error)
                 {
-                    await Task.Delay(10000, stoppingToken);
+                    Logger.LogWarning(
+                        $"{sensorIdentifier} is in {sensorState}! Attempting to re-initialize in {_intializationDelay}ms.");
+                    _intializationDelay += 10000;
+                    await Task.Delay(_intializationDelay, stoppingToken);
                     Sensor.Initialize();
                 }
 
