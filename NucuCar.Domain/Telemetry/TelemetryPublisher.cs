@@ -12,13 +12,6 @@ namespace NucuCar.Domain.Telemetry
     public abstract class TelemetryPublisher : IDisposable
     {
         /// <summary>
-        /// Parameter less constructor, mainly used for testing.
-        /// </summary>
-        public TelemetryPublisher()
-        {
-        }
-
-        /// <summary>
         /// Raw connection string that is used to connect to the cloud service. Should be parsed if required.
         /// </summary>
         protected string ConnectionString { get; set; }
@@ -40,15 +33,10 @@ namespace NucuCar.Domain.Telemetry
         protected readonly ILogger Logger;
 
         /// <summary>
-        /// Constructor for <see cref="TelemetryPublisher"/>.
+        /// Parameter less constructor, mainly used for testing.
         /// </summary>
-        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherBuilderOptions"/></param>
-        protected TelemetryPublisher(TelemetryPublisherBuilderOptions opts)
+        public TelemetryPublisher()
         {
-            ConnectionString = opts.ConnectionString;
-            TelemetrySource = opts.TelemetrySource;
-            Logger = opts.Logger;
-            RegisteredTelemeters = new List<ITelemeter>(5);
         }
 
         /// <summary>
@@ -87,6 +75,48 @@ namespace NucuCar.Domain.Telemetry
             if (!RegisteredTelemeters.Contains(t)) return false;
             RegisteredTelemeters.Remove(t);
             return true;
+        }
+
+        /// <summary>
+        /// Constructor for <see cref="TelemetryPublisher"/>.
+        /// </summary>
+        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherBuilderOptions"/></param>
+        protected TelemetryPublisher(TelemetryPublisherBuilderOptions opts)
+        {
+            ConnectionString = opts.ConnectionString;
+            TelemetrySource = opts.TelemetrySource;
+            Logger = opts.Logger;
+            RegisteredTelemeters = new List<ITelemeter>(5);
+        }
+
+        /// <summary>
+        /// Iterates through the registered telemeters and returns the telemetry data as dictionary.
+        /// It also adds metadata information such as: source and timestamp.
+        /// </summary>
+        /// <returns>A dictionary containing all telemetry data.</returns>
+        protected Dictionary<string, object> GetTelemetry()
+        {
+            var data = new List<Dictionary<string, object>>();
+            foreach (var telemeter in RegisteredTelemeters)
+            {
+                var telemetryData = telemeter.GetTelemetryData();
+                if (telemetryData == null)
+                {
+                    Logger?.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
+                    continue;
+                }
+
+                telemetryData["_id"] = telemeter.GetIdentifier();
+                data.Add(telemetryData);
+            }
+
+            var metadata = new Dictionary<string, object>
+            {
+                ["source"] = TelemetrySource ?? nameof(TelemetryPublisher),
+                ["timestamp"] = DateTime.Now,
+                ["data"] = data.ToArray()
+            };
+            return metadata;
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace NucuCar.Domain.Telemetry
                 throw;
             }
 
-            Logger?.LogDebug("Started the AzureTelemetryPublisher!");
+            Logger?.LogDebug("Initialized the AzureTelemetryPublisher!");
         }
 
         /// <summary>
@@ -81,31 +80,6 @@ namespace NucuCar.Domain.Telemetry
             var message = new Message(Encoding.ASCII.GetBytes(messageString));
 
             await PublishToCloudAsync(message, cancellationToken);
-        }
-
-        private Dictionary<string, object> GetTelemetry()
-        {
-            var data = new List<Dictionary<string, object>>();
-            foreach (var telemeter in RegisteredTelemeters)
-            {
-                var telemetryData = telemeter.GetTelemetryData();
-                if (telemetryData == null)
-                {
-                    Logger?.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
-                    continue;
-                }
-
-                telemetryData["_id"] = telemeter.GetIdentifier();
-                data.Add(telemetryData);
-            }
-
-            var metadata = new Dictionary<string, object>
-            {
-                ["source"] = TelemetrySource ?? nameof(TelemetryPublisherAzure),
-                ["timestamp"] = DateTime.Now,
-                ["data"] = data.ToArray()
-            };
-            return metadata;
         }
 
         private async Task PublishToCloudAsync(Message message, CancellationToken cancellationToken, int maxRetries = 3)
