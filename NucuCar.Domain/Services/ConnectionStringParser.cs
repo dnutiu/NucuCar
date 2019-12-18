@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DotNetty.Common;
 
 namespace NucuCar.Domain.Services
 {
