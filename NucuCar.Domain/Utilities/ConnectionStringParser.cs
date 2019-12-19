@@ -16,7 +16,11 @@ namespace NucuCar.Domain.Services
         /// <exception cref="ArgumentException"></exception>
         public static Dictionary<string, string> Parse(string connectionString)
         {
-            // TODO: Write tests for this.
+            if (connectionString.Equals(string.Empty))
+            {
+                throw new ArgumentException("ConnectionString can't be empty!");
+            }
+            
             var items = connectionString.Split(";");
             var parsedConnectionString = new Dictionary<string, string>();
             foreach (var item in items)
@@ -28,7 +32,7 @@ namespace NucuCar.Domain.Services
                         $"Invalid argument for connection string, expected KEY=VALUE got {item}");
                 }
 
-                parsedConnectionString[keyValue[0]] = parsedConnectionString[keyValue[1]];
+                parsedConnectionString.Add(keyValue[0], keyValue[1]);
             }
 
             return parsedConnectionString;

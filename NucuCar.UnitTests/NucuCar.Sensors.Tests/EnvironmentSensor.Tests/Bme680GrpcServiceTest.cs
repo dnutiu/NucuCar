@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NucuCar.Domain.Sensors;
