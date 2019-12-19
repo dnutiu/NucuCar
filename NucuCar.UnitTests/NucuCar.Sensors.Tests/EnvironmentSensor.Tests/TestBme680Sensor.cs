@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using NucuCar.Domain.Sensors;
 using NucuCar.Sensors.EnvironmentSensor;
 using NucuCarSensorsProto;
 
@@ -18,9 +16,9 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
             
         }
         
-        public override Bme680MeasurementData GetMeasurement()
+        public override NucuCarSensorResponse GetMeasurement()
         {
-            return new Bme680MeasurementData();
+            return new NucuCarSensorResponse();
         }
         
         public override SensorStateEnum GetState()

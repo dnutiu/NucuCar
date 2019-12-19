@@ -15,7 +15,7 @@ namespace NucuCar.Domain.Sensors
 
         public abstract void Initialize();
         public abstract Task TakeMeasurementAsync();
-        public abstract Bme680MeasurementData GetMeasurement();
+        public abstract NucuCarSensorResponse GetMeasurement();
         public abstract SensorStateEnum GetState();
     }
 }

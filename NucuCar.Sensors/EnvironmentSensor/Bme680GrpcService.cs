@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.EnvironmentSensor
@@ -35,13 +34,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
             ServerCallContext context)
         {
             _logger?.LogDebug($"Calling {nameof(GetMeasurement)}.");
-            var sensorMeasurement = _bme680Sensor.Object.GetMeasurement();
-            var jsonResponse = JsonConvert.SerializeObject(sensorMeasurement);
-            return Task.FromResult(new NucuCarSensorResponse()
-            {
-                State = _bme680Sensor.Object.GetState(),
-                JsonData = jsonResponse
-            });
+            return Task.FromResult(_bme680Sensor.Object.GetMeasurement());
         }
     }
 }

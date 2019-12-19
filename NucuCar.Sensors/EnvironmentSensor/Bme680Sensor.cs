@@ -6,6 +6,7 @@ using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NucuCar.Domain.Sensors;
 using NucuCarSensorsProto;
 
@@ -41,9 +42,14 @@ namespace NucuCar.Sensors.EnvironmentSensor
             Object = this;
         }
 
-        public override Bme680MeasurementData GetMeasurement()
+        public override NucuCarSensorResponse GetMeasurement()
         {
-            return _lastMeasurement;
+            var jsonResponse = JsonConvert.SerializeObject(_lastMeasurement);
+            return new NucuCarSensorResponse
+            {
+                State = GetState(),
+                JsonData = jsonResponse
+            };
         }
 
         public override SensorStateEnum GetState()

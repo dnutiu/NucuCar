@@ -43,7 +43,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
         [Fact]
         public void Test_GetSensorMeasurement()
         {
-            _mockTestSensor.Setup(s => s.GetMeasurement()).Returns(new Bme680MeasurementData());
+            _mockTestSensor.Setup(s => s.GetMeasurement()).Returns(new NucuCarSensorResponse());
             var service = new Bme680GrpcService(_mockLogger.Object, _mockSensor.Object);
             service.GetMeasurement(null, null);
 
