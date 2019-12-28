@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Domain.Telemetry;
+
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace NucuCar.Sensors.Telemetry
@@ -11,14 +12,13 @@ namespace NucuCar.Sensors.Telemetry
 
         public SensorTelemetry()
         {
-            
         }
-        
+
         public SensorTelemetry(ILogger<SensorTelemetry> logger, IOptions<TelemetryConfig> options)
         {
             if (options.Value.ServiceEnabled)
             {
-                Publisher = TelemetryPublisherAzure.CreateFromConnectionString(options.Value.ConnectionString,
+                Publisher = TelemetryPublisherFactory.Create(options.Value.Publisher, options.Value.ConnectionString,
                     "NucuCar.Sensors", logger);
             }
             else

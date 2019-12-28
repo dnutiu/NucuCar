@@ -48,10 +48,9 @@ namespace NucuCar.TestClient.Telemetry
             var logger = LoggerFactory.Create(builder => { builder.AddConsole(); })
                 .CreateLogger<AzureTelemetryPublishCmd>();
 
-            var telemetryPublisher =
-                TelemetryPublisherAzure.CreateFromConnectionString(opts.PublisherConnectionString,
-                    "NucuCar.TestClient", logger);
-
+            var telemetryPublisher = TelemetryPublisherFactory.Create(TelemetryPublisherType.Azure,
+                opts.PublisherConnectionString, "NucuCar.TestClient", logger);
+            
             var anonymousTelemeter =
                 new DummyTelemeter(
                     JsonConvert.DeserializeObject<Dictionary<string, object>>(opts.PublisherJsonMessage));
