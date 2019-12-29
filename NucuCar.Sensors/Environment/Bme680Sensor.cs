@@ -37,12 +37,12 @@ namespace NucuCar.Sensors.Environment
 
         public Bme680Sensor(ILogger<Bme680Sensor> logger, IOptions<Bme680Config> options)
         {
-            SensorStateEnum = SensorStateEnum.Uninitialized;
+            CurrentState = SensorStateEnum.Uninitialized;
             Logger = logger;
             if (!options.Value.Enabled)
             {
                 Logger?.LogInformation("BME680 Sensor is disabled!");
-                SensorStateEnum = SensorStateEnum.Disabled;
+                CurrentState = SensorStateEnum.Disabled;
             }
 
             TelemetryEnabled = options.Value.Telemetry;
@@ -62,7 +62,7 @@ namespace NucuCar.Sensors.Environment
 
         public override SensorStateEnum GetState()
         {
-            return SensorStateEnum;
+            return CurrentState;
         }
 
         public void Dispose()
@@ -72,7 +72,7 @@ namespace NucuCar.Sensors.Environment
 
         public override void Initialize()
         {
-            if (SensorStateEnum == SensorStateEnum.Initialized || SensorStateEnum == SensorStateEnum.Disabled)
+            if (CurrentState == SensorStateEnum.Initialized || CurrentState == SensorStateEnum.Disabled)
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace NucuCar.Sensors.Environment
                 _bme680.SetHumiditySampling(Sampling.UltraLowPower);
                 _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
                 _bme680.SetPressureSampling(Sampling.UltraLowPower);
-                SensorStateEnum = SensorStateEnum.Initialized;
+                CurrentState = SensorStateEnum.Initialized;
 
                 Logger?.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
             }
@@ -99,13 +99,13 @@ namespace NucuCar.Sensors.Environment
             {
                 Logger?.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
                 Logger?.LogTrace(e.Message);
-                SensorStateEnum = SensorStateEnum.Error;
+                CurrentState = SensorStateEnum.Error;
             }
         }
 
         public override async Task TakeMeasurementAsync()
         {
-            if (SensorStateEnum != SensorStateEnum.Initialized)
+            if (CurrentState != SensorStateEnum.Initialized)
             {
                 throw new InvalidOperationException("Can't take measurement on uninitialized sensor!");
             }
@@ -138,7 +138,7 @@ namespace NucuCar.Sensors.Environment
             {
                 returnValue = new Dictionary<string, object>
                 {
-                    ["sensor_state"] = SensorStateEnum,
+                    ["sensor_state"] = CurrentState,
                     ["temperature"] = _lastMeasurement.Temperature,
                     ["humidity"] = _lastMeasurement.Humidity,
                     ["pressure"] = _lastMeasurement.Pressure,

@@ -11,7 +11,7 @@ namespace NucuCar.Domain.Sensors
     {
         protected bool TelemetryEnabled;
         protected ILogger Logger;
-        protected SensorStateEnum SensorStateEnum;
+        protected SensorStateEnum CurrentState;
 
         public abstract void Initialize();
         public abstract Task TakeMeasurementAsync();
