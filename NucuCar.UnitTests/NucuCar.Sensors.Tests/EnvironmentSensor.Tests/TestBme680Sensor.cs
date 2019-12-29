@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using NucuCar.Sensors.EnvironmentSensor;
+using NucuCar.Sensors.Environment;
 using NucuCarSensorsProto;
 
 namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests

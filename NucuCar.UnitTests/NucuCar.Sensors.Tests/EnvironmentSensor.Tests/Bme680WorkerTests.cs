@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NucuCar.Sensors;
-using NucuCar.Sensors.EnvironmentSensor;
+using NucuCar.Sensors.Environment;
 using NucuCar.Sensors.Telemetry;
 using NucuCarSensorsProto;
 using Xunit;

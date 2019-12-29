@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using NucuCar.Sensors.Telemetry;
 
-namespace NucuCar.Sensors.EnvironmentSensor
+namespace NucuCar.Sensors.Environment
 {
     public class Bme680Worker : SensorWorker
     {

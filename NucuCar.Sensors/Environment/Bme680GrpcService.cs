@@ -4,7 +4,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using NucuCarSensorsProto;
 
-namespace NucuCar.Sensors.EnvironmentSensor
+namespace NucuCar.Sensors.Environment
 {
     /// <summary>
     /// EnvironmentSensor's gRPC service.

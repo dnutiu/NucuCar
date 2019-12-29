@@ -1,6 +1,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace NucuCar.Sensors.EnvironmentSensor
+namespace NucuCar.Sensors.Environment
 {
     public class Bme680Config
     {

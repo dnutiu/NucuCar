@@ -10,8 +10,16 @@ using Newtonsoft.Json;
 using NucuCar.Domain.Sensors;
 using NucuCarSensorsProto;
 
-namespace NucuCar.Sensors.EnvironmentSensor
+namespace NucuCar.Sensors.Environment
 {
+    internal class Bme680MeasurementData
+    {
+        public double Temperature { get; set; }
+        public double Humidity { get; set; }
+        public double Pressure { get; set; }
+        public double VolatileOrganicCompounds { get; set; }
+    }
+    
     /// <summary>
     /// Abstraction for the BME680 sensor.
     /// See: https://www.bosch-sensortec.com/bst/products/all_products/bme680
@@ -120,7 +128,7 @@ namespace NucuCar.Sensors.EnvironmentSensor
 
         public override string GetIdentifier()
         {
-            return nameof(EnvironmentSensor);
+            return "Bme680-Sensor";
         }
 
         public override Dictionary<string, object> GetTelemetryData()

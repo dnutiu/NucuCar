@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NucuCar.Sensors.EnvironmentSensor;
+using NucuCar.Sensors.Environment;
 using NucuCar.Sensors.Telemetry;
 
 namespace NucuCar.Sensors
