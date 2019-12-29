@@ -20,6 +20,7 @@ namespace NucuCar.Sensors
                 {
                     services.Configure<TelemetryConfig>(hostContext.Configuration.GetSection("Telemetry"));
                     services.Configure<Bme680Config>(hostContext.Configuration.GetSection("EnvironmentSensor"));
+                    services.Configure<CpuTempConfig>(hostContext.Configuration.GetSection("HealthSensor"));
 
                     // Singletons
                     services.AddSingleton<SensorTelemetry>();
