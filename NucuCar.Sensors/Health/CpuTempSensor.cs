@@ -38,7 +38,7 @@ namespace NucuCar.Sensors.Health
             {
                 return;
             }
-            CurrentState = SensorStateEnum.Initialized;
+            CurrentState = _cpuTemperature.IsAvailable ? SensorStateEnum.Initialized : SensorStateEnum.Error;
         }
 
         public override Task TakeMeasurementAsync()
