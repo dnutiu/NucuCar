@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Environment;
+using NucuCar.Sensors.Health;
 using NucuCar.Sensors.Telemetry;
 
 namespace NucuCar.Sensors
@@ -23,10 +24,12 @@ namespace NucuCar.Sensors
                     // Singletons
                     services.AddSingleton<SensorTelemetry>();
                     services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
+                    services.AddSingleton<ISensor<CpuTempSensor>, CpuTempSensor>();
                     
                     // Workers
                     services.AddHostedService<TelemetryWorker>();
                     services.AddHostedService<Bme680Worker>();
+                    services.AddHostedService<CpuTempWorker>();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
     }

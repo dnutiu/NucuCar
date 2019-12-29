@@ -46,6 +46,11 @@ namespace NucuCar.Sensors
                     await Task.Delay(_intializationDelay, stoppingToken);
                     Sensor.Initialize();
                 }
+                else if (sensorState == SensorStateEnum.Disabled)
+                {
+                    // Break from while.
+                    break;
+                }
 
                 await Task.Delay(MeasurementInterval, stoppingToken);
             }

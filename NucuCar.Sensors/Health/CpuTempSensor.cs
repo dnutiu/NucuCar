@@ -1,25 +1,43 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iot.Device.CpuTemperature;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Domain.Sensors;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.Health
 {
-    public class CpuTemp : GenericTelemeterSensor, ISensor<CpuTemp>
+    public class CpuTempSensor : GenericTelemeterSensor, ISensor<CpuTempSensor>
     {
         private readonly CpuTemperature _cpuTemperature;
         private double _lastTemperatureCelsius;
 
-        public CpuTemp()
+        public CpuTempSensor()
         {
-            _cpuTemperature = new CpuTemperature();
-            Object = this;
+        }
+        
+        public CpuTempSensor(IOptions<CpuTempConfig> options)
+        {
+            if (options.Value.Enabled)
+            {
+                CurrentState = SensorStateEnum.Uninitialized;
+                _cpuTemperature = new CpuTemperature();
+                Object = this;
+                TelemetryEnabled = options.Value.Telemetry;
+            }
+            else
+            {
+                CurrentState = SensorStateEnum.Disabled;
+            }
         }
 
         public override void Initialize()
-        {
+        {    
+            if (CurrentState == SensorStateEnum.Initialized || CurrentState == SensorStateEnum.Disabled)
+            {
+                return;
+            }
             CurrentState = SensorStateEnum.Initialized;
         }
 
@@ -76,6 +94,6 @@ namespace NucuCar.Sensors.Health
             return returnValue;
         }
 
-        public CpuTemp Object { get; }
+        public CpuTempSensor Object { get; }
     }
 }
