@@ -56,7 +56,7 @@ namespace NucuCar.Sensors.Health
                 }
             }
             Logger?.LogDebug($"{DateTimeOffset.Now}:HealthSensor: reading");
-            Logger?.LogInformation($"CPU Temperature ${_lastTemperatureCelsius}");
+            Logger?.LogInformation($"CPU Temperature {_lastTemperatureCelsius}");
             return Task.FromResult(_lastTemperatureCelsius);
         }
 
