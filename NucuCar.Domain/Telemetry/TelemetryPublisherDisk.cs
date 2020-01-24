@@ -32,7 +32,7 @@ namespace NucuCar.Domain.Telemetry
             var bufferSize = connectionStringParams.GetValueOrDefault("BufferSize", "4096");
 
             _fileStream = new FileStream(fileName, FileMode.Append, FileAccess.Write,
-                FileShare.None, int.Parse(bufferSize), true);
+                FileShare.Read, int.Parse(bufferSize), true);
             Logger?.LogDebug("Initialized the TelemetryPublisherDisk!");
         }
 
