@@ -23,6 +23,10 @@ namespace NucuCar.Sensors
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            if (Sensor == null)
+            {
+                return;
+            }
             var sensorIdentifier = Sensor.GetIdentifier();
             Logger?.LogInformation($"Starting sensor worker for {sensorIdentifier}");
             TelemetryPublisher?.RegisterTelemeter(Sensor);
