@@ -16,13 +16,15 @@ namespace NucuCar.Domain.Telemetry
     public class TelemetryPublisherDisk : TelemetryPublisher
     {
         private readonly FileStream _fileStream;
+        private readonly string _separator;
 
         /// <summary>
         /// Constructs an instance of <see cref="TelemetryPublisherDisk"/>.
         /// <remarks>
         ///    The connection string must contain the following options:
         ///     Filename (required) - The path of the filename in which to log telemetry data.
-        ///     FileExtension (optional) - The extension of the filename. Default txt
+        ///     FileExtension (optional) - The extension of the filename. Default csv
+        ///     Separator (optional) - The separator of the messages. Default ,
         ///     BufferSize (optional) - The buffer size for the async writer. Default: 4096
         /// </remarks>
         /// </summary>
@@ -31,9 +33,10 @@ namespace NucuCar.Domain.Telemetry
         {
             var connectionStringParams = ConnectionStringParser.Parse(opts.ConnectionString);
             var fileName = connectionStringParams.GetValueOrDefault("FileName");
-            var fileExtension = connectionStringParams.GetValueOrDefault("FileExtension", "txt");
+            var fileExtension = connectionStringParams.GetValueOrDefault("FileExtension", "csv");
             var bufferSize = connectionStringParams.GetValueOrDefault("BufferSize", "4096");
-
+            _separator = connectionStringParams.GetValueOrDefault("Separator", ",");
+            
             _fileStream = new FileStream(NormalizeFilename(fileName, fileExtension), FileMode.Append, FileAccess.Write,
                 FileShare.Read, int.Parse(bufferSize), true);
             Logger?.LogDebug("Initialized the TelemetryPublisherDisk!");
@@ -44,7 +47,7 @@ namespace NucuCar.Domain.Telemetry
             var data = GetTelemetry();
             var messageString = JsonConvert.SerializeObject(data);
             Logger?.LogDebug($"Telemetry message: {messageString}");
-            var encodedText = Encoding.Unicode.GetBytes(messageString);
+            var encodedText = Encoding.Unicode.GetBytes($"{messageString}{_separator}");
 
             try
             {

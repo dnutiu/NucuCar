@@ -35,3 +35,20 @@ export Telemetry:ConnectionString=CONNECTION_STRING
 
 A telemetry reader can be found in NucuCar.TestClient. You'll need a connection string that can be found in
 Azure's IoT Hub Build-In Endpoints setting.
+
+---
+
+### Disk Telemetry
+
+#### Publisher
+
+Publishes telemetry on the disk.
+
+Example connection string:
+`Filename=telemetry;FileExtension=csv;Separator=,;BufferSize=4096`
+
+See the source code for comments on the ConnectionString.
+
+### Reader
+
+You will need to parse the file by yourself.
