@@ -30,6 +30,7 @@ namespace NucuCar.Sensors.Telemetry
         {
             if (!_serviceEnabled)
             {
+                _logger.LogInformation("Telemetry service is disabled!");
                 return;
             }
 

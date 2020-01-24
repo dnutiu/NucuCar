@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iot.Device.CpuTemperature;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Domain.Sensors;
@@ -52,7 +54,8 @@ namespace NucuCar.Sensors.Health
                     _lastTemperatureCelsius = double.NaN;
                 }
             }
-
+            Logger?.LogDebug($"{DateTimeOffset.Now}:HealthSensor: reading");
+            Logger.LogInformation($"CPU Temperature ${_lastTemperatureCelsius}");
             return Task.FromResult(_lastTemperatureCelsius);
         }
 

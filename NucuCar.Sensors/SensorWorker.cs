@@ -34,6 +34,7 @@ namespace NucuCar.Sensors
                 /* If sensor is ok attempt to read. */
                 if (sensorState == SensorStateEnum.Initialized)
                 {
+                    Logger.LogTrace($"{sensorIdentifier} is taking a measurement!");
                     await Sensor.TakeMeasurementAsync();
                 }
                 /* Else attempt to re-initialize. */
@@ -49,6 +50,7 @@ namespace NucuCar.Sensors
                 else if (sensorState == SensorStateEnum.Disabled)
                 {
                     // Break from while.
+                    Logger.LogInformation($"{sensorIdentifier} has been disabled!");
                     break;
                 }
 
