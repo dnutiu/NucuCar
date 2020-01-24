@@ -19,8 +19,9 @@ namespace NucuCar.Sensors.Health
         {
         }
         
-        public CpuTempSensor(IOptions<CpuTempConfig> options)
+        public CpuTempSensor(ILogger<CpuTempSensor> logger, IOptions<CpuTempConfig> options)
         {
+            Logger = logger;
             if (options.Value.Enabled)
             {
                 CurrentState = SensorStateEnum.Uninitialized;
@@ -55,7 +56,7 @@ namespace NucuCar.Sensors.Health
                 }
             }
             Logger?.LogDebug($"{DateTimeOffset.Now}:HealthSensor: reading");
-            Logger.LogInformation($"CPU Temperature ${_lastTemperatureCelsius}");
+            Logger?.LogInformation($"CPU Temperature ${_lastTemperatureCelsius}");
             return Task.FromResult(_lastTemperatureCelsius);
         }
 

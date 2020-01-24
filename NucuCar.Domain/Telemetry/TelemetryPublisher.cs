@@ -61,7 +61,7 @@ namespace NucuCar.Domain.Telemetry
         public bool RegisterTelemeter(ITelemeter t)
         {
             if (RegisteredTelemeters.Contains(t)) return false;
-            Logger.LogDebug($"Registering telemeter {t.GetIdentifier()}");
+            Logger?.LogDebug($"Registering telemeter {t.GetIdentifier()}");
             RegisteredTelemeters.Add(t);
             return true;
         }
@@ -74,7 +74,7 @@ namespace NucuCar.Domain.Telemetry
         public bool UnRegisterTelemeter(ITelemeter t)
         {
             if (!RegisteredTelemeters.Contains(t)) return false;
-            Logger.LogDebug($"UnRegistering telemeter {t.GetIdentifier()}");
+            Logger?.LogDebug($"UnRegistering telemeter {t.GetIdentifier()}");
             RegisteredTelemeters.Remove(t);
             return true;
         }

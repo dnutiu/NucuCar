@@ -24,7 +24,7 @@ namespace NucuCar.Sensors
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var sensorIdentifier = Sensor.GetIdentifier();
-            Logger.LogInformation($"Starting sensor worker for {sensorIdentifier}");
+            Logger?.LogInformation($"Starting sensor worker for {sensorIdentifier}");
             TelemetryPublisher?.RegisterTelemeter(Sensor);
 
             Sensor.Initialize();
@@ -34,14 +34,14 @@ namespace NucuCar.Sensors
                 /* If sensor is ok attempt to read. */
                 if (sensorState == SensorStateEnum.Initialized)
                 {
-                    Logger.LogTrace($"{sensorIdentifier} is taking a measurement!");
+                    Logger?.LogTrace($"{sensorIdentifier} is taking a measurement!");
                     await Sensor.TakeMeasurementAsync();
                 }
                 /* Else attempt to re-initialize. */
                 else if (sensorState == SensorStateEnum.Uninitialized ||
                          sensorState == SensorStateEnum.Error)
                 {
-                    Logger.LogWarning(
+                    Logger?.LogWarning(
                         $"{sensorIdentifier} is in {sensorState}! Attempting to re-initialize in {_intializationDelay}ms.");
                     _intializationDelay += 10000;
                     await Task.Delay(_intializationDelay, stoppingToken);
@@ -50,7 +50,7 @@ namespace NucuCar.Sensors
                 else if (sensorState == SensorStateEnum.Disabled)
                 {
                     // Break from while.
-                    Logger.LogInformation($"{sensorIdentifier} has been disabled!");
+                    Logger?.LogInformation($"{sensorIdentifier} has been disabled!");
                     break;
                 }
 
