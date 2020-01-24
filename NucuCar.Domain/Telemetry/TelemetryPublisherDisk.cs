@@ -16,7 +16,6 @@ namespace NucuCar.Domain.Telemetry
     public class TelemetryPublisherDisk : TelemetryPublisher
     {
         private readonly FileStream _fileStream;
-        private int _charactersWritten;
 
         /// <summary>
         /// Constructs an instance of <see cref="TelemetryPublisherDisk"/>.
@@ -47,10 +46,17 @@ namespace NucuCar.Domain.Telemetry
             Logger?.LogDebug($"Telemetry message: {messageString}");
             var encodedText = Encoding.Unicode.GetBytes(messageString);
 
-            await _fileStream.WriteAsync(encodedText, _charactersWritten,
-                encodedText.Length, cancellationToken);
-            _charactersWritten += encodedText.Length;
-            await _fileStream.FlushAsync(cancellationToken);
+            try
+            {
+                await _fileStream.WriteAsync(encodedText, 0,
+                    encodedText.Length, cancellationToken);
+                await _fileStream.FlushAsync(cancellationToken);
+            }
+            catch (ObjectDisposedException e)
+            {
+                Logger.LogCritical(e.Message);
+            }
+
         }
 
         public override void Dispose()
