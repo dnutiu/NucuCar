@@ -11,7 +11,9 @@ namespace NucuCar.Domain.Sensors
     /// </summary>
     public abstract class GenericTelemeterSensor : GenericSensor, ITelemeter
     {
+        protected bool TelemetryEnabled;
         public abstract string GetIdentifier();
         public abstract Dictionary<string, object> GetTelemetryData();
+        public abstract bool IsTelemetryEnabled();
     }
 }

@@ -9,7 +9,6 @@ namespace NucuCar.Domain.Sensors
     /// </summary>
     public abstract class GenericSensor
     {
-        protected bool TelemetryEnabled;
         protected ILogger Logger;
         protected SensorStateEnum CurrentState;
 

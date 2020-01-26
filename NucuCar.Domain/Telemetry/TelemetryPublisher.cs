@@ -60,7 +60,7 @@ namespace NucuCar.Domain.Telemetry
         /// <returns>Returns true if the telemeter has registered successfully and false otherwise.</returns>
         public bool RegisterTelemeter(ITelemeter t)
         {
-            if (RegisteredTelemeters.Contains(t)) return false;
+            if (RegisteredTelemeters.Contains(t) || !t.IsTelemetryEnabled()) return false;
             Logger?.LogDebug($"Registering telemeter {t.GetIdentifier()}");
             RegisteredTelemeters.Add(t);
             return true;

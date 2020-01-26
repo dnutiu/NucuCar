@@ -149,6 +149,11 @@ namespace NucuCar.Sensors.Environment
             return returnValue;
         }
 
+        public override bool IsTelemetryEnabled()
+        {
+            return TelemetryEnabled;
+        }
+
         public Bme680Sensor Object { get; }
     }
 }

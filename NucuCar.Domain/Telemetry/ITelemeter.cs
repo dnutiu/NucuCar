@@ -16,8 +16,18 @@ namespace NucuCar.Domain.Telemetry
 
         /// <summary>
         /// This function should return a dictionary containing the telemetry data.
+        /// When implementing this function you should return null if the telemetry is disabled.
+        /// See: <see cref="IsTelemetryEnabled"/>
         /// </summary>
         /// <returns>The telemetry data. It should be JSON serializable.</returns>
         Dictionary<string, object> GetTelemetryData();
+
+        /// <summary>
+        /// This function should return whether the sensor has telemetry enabled or not.
+        /// A value of true indicates that the sensor has enabled telemetry, and a value of false indicates
+        /// that telemetry is not enabled.
+        /// </summary>
+        /// <returns>A boolean indicating if the sensor has enabled telemetry.</returns>
+        bool IsTelemetryEnabled();
     }
 }

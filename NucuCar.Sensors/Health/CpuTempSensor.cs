@@ -98,6 +98,11 @@ namespace NucuCar.Sensors.Health
             return returnValue;
         }
 
+        public override bool IsTelemetryEnabled()
+        {
+            return TelemetryEnabled;
+        }
+
         public CpuTempSensor Object { get; }
     }
 }

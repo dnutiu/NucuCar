@@ -41,6 +41,11 @@ namespace NucuCar.TestClient.Telemetry
             {
                 return _dummyTelemeterData;
             }
+
+            public bool IsTelemetryEnabled()
+            {
+                return true;
+            }
         }
 
         public static async Task RunAzurePublisherTelemetryTest(AzureTelemetryPublishOptions opts)
