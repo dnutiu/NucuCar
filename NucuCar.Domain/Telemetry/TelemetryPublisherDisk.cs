@@ -47,7 +47,7 @@ namespace NucuCar.Domain.Telemetry
             var data = GetTelemetry();
             var messageString = JsonConvert.SerializeObject(data);
             Logger?.LogDebug($"Telemetry message: {messageString}");
-            var encodedText = Encoding.Unicode.GetBytes($"{messageString}{_separator}");
+            var encodedText = Encoding.UTF8.GetBytes($"{messageString}{_separator}");
 
             try
             {

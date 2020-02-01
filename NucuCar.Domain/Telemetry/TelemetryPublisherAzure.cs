@@ -33,7 +33,7 @@ namespace NucuCar.Domain.Telemetry
 
             var messageString = JsonConvert.SerializeObject(data);
             Logger?.LogDebug($"Telemetry message: {messageString}");
-            var message = new Message(Encoding.ASCII.GetBytes(messageString));
+            var message = new Message(Encoding.UTF8.GetBytes(messageString));
 
             await PublishToCloudAsync(message, cancellationToken);
         }
