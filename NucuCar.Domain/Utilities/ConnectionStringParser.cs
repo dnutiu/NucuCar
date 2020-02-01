@@ -25,8 +25,8 @@ namespace NucuCar.Domain.Utilities
             var parsedConnectionString = new Dictionary<string, string>();
             foreach (var item in items)
             {
-                var keyValue = item.Split("=");
-                if (keyValue.Length != 2)
+                var keyValue = item.Split("=", 2);
+                if (keyValue.Length < 2)
                 {
                     throw new ArgumentException(
                         $"Invalid argument for connection string, expected KEY=VALUE got {item}");

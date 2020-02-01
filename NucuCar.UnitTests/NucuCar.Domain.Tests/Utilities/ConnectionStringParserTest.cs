@@ -46,6 +46,16 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Utilities
             });
         }
         
+        [Fact]
+        private void Test_ConnectionStringParser_ValueWithMultipleEquals()
+        {
+            const string connectionString = "Test=1;Test2=base64=";
+            var parsedString = ConnectionStringParser.Parse(connectionString);
+
+            Assert.Equal("1", parsedString.GetValueOrDefault("Test"));
+            Assert.Equal("base64=", parsedString.GetValueOrDefault("Test2"));
+        }
+        
         
     }
 }
