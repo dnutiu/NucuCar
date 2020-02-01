@@ -17,6 +17,10 @@ service EnvironmentSensorGrpcService {
     rpc GetMeasurement(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
 }
 
+service HealthSensorGrpcService {
+    rpc GetCpuTemperature(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
+}
+
 message NucuCarSensorResponse {
     SensorStateEnum State = 1;
     string JsonData = 2;

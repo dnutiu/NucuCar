@@ -42,6 +42,11 @@ namespace NucuCar.TestClient.Sensors
                     await sensorsCommandLine.EnvironmentSensorGrpcServiceTest();
                     break;
                 }
+                case "health":
+                {
+                    await sensorsCommandLine.HealthSensorGrpcServiceTest();
+                    break;
+                }
                 default:
                 {
                     throw new ArgumentException($"Invalid sensor name: ${options.SensorName}");
@@ -49,10 +54,12 @@ namespace NucuCar.TestClient.Sensors
             }
         }
 
-        public async Task EnvironmentSensorGrpcServiceTest()
+        private async Task HealthSensorGrpcServiceTest()
         {
             var cts = SetupCancellation();
-            var client = SetupGrpc();
+            var channel = SetupGrpc();
+            var client = new HealthSensorGrpcService.HealthSensorGrpcServiceClient(channel);
+
 
             while (true)
             {
@@ -61,7 +68,27 @@ namespace NucuCar.TestClient.Sensors
                     break;
                 }
 
-                await Task.Delay(1000);
+                await Task.Delay(1000, cts.Token);
+
+                var measurementJson = await client.GetCpuTemperatureAsync(new Empty());
+                _logger.LogInformation("CpuTemperature: " + measurementJson.JsonData);
+            }
+        }
+
+        public async Task EnvironmentSensorGrpcServiceTest()
+        {
+            var cts = SetupCancellation();
+            var channel = SetupGrpc();
+            var client = new EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient(channel);
+
+            while (true)
+            {
+                if (cts.Token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                await Task.Delay(1000, cts.Token);
 
                 var reply = await client.GetStateAsync(new Empty());
                 var state = reply.State;
@@ -87,7 +114,7 @@ namespace NucuCar.TestClient.Sensors
             return cts;
         }
 
-        private EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient SetupGrpc()
+        private GrpcChannel SetupGrpc()
         {
             // Used to allow gRPC calls over unsecured HTTP.
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
@@ -103,9 +130,7 @@ namespace NucuCar.TestClient.Sensors
 
             var channel = GrpcChannel.ForAddress(GrpcServiceAddress,
                 new GrpcChannelOptions {HttpClient = httpClient});
-            var client = new EnvironmentSensorGrpcService.EnvironmentSensorGrpcServiceClient(channel);
-
-            return client;
+            return channel;
         }
     }
 }

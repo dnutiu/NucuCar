@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Environment;
+using NucuCar.Sensors.Health;
 
 namespace NucuCar.Sensors
 {
@@ -31,6 +32,7 @@ namespace NucuCar.Sensors
             {
                 // Add the gRPC services here.
                 endpoints.MapGrpcService<Bme680GrpcService>();
+                endpoints.MapGrpcService<CpuTempGrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>
