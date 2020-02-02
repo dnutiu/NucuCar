@@ -3,7 +3,9 @@
 ## Solution Information
 
 An attempt to create a remote controlled toy car. 
-Powered by Raspberry Pi and .Net Core 3.0.
+Powered by Raspberry Pi and .Net Core 3.1.
+
+https://docs.microsoft.com/en-us/dotnet/core/install/
 
 [![CircleCI](https://circleci.com/gh/dnutiu/NucuCar.svg?style=svg)](https://circleci.com/gh/dnutiu/NucuCar)
 
