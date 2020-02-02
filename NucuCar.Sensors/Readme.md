@@ -33,4 +33,4 @@ Sensor capabilities:
 * Temperature
 * Barometric Pressure
 * Humidity
-* VOC Gas (Currently not implemented in binding)
+* VOC Gas (Gas Resistance)
