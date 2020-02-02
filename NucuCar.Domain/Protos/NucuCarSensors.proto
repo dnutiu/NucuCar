@@ -9,23 +9,21 @@ enum SensorStateEnum {
     Uninitialized = 1;
     Initialized = 2;
     Disabled = 3;
+    GrpcDisabled = 4;
 }
 
 // Environment Sensor
 service EnvironmentSensorGrpcService {
-    rpc GetState(google.protobuf.Empty) returns (NucuCarSensorState) {}
     rpc GetMeasurement(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
 }
 
+// Health Sensor
 service HealthSensorGrpcService {
     rpc GetCpuTemperature(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
 }
 
+// Responses
 message NucuCarSensorResponse {
     SensorStateEnum State = 1;
     string JsonData = 2;
-}
-
-message NucuCarSensorState {
-    SensorStateEnum state = 1;
 }

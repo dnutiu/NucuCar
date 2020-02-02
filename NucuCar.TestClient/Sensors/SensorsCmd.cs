@@ -71,6 +71,7 @@ namespace NucuCar.TestClient.Sensors
                 await Task.Delay(1000, cts.Token);
 
                 var measurementJson = await client.GetCpuTemperatureAsync(new Empty());
+                _logger.LogInformation("State: " + measurementJson.State);
                 _logger.LogInformation("CpuTemperature: " + measurementJson.JsonData);
             }
         }
@@ -89,14 +90,9 @@ namespace NucuCar.TestClient.Sensors
                 }
 
                 await Task.Delay(1000, cts.Token);
-
-                var reply = await client.GetStateAsync(new Empty());
-                var state = reply.State;
-
-                _logger.LogInformation("EnvironmentSensorState: " + state);
-                if (state != SensorStateEnum.Initialized) continue;
-
+                
                 var measurementJson = await client.GetMeasurementAsync(new Empty());
+                _logger.LogInformation("State " +  measurementJson.State);
                 _logger.LogInformation(measurementJson.JsonData);
             }
         }

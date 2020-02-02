@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Environment;
 using NucuCar.Sensors.Health;
 
-namespace NucuCar.Sensors
+namespace NucuCar.Sensors.Grpc
 {
     public class GrpcStartup
     {

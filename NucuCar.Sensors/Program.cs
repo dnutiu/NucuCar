@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Environment;
+using NucuCar.Sensors.Grpc;
 using NucuCar.Sensors.Health;
 using NucuCar.Sensors.Telemetry;
 
