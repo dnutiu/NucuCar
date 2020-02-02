@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Device.I2c;
 using System.Threading.Tasks;
-using Iot.Device.Bmxx80;
-using Iot.Device.Bmxx80.PowerMode;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Domain.Sensors;
+using NucuCar.Sensors.Environment.Bmxx80;
 using NucuCarSensorsProto;
+using Bme680 = NucuCar.Sensors.Environment.Bmxx80.Bme680;
+using Bme680PowerMode = NucuCar.Sensors.Environment.Bmxx80.PowerMode.Bme680PowerMode;
+using Sampling = NucuCar.Sensors.Environment.Bmxx80.Sampling;
 
 namespace NucuCar.Sensors.Environment
 {
@@ -19,7 +21,7 @@ namespace NucuCar.Sensors.Environment
         public double Pressure { get; set; }
         public double VolatileOrganicCompounds { get; set; }
     }
-    
+
     /// <summary>
     /// Abstraction for the BME680 sensor.
     /// See: https://www.bosch-sensortec.com/bst/products/all_products/bme680
@@ -88,9 +90,11 @@ namespace NucuCar.Sensors.Environment
 
                 /* Initialize measurement */
                 _bme680.Reset();
-                _bme680.SetHumiditySampling(Sampling.UltraLowPower);
-                _bme680.SetTemperatureSampling(Sampling.UltraHighResolution);
-                _bme680.SetPressureSampling(Sampling.UltraLowPower);
+                _bme680.TemperatureSampling = Sampling.HighResolution;
+                _bme680.HumiditySampling = Sampling.HighResolution;
+                _bme680.PressureSampling = Sampling.HighResolution;
+                _bme680.HeaterProfile = Bme680HeaterProfile.Profile2;
+
                 CurrentState = SensorStateEnum.Initialized;
 
                 Logger?.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
@@ -109,14 +113,24 @@ namespace NucuCar.Sensors.Environment
             {
                 throw new InvalidOperationException("Can't take measurement on uninitialized sensor!");
             }
-
+            
+            _bme680.ConfigureHeatingProfile(Bme680HeaterProfile.Profile2, 
+                280, 80, _lastMeasurement.Temperature);
+            var measurementDuration = _bme680.GetMeasurementDuration(_bme680.HeaterProfile);
+            
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
+            await Task.Delay(measurementDuration);
 
-            _lastMeasurement.Temperature = (await _bme680.ReadTemperatureAsync()).Celsius;
-            _lastMeasurement.Pressure = await _bme680.ReadPressureAsync();
-            _lastMeasurement.Humidity = await _bme680.ReadHumidityAsync();
-            _lastMeasurement.VolatileOrganicCompounds = 0.0; // Not implemented.
+            _bme680.TryReadTemperature(out var temp);
+            _bme680.TryReadHumidity(out var humidity);
+            _bme680.TryReadPressure(out var pressure);
+            _bme680.TryReadGasResistance(out var gasResistance);
+
+            _lastMeasurement.Temperature = temp.Celsius;
+            _lastMeasurement.Pressure = pressure.Hectopascal;
+            _lastMeasurement.Humidity = humidity;
+            _lastMeasurement.VolatileOrganicCompounds = gasResistance;
 
             Logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
             Logger?.LogInformation(
