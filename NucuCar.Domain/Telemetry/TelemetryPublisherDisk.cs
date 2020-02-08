@@ -11,7 +11,7 @@ using NucuCar.Domain.Utilities;
 namespace NucuCar.Domain.Telemetry
 {
     /// <summary>
-    /// The TelemetryPublisherDisk is used to publish telemetry data to a file residing on the disk.
+    /// The TelemetryPublisherDisk is used to publish telemetry data to a file on the disk.
     /// </summary>
     public class TelemetryPublisherDisk : TelemetryPublisher
     {
@@ -22,7 +22,7 @@ namespace NucuCar.Domain.Telemetry
         /// Constructs an instance of <see cref="TelemetryPublisherDisk"/>.
         /// <remarks>
         ///    The connection string must contain the following options:
-        ///     Filename (required) - The path of the filename in which to log telemetry data.
+        ///     Filename (optional) - The path of the filename in which to log telemetry data.
         ///     FileExtension (optional) - The extension of the filename. Default csv
         ///     Separator (optional) - The separator of the messages. Default ,
         ///     BufferSize (optional) - The buffer size for the async writer. Default: 4096
@@ -32,7 +32,7 @@ namespace NucuCar.Domain.Telemetry
         public TelemetryPublisherDisk(TelemetryPublisherBuilderOptions opts) : base(opts)
         {
             var connectionStringParams = ConnectionStringParser.Parse(opts.ConnectionString);
-            var fileName = connectionStringParams.GetValueOrDefault("FileName");
+            var fileName = connectionStringParams.GetValueOrDefault("FileName", "telemetry");
             var fileExtension = connectionStringParams.GetValueOrDefault("FileExtension", "csv");
             var bufferSize = connectionStringParams.GetValueOrDefault("BufferSize", "4096");
             _separator = connectionStringParams.GetValueOrDefault("Separator", ",");

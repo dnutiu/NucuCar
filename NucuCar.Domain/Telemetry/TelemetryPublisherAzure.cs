@@ -8,6 +8,13 @@ using Newtonsoft.Json;
 
 namespace NucuCar.Domain.Telemetry
 {
+    /// <summary>
+    /// Constructs an instance of <see cref="TelemetryPublisherAzure"/>. It is used to publish telemetry to Microsoft
+    /// Azure IotHub
+    /// <remarks>
+    ///    The connection string can be found in your Azure IotHub.
+    /// </remarks>
+    /// </summary>
     public class TelemetryPublisherAzure : TelemetryPublisher
     {
         protected readonly DeviceClient DeviceClient;

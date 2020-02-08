@@ -8,5 +8,6 @@ namespace NucuCar.Domain.Telemetry
     {
         public const string Azure = "Azure";
         public const string Disk = "Disk";
+        public const string Firestore = "Firestore";
     }
 }

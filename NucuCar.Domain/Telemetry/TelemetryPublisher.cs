@@ -115,7 +115,7 @@ namespace NucuCar.Domain.Telemetry
             var metadata = new Dictionary<string, object>
             {
                 ["source"] = TelemetrySource ?? nameof(TelemetryPublisher),
-                ["timestamp"] = DateTime.Now,
+                ["timestamp"] = DateTime.UtcNow,
                 ["data"] = data.ToArray()
             };
             return metadata;
