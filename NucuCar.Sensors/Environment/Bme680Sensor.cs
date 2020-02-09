@@ -130,7 +130,7 @@ namespace NucuCar.Sensors.Environment
             _lastMeasurement.Temperature = temp.Celsius;
             _lastMeasurement.Pressure = pressure.Hectopascal;
             _lastMeasurement.Humidity = humidity;
-            _lastMeasurement.VolatileOrganicCompounds = gasResistance;
+            _lastMeasurement.VolatileOrganicCompounds = Math.Round(gasResistance / 1000, 2);
 
             Logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
             Logger?.LogInformation(
