@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Cloud.Firestore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NucuCar.Domain.Utilities;
 
 namespace NucuCar.Domain.Telemetry
@@ -22,8 +24,7 @@ namespace NucuCar.Domain.Telemetry
     /// </summary>
     public class TelemetryPublisherFirestore : TelemetryPublisher
     {
-        private readonly FirestoreDb _database;
-        private readonly string _firestoreCollection;
+        private readonly HttpClient _httpClient;
         private readonly int _timeout;
 
         public TelemetryPublisherFirestore(TelemetryPublisherBuilderOptions opts) : base(opts)
@@ -36,16 +37,19 @@ namespace NucuCar.Domain.Telemetry
                     $"Missing ProjectId!");
             }
 
-            if (!options.TryGetValue("CollectionName", out _firestoreCollection))
+            if (!options.TryGetValue("CollectionName", out var firestoreCollection))
             {
                 Logger?.LogCritical(
                     $"Can't start {nameof(TelemetryPublisherFirestore)}! Malformed connection string! " +
                     $"Missing CollectionName!");
             }
+
             _timeout = int.Parse(options.GetValueOrDefault("Timeout", "10000"));
 
-
-            _database = FirestoreDb.Create(firestoreProjectId);
+            var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
+                             $"databases/(default)/documents/{firestoreCollection}/";
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri(requestUrl);
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
         }
 
@@ -55,14 +59,14 @@ namespace NucuCar.Domain.Telemetry
             {
                 return;
             }
-
-            var docRef = _database.Collection(_firestoreCollection).Document();
-            var data = GetTelemetry();
+            
             var cts = new CancellationTokenSource();
             cts.CancelAfter(_timeout);
             try
             {
-                await docRef.SetAsync(data, cancellationToken: cts.Token);
+                var data = FirebaseRestTranslator.Translate(null, GetTelemetry());
+                var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                await _httpClient.PostAsync("", content, cts.Token);
                 Logger?.LogInformation("Published data to Firestore!");
             }
             catch (Exception e)

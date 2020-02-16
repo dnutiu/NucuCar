@@ -66,7 +66,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Utilities
         public void Test_FireBaseTranslator_Parse()
         {
             var expectedJson =
-                "{\"name\":\"Test\",\"fields\":{\"source\":{\"stringValue\":\"NucuCar.Sensors\"},\"timestamp\":{\"timestampValue\":\"2019-12-01T23:26:13.5537227+02:00\"},\"data\":{\"arrayValue\":{\"values\":[{\"mapValue\":{\"fields\":{\"sensor_state\":{\"integerValue\":2},\"cpu_temperature\":{\"doubleValue\":48.849998474121094},\"_id\":{\"stringValue\":\"CpuTemperature\"}}}},{\"mapValue\":{\"fields\":{\"sensor_state\":{\"integerValue\":2},\"temperature\":{\"doubleValue\":32.65},\"humidity\":{\"doubleValue\":100.0},\"pressure\":{\"doubleValue\":62228.49},\"voc\":{\"doubleValue\":0.0},\"_id\":{\"stringValue\":\"Bme680-Sensor\"}}}}]}}}}";
+                "{\"name\":\"Test\",\"fields\":{\"source\":{\"stringValue\":\"NucuCar.Sensors\"},\"timestamp\":{\"stringValue\":\"2019-12-01T23:26:13.5537227+02:00\"},\"data\":{\"arrayValue\":{\"values\":[{\"mapValue\":{\"fields\":{\"sensor_state\":{\"integerValue\":2},\"cpu_temperature\":{\"doubleValue\":48.849998474121094},\"_id\":{\"stringValue\":\"CpuTemperature\"}}}},{\"mapValue\":{\"fields\":{\"sensor_state\":{\"integerValue\":2},\"temperature\":{\"doubleValue\":32.65},\"humidity\":{\"doubleValue\":100.0},\"pressure\":{\"doubleValue\":62228.49},\"voc\":{\"doubleValue\":0.0},\"_id\":{\"stringValue\":\"Bme680-Sensor\"}}}}]}}}}";
             var basicTelemetryData = getBasicTelemetryData();
             var result = FirebaseRestTranslator.Translate("Test", basicTelemetryData);
             var json = JsonConvert.SerializeObject(result);

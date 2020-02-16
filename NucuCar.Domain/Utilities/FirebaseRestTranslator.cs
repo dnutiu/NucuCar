@@ -12,11 +12,15 @@ namespace NucuCar.Domain.Utilities
         {
             return BuildRoot(name, dict);
         }
-        
+
         private static Dictionary<string, object> BuildRoot(string name, Dictionary<string, object> dict)
         {
             var root = new Dictionary<string, object>();
-            root["name"] = name;
+            if (name != null)
+            {
+                root["name"] = name;
+            }
+
             root["fields"] = new Dictionary<string, object>();
             // iterate through fields and build leaf
             foreach (var entry in dict)
@@ -24,19 +28,16 @@ namespace NucuCar.Domain.Utilities
                 var fields = (Dictionary<string, object>) root["fields"];
                 fields[entry.Key] = BuildNode(entry.Value);
             }
+
             return root;
         }
-        
+
         private static Dictionary<string, object> BuildNode(object value)
         {
             switch (value)
             {
                 case string v:
                 {
-                    if (DateTime.TryParse(v, out _))
-                    {
-                        return BuildTimestamp(v);
-                    }
                     return BuildString(v);
                 }
                 case int v:
@@ -51,16 +52,31 @@ namespace NucuCar.Domain.Utilities
                 {
                     return BuildBool(v);
                 }
+                case DateTime v:
+                {
+                    return BuildTimestamp(v);
+                }
                 case List<Dictionary<string, object>> v:
                 {
                     return BuildArray(v);
+                }
+                case Dictionary<string, object>[] v:
+                {
+                    return BuildArray(new List<Dictionary<string, object>>(v));
                 }
                 case Dictionary<string, object> v:
                 {
                     return BuildMap(v);
                 }
+                default:
+                {
+                    if (value.GetType().IsEnum)
+                    {
+                        return BuildInteger((int) value);
+                    }
+                    break;
+                }
             }
-
             throw new ArgumentException($"Can't build leaf! Unknown type for: {value}");
         }
 
@@ -71,26 +87,32 @@ namespace NucuCar.Domain.Utilities
                 [type] = value
             };
         }
+
         private static Dictionary<string, object> BuildString(string value)
         {
             return BuildSimpleValue("stringValue", value);
         }
+
         private static Dictionary<string, object> BuildInteger(int value)
         {
             return BuildSimpleValue("integerValue", value);
         }
-        private static Dictionary<string, object> BuildTimestamp(string value)
+
+        private static Dictionary<string, object> BuildTimestamp(DateTime value)
         {
             return BuildSimpleValue("timestampValue", value);
         }
+
         private static Dictionary<string, object> BuildDouble(double value)
         {
             return BuildSimpleValue("doubleValue", value);
         }
+
         private static Dictionary<string, object> BuildBool(bool value)
         {
             return BuildSimpleValue("booleanValue", value);
         }
+
         private static Dictionary<string, object> BuildArray(List<Dictionary<string, object>> array)
         {
             var values = new List<Dictionary<string, object>>();
@@ -101,11 +123,12 @@ namespace NucuCar.Domain.Utilities
                     ["values"] = values
                 }
             };
-            
+
             foreach (var entry in array)
             {
                 values.Add(BuildNode(entry));
             }
+
             return root;
         }
 
@@ -123,6 +146,7 @@ namespace NucuCar.Domain.Utilities
             {
                 fields[entry.Key] = BuildNode(entry.Value);
             }
+
             return root;
         }
     }
