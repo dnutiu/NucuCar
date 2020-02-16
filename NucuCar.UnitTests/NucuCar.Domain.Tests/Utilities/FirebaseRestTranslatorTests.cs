@@ -29,11 +29,8 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Utilities
      */
     public class FirebaseRestTranslatorTests
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
         public FirebaseRestTranslatorTests(ITestOutputHelper testOutputHelper)
         {
-            _testOutputHelper = testOutputHelper;
         }
 
         private Dictionary<string, object> getBasicTelemetryData()
