@@ -85,13 +85,19 @@ namespace NucuCar.Domain.Utilities
         }
         private static Dictionary<string, object> BuildArray(List<Dictionary<string, object>> array)
         {
-            var root = new Dictionary<string, object>();
             var values = new List<Dictionary<string, object>>();
+            var root = new Dictionary<string, object>
+            {
+                ["arrayValue"] = new Dictionary<string, object>
+                {
+                    ["values"] = values
+                }
+            };
+            
             foreach (var entry in array)
             {
                 values.Add(BuildNode(entry));
             }
-            root["values"] = values;
             return root;
         }
 
