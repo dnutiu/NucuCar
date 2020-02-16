@@ -14,7 +14,7 @@ namespace NucuCar.Domain.Telemetry
     /// This class is used to publish the telemetry data to Google's Cloud Firestore.
     /// Requires the environment variable: GOOGLE_APPLICATION_CREDENTIALS to be set.
     /// See: https://cloud.google.com/docs/authentication/getting-started
-    /// or Firebase > Project Settings > Service Accounts
+    /// or Firebase > Project Settings > Service Accounts (Authentication is not implemented!)
     /// <remarks>
     ///    The connection string has the following parameters:
     ///    ProjectId (required) — The string for the Firestore project id.
