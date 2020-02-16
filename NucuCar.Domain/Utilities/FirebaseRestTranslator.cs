@@ -47,6 +47,10 @@ namespace NucuCar.Domain.Utilities
                 {
                     return BuildDouble(v);
                 }
+                case bool v:
+                {
+                    return BuildBool(v);
+                }
                 case List<Dictionary<string, object>> v:
                 {
                     return BuildArray(v);
@@ -82,6 +86,10 @@ namespace NucuCar.Domain.Utilities
         private static Dictionary<string, object> BuildDouble(double value)
         {
             return BuildSimpleValue("doubleValue", value);
+        }
+        private static Dictionary<string, object> BuildBool(bool value)
+        {
+            return BuildSimpleValue("booleanValue", value);
         }
         private static Dictionary<string, object> BuildArray(List<Dictionary<string, object>> array)
         {
