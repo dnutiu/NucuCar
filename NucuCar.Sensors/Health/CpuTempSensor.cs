@@ -54,6 +54,10 @@ namespace NucuCar.Sensors.Health
                     CurrentState = SensorStateEnum.Error;
                     _lastTemperatureCelsius = double.NaN;
                 }
+                else
+                {
+                    _lastTemperatureCelsius = Math.Round(_lastTemperatureCelsius, 2);
+                }
             }
             Logger?.LogDebug($"{DateTimeOffset.Now}:HealthSensor: reading");
             Logger?.LogInformation($"CPU Temperature {_lastTemperatureCelsius}");
