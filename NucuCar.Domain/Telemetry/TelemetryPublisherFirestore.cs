@@ -64,7 +64,7 @@ namespace NucuCar.Domain.Telemetry
             cts.CancelAfter(_timeout);
             try
             {
-                var data = FirebaseRestTranslator.Translate(null, GetTelemetry());
+                var data = FirebaseRestTranslator.Translator.Translate(null, GetTelemetry());
                 var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
                 await _httpClient.PostAsync("", content, cts.Token);
                 Logger?.LogInformation("Published data to Firestore!");

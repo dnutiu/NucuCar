@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/denis/.nuget/packages/iot.device.bindings/1.0.0/lib/netcoreapp2.1/Iot.Device.Bindings.dll" /&gt;
+  &lt;Assembly Path="/home/denis/.nuget/packages/firebaseresttranslator/0.1.1/lib/netcoreapp3.0/FirebaseRestTranslator.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
