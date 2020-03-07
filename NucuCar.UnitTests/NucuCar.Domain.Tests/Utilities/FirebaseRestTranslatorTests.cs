@@ -202,5 +202,56 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Utilities
             Assert.Equal(expectedJson, actualJson);
         }
         
+        [Fact]
+        public void Test_FirebaseTranslator_NullValue()
+        {
+            var data = new Dictionary<string, object>()
+            {
+                ["myKey"] = null
+            };
+            var expectedJson = "{\"name\":\"Test_FirebaseTranslator\",\"fields\":{\"myKey\":{\"nullValue\":null}}}";
+            var result = FirebaseRestTranslator.Translate("Test_FirebaseTranslator", data);
+            var actualJson = JsonConvert.SerializeObject(result);
+            Assert.Equal(expectedJson, actualJson);
+        }
+        
+        [Fact]
+        public void Test_FirebaseTranslator_BytesValue()
+        {
+            var data = new Dictionary<string, object>()
+            {
+                ["myKey"] = new byte[] {97, 98, 99, 100, 101, 102, 103, 104, 105 }
+            };
+            var expectedJson = "{\"name\":\"Test_FirebaseTranslator\",\"fields\":{\"myKey\":{\"bytesValue\":\"YWJjZGVmZ2hp\"}}}";
+            var result = FirebaseRestTranslator.Translate("Test_FirebaseTranslator", data);
+            var actualJson = JsonConvert.SerializeObject(result);
+            Assert.Equal(expectedJson, actualJson);
+        }
+        
+        [Fact]
+        public void Test_FirebaseTranslator_ReferenceValue()
+        {
+            var data = new Dictionary<string, object>()
+            {
+                ["myKey"] = new FirebaseRestTranslator.ReferenceValue("test")
+            };
+            var expectedJson = "{\"name\":\"Test_FirebaseTranslator\",\"fields\":{\"myKey\":{\"referenceValue\":\"test\"}}}";
+            var result = FirebaseRestTranslator.Translate("Test_FirebaseTranslator", data);
+            var actualJson = JsonConvert.SerializeObject(result);
+            Assert.Equal(expectedJson, actualJson);
+        }
+        
+        [Fact]
+        public void Test_FirebaseTranslator_GeoPointvalue()
+        {
+            var data = new Dictionary<string, object>()
+            {
+                ["myKey"] = new FirebaseRestTranslator.GeoPointValue(10, 22)
+            };
+            var expectedJson = "{\"name\":\"Test_FirebaseTranslator\",\"fields\":{\"myKey\":{\"geoPointValue\":{\"latitude\":10.0,\"longitude\":22.0}}}}";
+            var result = FirebaseRestTranslator.Translate("Test_FirebaseTranslator", data);
+            var actualJson = JsonConvert.SerializeObject(result);
+            Assert.Equal(expectedJson, actualJson);
+        }
     }
 }

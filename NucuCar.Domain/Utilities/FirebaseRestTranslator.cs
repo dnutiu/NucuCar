@@ -8,6 +8,42 @@ namespace NucuCar.Domain.Utilities
     /// </summary>
     public static class FirebaseRestTranslator
     {
+        public class ReferenceValue
+        {
+            private readonly string _value;
+
+            public ReferenceValue(string value)
+            {
+                _value = value;
+            }
+
+            public override string ToString()
+            {
+                return _value;
+            }
+        }
+
+        public class GeoPointValue
+        {
+            private readonly double _latitude;
+            private readonly double _longitude;
+
+            public GeoPointValue(double latitude, double longitude)
+            {
+                _latitude = latitude;
+                _longitude = longitude;
+            }
+
+            public Dictionary<string, object> ToValue()
+            {
+                return new Dictionary<string, object>
+                {
+                    ["latitude"] = _latitude,
+                    ["longitude"] = _longitude
+                };
+            }
+        }
+
         public static Dictionary<string, object> Translate(string name, Dictionary<string, object> dict)
         {
             return BuildRoot(name, dict);
@@ -52,9 +88,25 @@ namespace NucuCar.Domain.Utilities
                 {
                     return BuildBool(v);
                 }
+                case null:
+                {
+                    return BuildNull(null);
+                }
+                case byte[] v:
+                {
+                    return BuildBytes(v);
+                }
                 case DateTime v:
                 {
                     return BuildTimestamp(v);
+                }
+                case ReferenceValue v:
+                {
+                    return BuildReference(v);
+                }
+                case GeoPointValue v:
+                {
+                    return BuildGeoPoint(v);
                 }
                 case List<Dictionary<string, object>> v:
                 {
@@ -74,9 +126,11 @@ namespace NucuCar.Domain.Utilities
                     {
                         return BuildInteger((int) value);
                     }
+
                     break;
                 }
             }
+
             throw new ArgumentException($"Can't build leaf! Unknown type for: {value}");
         }
 
@@ -112,6 +166,27 @@ namespace NucuCar.Domain.Utilities
         {
             return BuildSimpleValue("booleanValue", value);
         }
+
+        private static Dictionary<string, object> BuildNull(object value)
+        {
+            return BuildSimpleValue("nullValue", value);
+        }
+
+        private static Dictionary<string, object> BuildBytes(byte[] value)
+        {
+            return BuildSimpleValue("bytesValue", Convert.ToBase64String(value));
+        }
+
+        private static Dictionary<string, object> BuildReference(ReferenceValue value)
+        {
+            return BuildSimpleValue("referenceValue", value.ToString());
+        }
+
+        private static Dictionary<string, object> BuildGeoPoint(GeoPointValue value)
+        {
+            return BuildSimpleValue("geoPointValue", value.ToValue());
+        }
+
 
         private static Dictionary<string, object> BuildArray(List<Dictionary<string, object>> array)
         {
