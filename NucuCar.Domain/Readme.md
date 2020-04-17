@@ -31,6 +31,10 @@ dotnet run --Telemetry:ConnectionString=CONNECTION_STRING
 export Telemetry:ConnectionString=CONNECTION_STRING
 ```
 
+The Telemetry:Publisher must be set to: Azure
+
+You may also use the format from above to override any settings in appsettings.json.
+
 ### Reader
 
 A telemetry reader can be found in NucuCar.TestClient. You'll need a connection string that can be found in
@@ -47,8 +51,27 @@ Publishes telemetry on the disk.
 Example connection string:
 `Filename=telemetry;FileExtension=csv;Separator=,;BufferSize=4096`
 
+The Telemetry:Publisher must be set to: Disk
+
 See the source code for comments on the ConnectionString.
 
 ### Reader
 
 You will need to parse the file by yourself.
+
+---
+
+### Firebase Firestore Database
+
+#### Publisher
+
+Publishes telemetry on the firestore.
+
+The Telemetry:Publisher must be set to: Firestore
+
+Example connection string:
+`ProjectId=nucuhub;CollectionName=sensors-telemetry-test;Timeout=1000`
+
+### Reader
+
+You will need use a firebase client or rest API.
