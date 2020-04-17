@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Environment;
 using NucuCar.Sensors.Grpc;
 using NucuCar.Sensors.Health;
-using NucuCar.Sensors.Telemetry;
+using NucuCar.Telemetry;
 
 namespace NucuCar.Sensors
 {

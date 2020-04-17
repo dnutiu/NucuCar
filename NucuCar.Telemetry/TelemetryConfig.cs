@@ -2,7 +2,7 @@
 
 using NucuCar.Domain.Telemetry;
 
-namespace NucuCar.Sensors.Telemetry
+namespace NucuCar.Telemetry
 {
     public class TelemetryConfig
     {

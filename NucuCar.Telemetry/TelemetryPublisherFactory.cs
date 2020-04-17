@@ -1,7 +1,9 @@
 using System;
 using Microsoft.Extensions.Logging;
+using NucuCar.Domain;
+using NucuCar.Domain.Telemetry;
 
-namespace NucuCar.Domain.Telemetry
+namespace NucuCar.Telemetry
 {
     /// <summary>
     /// The TelemetryPublisherFactory is used instantiate TelemetryPublishers.

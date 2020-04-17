@@ -8,9 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
 
-namespace NucuCar.Domain.Telemetry
+namespace NucuCar.Telemetry
 {
     /// <summary>
     /// This class is used to publish the telemetry data to Google's Cloud Firestore.
@@ -66,6 +67,7 @@ namespace NucuCar.Domain.Telemetry
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(requestUrl);
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
+            Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
         }
 
         private async Task SetupAuthenticationHeaders()

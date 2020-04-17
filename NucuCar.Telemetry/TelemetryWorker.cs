@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Domain.Telemetry;
 
-namespace NucuCar.Sensors.Telemetry
+namespace NucuCar.Telemetry
 {
     /// <summary>
     /// Telemetry service, which pools the telemetry sources and pushes telemetry data to the cloud.

@@ -13,7 +13,7 @@ namespace NucuCar.Domain
         /// <param name="argumentName">The argument name that will be logged in the exception message.</param>
         /// <param name="argument">The argument to check if it's null or whitespace.</param>
         /// <exception cref="ArgumentNullException">Raised if the argument is null or whitespace.</exception>
-        internal static void ArgumentNotNullOrWhiteSpace(string argumentName, string argument)
+        public static void ArgumentNotNullOrWhiteSpace(string argumentName, string argument)
         {
             if (string.IsNullOrWhiteSpace(argument))
             {

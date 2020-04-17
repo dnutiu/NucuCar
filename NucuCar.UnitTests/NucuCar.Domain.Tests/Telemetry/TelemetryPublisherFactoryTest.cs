@@ -1,5 +1,6 @@
 using System;
 using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry;
 using Xunit;
 
 namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Telemetry

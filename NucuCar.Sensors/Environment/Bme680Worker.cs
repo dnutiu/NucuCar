@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using NucuCar.Sensors.Telemetry;
+using NucuCar.Telemetry;
 
 namespace NucuCar.Sensors.Environment
 {

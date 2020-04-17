@@ -4,7 +4,7 @@ using NucuCar.Domain.Telemetry;
 
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
-namespace NucuCar.Sensors.Telemetry
+namespace NucuCar.Telemetry
 {
     public class SensorTelemetry
     {

@@ -6,9 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
 
-namespace NucuCar.Domain.Telemetry
+namespace NucuCar.Telemetry
 {
     /// <summary>
     /// The TelemetryPublisherDisk is used to publish telemetry data to a file on the disk.

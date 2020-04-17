@@ -7,6 +7,7 @@ using CommandLine;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry;
 
 namespace NucuCar.TestClient.Telemetry
 {

@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\NucuCar.Domain\NucuCar.Domain.csproj" />
       <ProjectReference Include="..\NucuCar.Sensors\NucuCar.Sensors.csproj" />
+      <ProjectReference Include="..\NucuCar.Telemetry\NucuCar.Telemetry.csproj" />
     </ItemGroup>
 
 </Project>
