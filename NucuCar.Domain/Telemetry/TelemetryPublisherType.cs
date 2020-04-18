@@ -2,7 +2,6 @@ namespace NucuCar.Domain.Telemetry
 {
     /// <summary>
     /// TelemetryPublisherType holds constants for instantiating <see cref="TelemetryPublisher"/>,
-    /// see <see cref="TelemetryPublisherFactory"/>.
     /// </summary>
     public static class TelemetryPublisherType
     {

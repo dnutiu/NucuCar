@@ -4,7 +4,7 @@ namespace NucuCar.Domain.Telemetry
 {
     /// <summary>
     /// Interface that specifies that the component implementing it is willing to provide telemetry data and can be
-    /// registered to a publisher such as <see cref="TelemetryPublisherAzure"/>.
+    /// registered to a publisher such as <see cref="TelemetryPublisher"/>.
     /// </summary>
     public interface ITelemeter
     {
