@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NucuCar.Domain.Utilities;
+using NucuCar.Common.Utilities;
 using Xunit;
 
 namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Utilities
