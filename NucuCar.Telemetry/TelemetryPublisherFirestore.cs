@@ -64,8 +64,7 @@ namespace NucuCar.Telemetry
 
             var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
                              $"databases/(default)/documents/{firestoreCollection}/";
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(requestUrl);
+            _httpClient = new HttpClient {BaseAddress = new Uri(requestUrl)};
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
             Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
         }
