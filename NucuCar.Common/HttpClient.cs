@@ -18,16 +18,7 @@ namespace NucuCar.Common
     {
         #region Fields
 
-        public ILogger Logger;
-
-        // ReSharper disable InconsistentNaming
-        protected int maxRetries;
-
-        protected int timeout;
-        // ReSharper restore InconsistentNaming
-
-        private readonly sNetHttp.HttpClient _httpClient;
-
+        public ILogger Logger { get; set; }
 
         public int MaxRetries
         {
@@ -57,6 +48,14 @@ namespace NucuCar.Common
             }
         }
 
+        // ReSharper disable InconsistentNaming
+        protected int maxRetries;
+
+        protected int timeout;
+        // ReSharper restore InconsistentNaming
+
+        private readonly sNetHttp.HttpClient _httpClient;
+
         #endregion
 
         #region Constructors
@@ -72,7 +71,6 @@ namespace NucuCar.Common
         protected HttpClient(string baseAddress) : this()
         {
             _httpClient.BaseAddress = new Uri(baseAddress);
-            // TODO: Setup logging.
         }
 
         protected HttpClient(string baseAddress, int maxRetries) : this(baseAddress)
