@@ -60,7 +60,7 @@ namespace NucuCar.Common
 
         #region Constructors
 
-        protected HttpClient()
+        public HttpClient()
         {
             _httpClient = new sNetHttp.HttpClient();
             maxRetries = 3;
@@ -68,12 +68,12 @@ namespace NucuCar.Common
             Logger = null;
         }
 
-        protected HttpClient(string baseAddress) : this()
+        public HttpClient(string baseAddress) : this()
         {
             _httpClient.BaseAddress = new Uri(baseAddress);
         }
 
-        protected HttpClient(string baseAddress, int maxRetries) : this(baseAddress)
+        public HttpClient(string baseAddress, int maxRetries) : this(baseAddress)
         {
             MaxRetries = maxRetries;
         }
@@ -94,27 +94,27 @@ namespace NucuCar.Common
             Authorization("Bearer", token);
         }
 
-        public async Task<dynamic> GetAsync(string path)
+        public async Task<sNetHttp.HttpResponseMessage> GetAsync(string path)
         {
             var request = _makeRequest(sNetHttp.HttpMethod.Get, path);
             return await SendAsync(request);
         }
 
-        public async Task<dynamic> PostAsync(string path, Dictionary<string, object> data)
+        public async Task<sNetHttp.HttpResponseMessage> PostAsync(string path, Dictionary<string, object> data)
         {
             var request = _makeRequest(sNetHttp.HttpMethod.Post, path);
             request.Content = _makeContent(data);
             return await SendAsync(request);
         }
 
-        public async Task<dynamic> PutAsync(string path, Dictionary<string, object> data)
+        public async Task<sNetHttp.HttpResponseMessage> PutAsync(string path, Dictionary<string, object> data)
         {
             var request = _makeRequest(sNetHttp.HttpMethod.Put, path);
             request.Content = _makeContent(data);
             return await SendAsync(request);
         }
 
-        public async Task<dynamic> DeleteAsync(string path, Dictionary<string, object> data)
+        public async Task<sNetHttp.HttpResponseMessage> DeleteAsync(string path, Dictionary<string, object> data)
         {
             var request = _makeRequest(sNetHttp.HttpMethod.Delete, path);
             request.Content = _makeContent(data);
@@ -235,5 +235,21 @@ namespace NucuCar.Common
         }
 
         #endregion
+    }
+
+    /// <summary>
+    ///  HttpClientResponseMessageExtension provides extensions methods for the HttpResponseMessage class. 
+    /// </summary>
+    public static class HttpResponseMessageExtension
+    {
+        /// <summary>
+        /// Extension used to deserialize the body of a HttpResponseMessage into Json.
+        /// </summary>
+        /// <param name="responseMessage">The HttpResponseMessage message. <see cref="sNetHttp.HttpResponseMessage"/></param>
+        /// <returns>A JsonElement. <see cref="JsonElement"/></returns>
+        public static async Task<JsonElement> GetJson(this sNetHttp.HttpResponseMessage responseMessage)
+        {
+            return JsonSerializer.Deserialize<JsonElement>(await responseMessage.Content.ReadAsStringAsync());
+        }
     }
 }

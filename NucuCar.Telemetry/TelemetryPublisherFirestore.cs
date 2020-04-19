@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using NucuCar.Common;
 using NucuCar.Common.Utilities;
 using NucuCar.Domain.Telemetry;
 
@@ -31,7 +27,6 @@ namespace NucuCar.Telemetry
     public class TelemetryPublisherFirestore : TelemetryPublisher
     {
         private readonly HttpClient _httpClient;
-        private readonly int _timeout;
 
         private string _idToken;
 
@@ -42,6 +37,7 @@ namespace NucuCar.Telemetry
 
         public TelemetryPublisherFirestore(TelemetryPublisherBuilderOptions opts) : base(opts)
         {
+            // Parse Options
             var options = ConnectionStringParser.Parse(opts.ConnectionString);
             if (!options.TryGetValue("ProjectId", out var firestoreProjectId))
             {
@@ -57,19 +53,20 @@ namespace NucuCar.Telemetry
                     $"Missing CollectionName!");
             }
 
-            _timeout = int.Parse(options.GetValueOrDefault("Timeout", "10000") ?? "10000");
+            var timeout = int.Parse(options.GetValueOrDefault("Timeout", "10000") ?? "10000");
             _webApiKey = options.GetValueOrDefault("WebApiKey", null);
             _webEmail = options.GetValueOrDefault("WebApiEmail", null);
             _webPassword = options.GetValueOrDefault("WebApiPassword", null);
 
+            // Setup HttpClient
             var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
                              $"databases/(default)/documents/{firestoreCollection}/";
-            _httpClient = new HttpClient {BaseAddress = new Uri(requestUrl)};
+            _httpClient = new HttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
             Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
         }
 
-        private async Task SetupAuthenticationHeaders()
+        private async Task SetupAuthorization()
         {
             // Make request
             var requestUrl = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={_webApiKey}";
@@ -79,33 +76,19 @@ namespace NucuCar.Telemetry
                 ["password"] = _webPassword,
                 ["returnSecureToken"] = true
             };
-            // Handle response & setup headers
-            var cts = new CancellationTokenSource();
-            try
+
+            var response = await _httpClient.PostAsync(requestUrl, data);
+
+            if (response?.StatusCode == HttpStatusCode.OK)
             {
-                cts.CancelAfter(_timeout);
-                var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-                var responseMessage = await _httpClient.PostAsync(requestUrl, content, cts.Token);
-                var responseJson =
-                    JsonConvert.DeserializeObject<dynamic>(await responseMessage.Content.ReadAsStringAsync());
-                if (responseMessage.StatusCode == HttpStatusCode.OK)
-                {
-                    _idToken = responseJson.idToken;
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _idToken);
-                }
-                else
-                {
-                    throw new HttpRequestException(responseJson.message ?? "unknown");
-                }
+                var jsonContent = await response.GetJson();
+                _idToken = jsonContent.GetProperty("idToken").ToString();
+                _httpClient.Authorization(_idToken);
             }
-            catch (TaskCanceledException e)
+            else
             {
-                Logger.LogWarning($"FireStore authenticate: Timeout or cancellation occured. Message {e.Message}.\n");
-            }
-            catch (HttpRequestException e)
-            {
-                Logger?.LogError($"Failed to authenticate!\n{e.GetType().FullName}: {e.Message}");
-                throw;
+                Logger?.LogError($"Firestore authentication request failed! {response?.StatusCode}!");
+                Logger?.LogDebug($"{response?.Content}");
             }
         }
 
@@ -116,42 +99,33 @@ namespace NucuCar.Telemetry
                 return;
             }
 
-            var cts = new CancellationTokenSource();
-            try
-            {
-                cts.CancelAfter(_timeout);
-                var data = FirebaseRestTranslator.Translator.Translate(null, GetTelemetry());
-                var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-                var responseMessage = await _httpClient.PostAsync("", content, cts.Token);
-                var responseJson =
-                    JsonConvert.DeserializeObject<dynamic>(await responseMessage.Content.ReadAsStringAsync());
+            var data = FirebaseRestTranslator.Translator.Translate(null, GetTelemetry());
+            var responseMessage = await _httpClient.PostAsync("", data);
 
-                switch (responseMessage.StatusCode)
+            switch (responseMessage?.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    Logger?.LogInformation("Published data to Firestore!");
+                    break;
+                case HttpStatusCode.Forbidden:
                 {
-                    case HttpStatusCode.OK:
-                        Logger?.LogInformation("Published data to Firestore!");
-                        break;
-                    case HttpStatusCode.Forbidden:
-                        Logger.LogWarning("Failed to publish telemetry! Forbidden!");
-                        await SetupAuthenticationHeaders();
-                        break;
-                    default:
-                        throw new HttpRequestException(responseJson.message ?? "unknown error");
+                    Logger?.LogError($"Failed to publish telemetry data! {responseMessage.StatusCode}. Retrying...");
+                    await SetupAuthorization();
+                    responseMessage = await _httpClient.PostAsync("", data);
+                    if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+                    {
+                        Logger?.LogInformation("Published data to Firestore on retry!");
+                    }
+                    else
+                    {
+                        Logger?.LogError($"Failed to publish telemetry data! {responseMessage?.StatusCode}");
+                    }
+
+                    break;
                 }
-            }
-            catch (TaskCanceledException e)
-            {
-                Logger.LogWarning(
-                    $"Firestore publish telemetry: Timeout or cancellation occured. Message {e.Message}.\n");
-            }
-            catch (HttpRequestException e)
-            {
-                Logger?.LogError($"Failed to publish telemetry data!\n{e.GetType().FullName}: {e.Message}");
-                throw;
-            }
-            finally
-            {
-                cts.Dispose();
+                default:
+                    Logger?.LogError($"Failed to publish telemetry data! {responseMessage?.StatusCode}");
+                    break;
             }
         }
 
