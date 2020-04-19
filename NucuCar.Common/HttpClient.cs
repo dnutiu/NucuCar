@@ -186,14 +186,10 @@ namespace NucuCar.Common
         /// <returns></returns>
         private sNetHttp.HttpRequestMessage _makeRequest(sNetHttp.HttpMethod method, string path)
         {
-            var requestUri = path.ToLowerInvariant().StartsWith("http://")
-                ? new Uri(path)
-                : new Uri(_httpClient.BaseAddress, path);
-
             var requestMessage = new sNetHttp.HttpRequestMessage
             {
                 Method = method,
-                RequestUri = requestUri
+                RequestUri = new Uri(_httpClient.BaseAddress, path)
             };
             requestMessage.Headers.Authorization = _httpClient.DefaultRequestHeaders.Authorization;
 
