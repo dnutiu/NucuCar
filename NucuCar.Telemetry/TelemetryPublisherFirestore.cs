@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -26,7 +27,7 @@ namespace NucuCar.Telemetry
     /// </summary>
     public class TelemetryPublisherFirestore : TelemetryPublisher
     {
-        private readonly HttpClient _httpClient;
+        protected HttpClient HttpClient;
 
         private string _idToken;
 
@@ -44,6 +45,7 @@ namespace NucuCar.Telemetry
                 Logger?.LogCritical(
                     $"Can't start {nameof(TelemetryPublisherFirestore)}! Malformed connection string! " +
                     $"Missing ProjectId!");
+                throw new ArgumentException("Malformed connection string!");
             }
 
             if (!options.TryGetValue("CollectionName", out var firestoreCollection))
@@ -51,6 +53,7 @@ namespace NucuCar.Telemetry
                 Logger?.LogCritical(
                     $"Can't start {nameof(TelemetryPublisherFirestore)}! Malformed connection string! " +
                     $"Missing CollectionName!");
+                throw new ArgumentException("Malformed connection string!");
             }
 
             var timeout = int.Parse(options.GetValueOrDefault("Timeout", "10000") ?? "10000");
@@ -61,7 +64,7 @@ namespace NucuCar.Telemetry
             // Setup HttpClient
             var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
                              $"databases/(default)/documents/{firestoreCollection}/";
-            _httpClient = new HttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
+            HttpClient = new HttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
             Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
         }
@@ -77,13 +80,13 @@ namespace NucuCar.Telemetry
                 ["returnSecureToken"] = true
             };
 
-            var response = await _httpClient.PostAsync(requestUrl, data);
+            var response = await HttpClient.PostAsync(requestUrl, data);
 
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var jsonContent = await response.GetJson();
                 _idToken = jsonContent.GetProperty("idToken").ToString();
-                _httpClient.Authorization(_idToken);
+                HttpClient.Authorization(_idToken);
             }
             else
             {
@@ -100,7 +103,7 @@ namespace NucuCar.Telemetry
             }
 
             var data = FirebaseRestTranslator.Translator.Translate(null, GetTelemetry());
-            var responseMessage = await _httpClient.PostAsync("", data);
+            var responseMessage = await HttpClient.PostAsync("", data);
 
             switch (responseMessage?.StatusCode)
             {
@@ -111,7 +114,7 @@ namespace NucuCar.Telemetry
                 {
                     Logger?.LogError($"Failed to publish telemetry data! {responseMessage.StatusCode}. Retrying...");
                     await SetupAuthorization();
-                    responseMessage = await _httpClient.PostAsync("", data);
+                    responseMessage = await HttpClient.PostAsync("", data);
                     if (responseMessage != null && responseMessage.IsSuccessStatusCode)
                     {
                         Logger?.LogInformation("Published data to Firestore on retry!");

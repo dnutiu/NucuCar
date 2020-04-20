@@ -1,4 +1,6 @@
-namespace NucuCar.Domain.Telemetry
+using NucuCar.Domain.Telemetry;
+
+namespace NucuCar.Telemetry
 {
     /// <summary>
     /// TelemetryPublisherType holds constants for instantiating <see cref="TelemetryPublisher"/>,

@@ -1,9 +1,8 @@
 using System;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Telemetry
+namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
 {
     public class TelemetryPublisherFactoryTest
     {
@@ -25,6 +24,16 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Tests.Telemetry
             var telemetryPublisher =
                 TelemetryPublisherFactory.CreateFromConnectionString(TelemetryPublisherType.Disk, connectionString);
             Assert.IsType<TelemetryPublisherDisk>(telemetryPublisher);
+        }
+        
+        [Fact]
+        private void Test_Build_TelemetryPublisherFiresstore()
+        {
+            const string connectionString =
+                "ProjectId=test;CollectionName=test";
+            var telemetryPublisher =
+                TelemetryPublisherFactory.CreateFromConnectionString(TelemetryPublisherType.Firestore, connectionString);
+            Assert.IsType<TelemetryPublisherFirestore>(telemetryPublisher);
         }
 
         [Fact]

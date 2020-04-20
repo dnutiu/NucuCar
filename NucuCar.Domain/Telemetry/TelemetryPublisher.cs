@@ -96,7 +96,7 @@ namespace NucuCar.Domain.Telemetry
         /// It also adds metadata information such as: source and timestamp.
         /// </summary>
         /// <returns>A dictionary containing all telemetry data.</returns>
-        protected Dictionary<string, object> GetTelemetry()
+        protected virtual Dictionary<string, object> GetTelemetry()
         {
             var data = new List<Dictionary<string, object>>();
             foreach (var telemeter in RegisteredTelemeters)
