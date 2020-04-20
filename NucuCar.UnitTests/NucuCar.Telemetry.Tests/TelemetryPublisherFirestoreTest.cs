@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
@@ -134,8 +133,6 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private async Task Test_PublishAsync_Authorization_OK()
         {
             // Setup
-            var sendAsyncInvocations = new List<HttpRequestMessage>();
-
             var opts = new TelemetryPublisherBuilderOptions()
             {
                 ConnectionString = "ProjectId=test;CollectionName=test"
