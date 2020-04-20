@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -28,24 +29,32 @@ namespace NucuCar.Telemetry
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!_serviceEnabled)
+            try
             {
-                _logger.LogInformation("Telemetry service is disabled!");
-                return;
-            }
+                if (!_serviceEnabled)
+                {
+                    _logger.LogInformation("Telemetry service is disabled!");
+                    return;
+                }
 
-            if (_telemetryPublisher == null)
-            {
-                _logger?.LogCritical("Invalid state! TelemetryPublisher is null!");
-                return;
-            }
+                if (_telemetryPublisher == null)
+                {
+                    _logger?.LogCritical("Invalid state! TelemetryPublisher is null!");
+                    return;
+                }
 
-            await Task.Delay(_interval, stoppingToken);
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await _telemetryPublisher.PublishAsync(stoppingToken);
-                _logger?.LogDebug("Telemetry data published!");
                 await Task.Delay(_interval, stoppingToken);
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    await _telemetryPublisher.PublishAsync(stoppingToken);
+                    _logger?.LogDebug("Telemetry data published!");
+                    await Task.Delay(_interval, stoppingToken);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError($"Unhandled exception in TelemetryWorker. {e.Message}");
+                _logger?.LogDebug(e.StackTrace);
             }
         }
     }

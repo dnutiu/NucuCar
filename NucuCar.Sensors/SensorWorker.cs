@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -27,41 +28,50 @@ namespace NucuCar.Sensors
             {
                 return;
             }
+
             var sensorIdentifier = Sensor.GetIdentifier();
             Logger?.LogInformation($"Starting sensor worker for {sensorIdentifier}");
-            TelemetryPublisher?.RegisterTelemeter(Sensor);
-
-            Sensor.Initialize();
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                var sensorState = Sensor.GetState();
-                /* If sensor is ok attempt to read. */
-                if (sensorState == SensorStateEnum.Initialized)
+                TelemetryPublisher?.RegisterTelemeter(Sensor);
+
+                Sensor.Initialize();
+                while (!stoppingToken.IsCancellationRequested)
                 {
-                    Logger?.LogTrace($"{sensorIdentifier} is taking a measurement!");
-                    await Sensor.TakeMeasurementAsync();
-                }
-                /* Else attempt to re-initialize. */
-                else if (sensorState == SensorStateEnum.Uninitialized ||
-                         sensorState == SensorStateEnum.Error)
-                {
-                    Logger?.LogWarning(
-                        $"{sensorIdentifier} is in {sensorState}! Attempting to re-initialize in {_intializationDelay}ms.");
-                    _intializationDelay += 10000;
-                    await Task.Delay(_intializationDelay, stoppingToken);
-                    Sensor.Initialize();
-                }
-                else if (sensorState == SensorStateEnum.Disabled)
-                {
-                    // Break from while.
-                    Logger?.LogInformation($"{sensorIdentifier} has been disabled!");
-                    break;
+                    var sensorState = Sensor.GetState();
+                    /* If sensor is ok attempt to read. */
+                    if (sensorState == SensorStateEnum.Initialized)
+                    {
+                        Logger?.LogTrace($"{sensorIdentifier} is taking a measurement!");
+                        await Sensor.TakeMeasurementAsync();
+                    }
+                    /* Else attempt to re-initialize. */
+                    else if (sensorState == SensorStateEnum.Uninitialized ||
+                             sensorState == SensorStateEnum.Error)
+                    {
+                        Logger?.LogWarning(
+                            $"{sensorIdentifier} is in {sensorState}! Attempting to re-initialize in {_intializationDelay}ms.");
+                        _intializationDelay += 10000;
+                        await Task.Delay(_intializationDelay, stoppingToken);
+                        Sensor.Initialize();
+                    }
+                    else if (sensorState == SensorStateEnum.Disabled)
+                    {
+                        // Break from while.
+                        Logger?.LogInformation($"{sensorIdentifier} has been disabled!");
+                        break;
+                    }
+
+                    await Task.Delay(MeasurementInterval, stoppingToken);
                 }
 
-                await Task.Delay(MeasurementInterval, stoppingToken);
+                TelemetryPublisher?.UnRegisterTelemeter(Sensor);
             }
-
-            TelemetryPublisher?.UnRegisterTelemeter(Sensor);
+            catch (Exception e)
+            {
+                Logger?.LogError($"Unhandled exception in SensorWorker {sensorIdentifier}: {e.Message}");
+                Logger?.LogDebug(e.StackTrace);
+            }
         }
     }
 }
