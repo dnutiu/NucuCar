@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <UserSecretsId>dotnet-NucuCar.BME680Sensor-28FAAD8B-A31F-4BBE-9FF7-30F192D82D6E</UserSecretsId>
-        <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
     
     <ItemGroup>
