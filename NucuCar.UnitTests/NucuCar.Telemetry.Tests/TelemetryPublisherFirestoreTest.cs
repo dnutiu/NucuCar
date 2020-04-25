@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Moq;
 using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
+using NucuCar.UnitTests.NucuCar.Common.Tests;
 using Xunit;
 using HttpClient = NucuCar.Common.HttpClient;
 
@@ -77,31 +78,20 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
                 ConnectionString = "ProjectId=test;CollectionName=test"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new Mock<HttpClient>("http://testing.com");
-            mockHttpClient.Setup(c => c.SendAsync(It.IsAny<HttpRequestMessage>()))
-                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
-
-            publisher.SetHttpClient(mockHttpClient.Object);
+            var mockHttpClient = new MockHttpClient("http://testing.com");
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK));
+            publisher.SetHttpClient(mockHttpClient);
             publisher.SetMockData(new Dictionary<string, object> {["testData"] = 1});
 
             // Run
             await publisher.PublishAsync(CancellationToken.None);
 
             // Assert
-            var expectedContent = "{\"fields\":{\"testData\":{\"integerValue\":1}}}";
-            mockHttpClient.Verify(
-                m => m.SendAsync(
-                    It.Is<HttpRequestMessage>(
-                        request => request.Method.Equals(HttpMethod.Post))));
-            mockHttpClient.Verify(
-                m => m.SendAsync(
-                    It.Is<HttpRequestMessage>(
-                        request => request.RequestUri.Equals(new Uri("http://testing.com")))));
-            mockHttpClient.Verify(
-                m => m.SendAsync(
-                    It.Is<HttpRequestMessage>(
-                        request => request.Content.ReadAsStringAsync().GetAwaiter().GetResult()
-                            .Equals(expectedContent))));
+            var request = mockHttpClient.SendAsyncArgCalls[0];
+            Assert.Equal(HttpMethod.Post, request.Method);
+            Assert.Equal(new Uri("http://testing.com"), request.RequestUri);
+            Assert.Equal("{\"fields\":{\"testData\":{\"integerValue\":1}}}",
+                request.Content.ReadAsStringAsync().GetAwaiter().GetResult());
         }
 
         [Fact]
@@ -113,11 +103,10 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
                 ConnectionString = "ProjectId=test;CollectionName=test"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new Mock<HttpClient>("http://testing.com");
-            mockHttpClient.Setup(c => c.SendAsync(It.IsAny<HttpRequestMessage>()))
-                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
+            var mockHttpClient = new MockHttpClient("http://testing.com");
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK));
 
-            publisher.SetHttpClient(mockHttpClient.Object);
+            publisher.SetHttpClient(mockHttpClient);
             publisher.SetMockData(new Dictionary<string, object> {["testData"] = 1});
             var cts = new CancellationTokenSource();
             cts.Cancel();
@@ -126,7 +115,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
             await publisher.PublishAsync(cts.Token);
 
             // Assert
-            mockHttpClient.Verify(m => m.SendAsync(It.IsAny<HttpRequestMessage>()), Times.Never());
+            Assert.Equal(mockHttpClient.SendAsyncArgCalls.Count, 0);
         }
 
         [Fact]
@@ -135,27 +124,49 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
             // Setup
             var opts = new TelemetryPublisherBuilderOptions()
             {
-                ConnectionString = "ProjectId=test;CollectionName=test"
+                ConnectionString =
+                    "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new Mock<HttpClient>("http://testing.com");
-            mockHttpClient.SetupSequence(c => c.SendAsync(It.IsAny<HttpRequestMessage>()))
-                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.Forbidden)))
-                .Returns(Task.FromResult(
-                    new HttpResponseMessage(HttpStatusCode.OK)
-                        {Content = new StringContent("{\"idToken\":\"testauthtoken\"}")}
-                ))
-                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
+            var mockHttpClient = new MockHttpClient("http://testing.com");
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.Forbidden));
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("{\"idToken\":\"testauthtoken\"}")
+            });
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK));
 
 
-            publisher.SetHttpClient(mockHttpClient.Object);
+            publisher.SetHttpClient(mockHttpClient);
             publisher.SetMockData(new Dictionary<string, object> {["testData"] = 1});
 
             // Run
             await publisher.PublishAsync(CancellationToken.None);
 
             // Assert
-            // Can't verify because moq doesn't support that, damn C#.
+            Assert.Equal(3, mockHttpClient.SendAsyncArgCalls.Count);
+
+            // 1st request - auth denied
+            Assert.Equal(HttpMethod.Post, mockHttpClient.SendAsyncArgCalls[0].Method);
+            Assert.Equal(new Uri("http://testing.com"), mockHttpClient.SendAsyncArgCalls[0].RequestUri);
+            Assert.Equal("{\"fields\":{\"testData\":{\"integerValue\":1}}}",
+                mockHttpClient.SendAsyncArgCalls[0].Content.ReadAsStringAsync().GetAwaiter().GetResult());
+
+            // 2st request - authorizing
+            Assert.Equal(HttpMethod.Post, mockHttpClient.SendAsyncArgCalls[1].Method);
+            Assert.Equal(new Uri("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=TAPIKEY"),
+                mockHttpClient.SendAsyncArgCalls[1].RequestUri);
+            Assert.Equal("{\"email\":\"t@emai.com\",\"password\":\"tpass\",\"returnSecureToken\":true}",
+                mockHttpClient.SendAsyncArgCalls[1].Content.ReadAsStringAsync().GetAwaiter().GetResult());
+
+
+            // 3st request with authorization
+            Assert.Equal(HttpMethod.Post, mockHttpClient.SendAsyncArgCalls[2].Method);
+            Assert.Equal(new Uri("http://testing.com"), mockHttpClient.SendAsyncArgCalls[2].RequestUri);
+            Assert.Equal("{\"fields\":{\"testData\":{\"integerValue\":1}}}",
+                mockHttpClient.SendAsyncArgCalls[2].Content.ReadAsStringAsync().GetAwaiter().GetResult());
+            Assert.Equal(new AuthenticationHeaderValue("Bearer", "testauthtoken"),
+                mockHttpClient.SendAsyncArgCalls[2].Headers.Authorization);
         }
     }
 }

@@ -3,43 +3,29 @@
   &lt;Assembly Path="/home/denis/.nuget/packages/iot.device.bindings/1.0.0/lib/netcoreapp2.1/Iot.Device.Bindings.dll" /&gt;
   &lt;Assembly Path="/home/denis/.nuget/packages/firebaseresttranslator/0.1.1/lib/netcoreapp3.0/FirebaseRestTranslator.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2d4aa020_002D92b4_002D4819_002Da752_002Df0a1e75a5e68/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Test_PublishAsync_Authorization_OK" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=59acec6f_002Dda48_002D4e34_002Dbf2a_002D5b52d718278a/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Test_PublishAsync_Authorization_OK" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Authorization_OK&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Authorization_OK&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8687c1ea_002Dea4c_002D426e_002Da605_002D3d34b0c68f64/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Session" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
   &lt;Or&gt;
     &lt;Or&gt;
-      &lt;Or&gt;
-        &lt;Or&gt;
-          &lt;Or&gt;
-            &lt;Or&gt;
-              &lt;TestAncestor&gt;
-                &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_OK&lt;/TestId&gt;
-              &lt;/TestAncestor&gt;
-              &lt;TestAncestor&gt;
-                &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_BadProjectId&lt;/TestId&gt;
-              &lt;/TestAncestor&gt;
-            &lt;/Or&gt;
-            &lt;TestAncestor&gt;
-              &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_CollectiontName&lt;/TestId&gt;
-            &lt;/TestAncestor&gt;
-          &lt;/Or&gt;
-          &lt;TestAncestor&gt;
-            &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Error_Timeout&lt;/TestId&gt;
-          &lt;/TestAncestor&gt;
-        &lt;/Or&gt;
-        &lt;TestAncestor&gt;
-          &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Cancel&lt;/TestId&gt;
-        &lt;/TestAncestor&gt;
-      &lt;/Or&gt;
       &lt;TestAncestor&gt;
-        &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_UnknownError&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_OK&lt;/TestId&gt;
+      &lt;/TestAncestor&gt;
+      &lt;TestAncestor&gt;
+        &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Cancel&lt;/TestId&gt;
       &lt;/TestAncestor&gt;
     &lt;/Or&gt;
     &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.0::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_AuthorizationFail&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Authorization_OK&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8af539e_002D0b50_002D476d_002Daa84_002D80fbff5a748b/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Test_PublishAsync_OK" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_OK&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
