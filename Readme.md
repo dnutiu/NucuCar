@@ -11,9 +11,19 @@ https://docs.microsoft.com/en-us/dotnet/core/install/
 
 ### NucuCar.Domain
 
-Holds common classes and interfaces that are required by the other projects. 
+Holds common classes and interfaces that are required by the projects. 
 
 It provides all the types that are generated via protocol buffers.
+
+### NucuCar.Common
+
+Contains implementations for common logic, contains wrappers.
+Usually utility classes and methods that are not necessarily tied to this solution
+and can be reused.
+
+### NucuCar.Telemetry
+
+Holds concrete implementation for telemetry publishers and workers.
 
 ### NucuCar.Sensors
 

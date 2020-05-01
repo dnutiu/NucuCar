@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Moq;
 using NucuCar.Sensors;
 using NucuCar.Sensors.Environment;
-using NucuCar.Telemetry;
 using NucuCarSensorsProto;
 using Xunit;
 
@@ -15,7 +14,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
     {
         private readonly Mock<ILogger<Bme680Worker>> _mockLogger;
         private readonly Mock<IOptions<Bme680Config>> _mockOptions;
-        private readonly Mock<SensorTelemetry> _mockSensorTelemetry;
+        private readonly Mock<global::NucuCar.Telemetry.Telemetry> _mockSensorTelemetry;
         private readonly Mock<TestBme680Sensor> _mockTestBme680Sensor;
         private readonly Mock<ISensor<Bme680Sensor>> _mockBme680ISensor;
         private readonly CancellationTokenSource _cts;
@@ -25,7 +24,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
             _cts = new CancellationTokenSource();
             _mockLogger = new Mock<ILogger<Bme680Worker>>();
             _mockOptions = new Mock<IOptions<Bme680Config>>();
-            _mockSensorTelemetry = new Mock<SensorTelemetry>();
+            _mockSensorTelemetry = new Mock<global::NucuCar.Telemetry.Telemetry>();
             _mockTestBme680Sensor = new Mock<TestBme680Sensor>();
             _mockBme680ISensor = new Mock<ISensor<Bme680Sensor>>();
 

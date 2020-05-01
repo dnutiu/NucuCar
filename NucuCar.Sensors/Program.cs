@@ -24,7 +24,7 @@ namespace NucuCar.Sensors
                     services.Configure<CpuTempConfig>(hostContext.Configuration.GetSection("HealthSensor"));
 
                     // Singletons
-                    services.AddSingleton<SensorTelemetry>();
+                    services.AddSingleton<Telemetry.Telemetry>();
                     services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
                     services.AddSingleton<ISensor<CpuTempSensor>, CpuTempSensor>();
                     

@@ -6,15 +6,19 @@ using NucuCar.Domain.Telemetry;
 
 namespace NucuCar.Telemetry
 {
-    public class SensorTelemetry
+    public class Telemetry
     {
         public TelemetryPublisher Publisher { get; set; }
 
-        public SensorTelemetry()
+        /// <summary>
+        /// Class used together with the DI, holds a Publisher instance that's being create by options from
+        /// TelemetryConfig.
+        /// </summary>
+        public Telemetry()
         {
         }
 
-        public SensorTelemetry(ILogger<SensorTelemetry> logger, IOptions<TelemetryConfig> options)
+        public Telemetry(ILogger<Telemetry> logger, IOptions<TelemetryConfig> options)
         {
             if (options.Value.ServiceEnabled)
             {
