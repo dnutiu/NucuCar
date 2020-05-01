@@ -1,6 +1,7 @@
 bin/
 obj/
 /packages/
+/node_modules/
 .idea/
 .vs
 NucuCar.Sensors/firebaseConfig.json
