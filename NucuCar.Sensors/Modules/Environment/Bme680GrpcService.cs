@@ -26,16 +26,16 @@ namespace NucuCar.Sensors.Modules.Environment
             _options = options;
         }
 
-        public override Task<NucuCarSensorResponse> GetMeasurement(Empty request,
+        public override async Task<NucuCarSensorResponse> GetMeasurement(Empty request,
             ServerCallContext context)
         {
             _logger?.LogDebug($"Calling {nameof(GetMeasurement)}.");
             if (_options.Value.Grpc)
             {
-                return Task.FromResult(_bme680Sensor.Object.GetMeasurement());
+                return await Task.FromResult(_bme680Sensor.Object.GetMeasurement());
             }
 
-            return Task.FromResult(Responses.GrpcIsDisabledResponse);
+            return await Task.FromResult(Responses.GrpcIsDisabledResponse);
         }
     }
 }

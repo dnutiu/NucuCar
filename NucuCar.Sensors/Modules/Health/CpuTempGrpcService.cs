@@ -23,15 +23,15 @@ namespace NucuCar.Sensors.Modules.Health
             _options = options;
         }
 
-        public override Task<NucuCarSensorResponse> GetCpuTemperature(Empty request, ServerCallContext context)
+        public override async Task<NucuCarSensorResponse> GetCpuTemperature(Empty request, ServerCallContext context)
         {
             _logger?.LogDebug($"Calling {nameof(GetCpuTemperature)}.");
             if (_options.Value.Grpc)
             {
-                return Task.FromResult(_sensor.Object.GetMeasurement());
+                return await Task.FromResult(_sensor.Object.GetMeasurement());
             }
 
-            return Task.FromResult(Responses.GrpcIsDisabledResponse);
+            return await Task.FromResult(Responses.GrpcIsDisabledResponse);
         }
     }
 }
