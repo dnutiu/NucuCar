@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using NucuCar.Sensors.Abstractions;
 using NucuCar.Telemetry;
 
 namespace NucuCar.Sensors.Health

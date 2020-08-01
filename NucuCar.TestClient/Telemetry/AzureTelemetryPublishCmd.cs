@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using CommandLine;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.TestClient.Telemetry
 {

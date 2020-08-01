@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using NucuCar.Domain.Sensors;
+using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Environment.Bmxx80;
 using NucuCarSensorsProto;
 using Bme680 = NucuCar.Sensors.Environment.Bmxx80.Bme680;

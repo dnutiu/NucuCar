@@ -1,6 +1,4 @@
-using NucuCar.Domain.Sensors;
-
-namespace NucuCar.Sensors
+namespace NucuCar.Sensors.Abstractions
 {
     public interface ISensor<out TSensor> where TSensor : GenericTelemeterSensor
     {

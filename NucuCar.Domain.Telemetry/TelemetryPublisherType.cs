@@ -1,4 +1,4 @@
-using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Telemetry
 {

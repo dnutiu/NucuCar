@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Grpc;
 using NucuCarSensorsProto;
 

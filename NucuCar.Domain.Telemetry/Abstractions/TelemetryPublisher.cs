@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using NucuCar.Telemetry.Publishers;
 
-namespace NucuCar.Domain.Telemetry
+namespace NucuCar.Telemetry.Abstractions
 {
     /// <summary>
     /// The TelemetryPublisher is an abstract class, which provides a base for implementing telemetry publishers.
@@ -83,8 +84,8 @@ namespace NucuCar.Domain.Telemetry
         /// <summary>
         /// Constructor for <see cref="TelemetryPublisher"/>.
         /// </summary>
-        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherBuilderOptions"/></param>
-        protected TelemetryPublisher(TelemetryPublisherBuilderOptions opts)
+        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherOptions"/></param>
+        protected TelemetryPublisher(TelemetryPublisherOptions opts)
         {
             ConnectionString = opts.ConnectionString;
             TelemetrySource = opts.TelemetrySource;

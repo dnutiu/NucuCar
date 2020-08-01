@@ -5,7 +5,7 @@ using Iot.Device.CpuTemperature;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using NucuCar.Domain.Sensors;
+using NucuCar.Sensors.Abstractions;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.Health

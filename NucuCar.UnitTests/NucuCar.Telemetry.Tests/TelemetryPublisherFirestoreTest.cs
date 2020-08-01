@@ -6,8 +6,9 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using NucuCar.Domain.Http;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
+using NucuCar.Telemetry.Abstractions;
+using NucuCar.Telemetry.Publishers;
 using Xunit;
 using HttpClient = NucuCar.Domain.Http.HttpClient;
 
@@ -20,7 +21,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
     {
         private Dictionary<string, object> _mockData;
 
-        public MockTelemetryPublisherFirestore(TelemetryPublisherBuilderOptions opts) : base(opts)
+        public MockTelemetryPublisherFirestore(TelemetryPublisherOptions opts) : base(opts)
         {
             _mockData = new Dictionary<string, object>();
         }
@@ -47,7 +48,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private void Test_Construct_BadProjectId()
         {
             // Setup
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
             {
                 ConnectionString = "ProjectIdBAD=test;CollectionName=test"
             };
@@ -60,7 +61,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private void Test_Construct_BadCollectiontName()
         {
             // Setup
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
             {
                 ConnectionString = "ProjectId=test;CollectionNameBAD=test"
             };
@@ -73,7 +74,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private async Task Test_PublishAsync_OK()
         {
             // Setup
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
             {
                 ConnectionString = "ProjectId=test;CollectionName=test"
             };
@@ -98,7 +99,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private async Task Test_PublishAsync_Cancel()
         {
             // Setup
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
             {
                 ConnectionString = "ProjectId=test;CollectionName=test"
             };
@@ -122,7 +123,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
         private async Task Test_PublishAsync_Authorization_OK()
         {
             // Setup
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
             {
                 ConnectionString =
                     "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NucuCar.Domain.Telemetry
+namespace NucuCar.Telemetry.Abstractions
 {
     /// <summary>
     /// Interface that specifies that the component implementing it is willing to provide telemetry data and can be

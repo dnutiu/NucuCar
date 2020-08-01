@@ -4,12 +4,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using NucuCar.Domain;
 using NucuCar.Domain.Http;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
+using NucuCar.Telemetry.Abstractions;
 
-namespace NucuCar.Telemetry
+namespace NucuCar.Telemetry.Publishers
 {
     /// <summary>
     /// This class is used to publish the telemetry data to Google's Cloud Firestore.
@@ -37,7 +36,7 @@ namespace NucuCar.Telemetry
         private readonly string _webPassword;
         private readonly string _webApiKey;
 
-        public TelemetryPublisherFirestore(TelemetryPublisherBuilderOptions opts) : base(opts)
+        public TelemetryPublisherFirestore(TelemetryPublisherOptions opts) : base(opts)
         {
             // Parse Options
             var options = ConnectionStringParser.Parse(opts.ConnectionString);

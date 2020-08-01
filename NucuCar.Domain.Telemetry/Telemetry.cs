@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 

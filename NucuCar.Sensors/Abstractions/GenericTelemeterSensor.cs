@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
-namespace NucuCar.Domain.Sensors
+namespace NucuCar.Sensors.Abstractions
 {
     /// <summary>
     /// The GenericSensor is an abstract class, which provides a base for abstracting hardware sensors
     /// with telemetry support.
     /// See: <see cref="ITelemeter"/>
-    /// See: <see cref="GenericSensor"/>
+    /// See: <see cref="NucuCar.Sensors.GenericSensor"/>
     /// </summary>
     public abstract class GenericTelemeterSensor : GenericSensor, ITelemeter
     {

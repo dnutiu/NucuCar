@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NucuCarSensorsProto;
 
-namespace NucuCar.Domain.Sensors
+namespace NucuCar.Sensors.Abstractions
 {
     /// <summary>
     /// The GenericSensor is an abstract class, which provides a base for abstracting hardware sensors.

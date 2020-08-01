@@ -1,7 +1,8 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
+using NucuCar.Telemetry.Abstractions;
+using NucuCar.Telemetry.Publishers;
 
 namespace NucuCar.Telemetry
 {
@@ -24,7 +25,7 @@ namespace NucuCar.Telemetry
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             Guard.ArgumentNotNullOrWhiteSpace(nameof(telemetrySource), telemetrySource);
             Guard.ArgumentNotNull(nameof(logger), logger);
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
                 {ConnectionString = connectionString, TelemetrySource = telemetrySource, Logger = logger};
             return SpawnPublisher(type, opts);
         }
@@ -38,12 +39,12 @@ namespace NucuCar.Telemetry
         public static TelemetryPublisher CreateFromConnectionString(string type, string connectionString)
         {
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
-            var opts = new TelemetryPublisherBuilderOptions()
+            var opts = new TelemetryPublisherOptions()
                 {ConnectionString = connectionString, TelemetrySource = "TelemetryPublisherAzure"};
             return SpawnPublisher(type, opts);
         }
 
-        private static TelemetryPublisher SpawnPublisher(string type, TelemetryPublisherBuilderOptions opts)
+        private static TelemetryPublisher SpawnPublisher(string type, TelemetryPublisherOptions opts)
         {
             return type switch
             {

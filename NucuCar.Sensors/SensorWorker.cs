@@ -3,8 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NucuCar.Domain.Sensors;
-using NucuCar.Domain.Telemetry;
+using NucuCar.Sensors.Abstractions;
+using NucuCar.Telemetry.Abstractions;
 using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NucuCar.Domain.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
-namespace NucuCar.Telemetry
+namespace NucuCar.Telemetry.Publishers
 {
     /// <summary>
     /// Constructs an instance of <see cref="TelemetryPublisherAzure"/>. It is used to publish telemetry to Microsoft
@@ -20,7 +20,7 @@ namespace NucuCar.Telemetry
     {
         protected readonly DeviceClient DeviceClient;
 
-        public TelemetryPublisherAzure(TelemetryPublisherBuilderOptions opts) : base(opts)
+        public TelemetryPublisherAzure(TelemetryPublisherOptions opts) : base(opts)
         {
             try
             {

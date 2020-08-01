@@ -6,10 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
+using NucuCar.Telemetry.Abstractions;
 
-namespace NucuCar.Telemetry
+namespace NucuCar.Telemetry.Publishers
 {
     /// <summary>
     /// The TelemetryPublisherDisk is used to publish telemetry data to a file on the disk.
@@ -30,7 +30,7 @@ namespace NucuCar.Telemetry
         /// </remarks>
         /// </summary>
         /// <param name="opts"></param>
-        public TelemetryPublisherDisk(TelemetryPublisherBuilderOptions opts) : base(opts)
+        public TelemetryPublisherDisk(TelemetryPublisherOptions opts) : base(opts)
         {
             var connectionStringParams = ConnectionStringParser.Parse(opts.ConnectionString);
             var fileName = connectionStringParams.GetValueOrDefault("FileName", "telemetry");

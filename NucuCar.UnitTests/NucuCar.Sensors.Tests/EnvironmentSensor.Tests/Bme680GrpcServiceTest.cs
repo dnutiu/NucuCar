@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NucuCar.Sensors;
+using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Environment;
 using NucuCarSensorsProto;
 using Xunit;
