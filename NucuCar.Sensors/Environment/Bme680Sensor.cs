@@ -101,9 +101,11 @@ namespace NucuCar.Sensors.Environment
             }
             catch (System.IO.IOException e)
             {
-                Logger?.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
-                Logger?.LogTrace(e.Message);
-                CurrentState = SensorStateEnum.Error;
+                HandleInitializationException(e);
+            }
+            catch (ArgumentException e)
+            {
+                HandleInitializationException(e);
             }
         }
 
@@ -169,5 +171,12 @@ namespace NucuCar.Sensors.Environment
         }
 
         public Bme680Sensor Object { get; }
+
+        private void HandleInitializationException(Exception e)
+        {
+            Logger?.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
+            Logger?.LogDebug(e.Message);
+            CurrentState = SensorStateEnum.Error;
+        }
     }
 }
