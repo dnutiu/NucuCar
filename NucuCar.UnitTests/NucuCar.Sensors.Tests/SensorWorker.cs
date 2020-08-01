@@ -5,12 +5,16 @@ using Microsoft.Extensions.Options;
 using Moq;
 using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Modules.Environment;
-using NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests;
+using NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor;
 using NucuCarSensorsProto;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor
+namespace NucuCar.UnitTests.NucuCar.Sensors.Tests
 {
+    /// <summary>
+    /// Tests the functionality of the SensorWorker; Since the class is quite generic the test uses the
+    /// Bme680Worker as an example.
+    /// </summary>
     public class Bme680WorkerTest
     {
         private readonly Mock<ILogger<Bme680Worker>> _mockLogger;

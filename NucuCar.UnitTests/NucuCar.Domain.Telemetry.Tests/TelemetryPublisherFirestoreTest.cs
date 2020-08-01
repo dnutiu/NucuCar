@@ -7,12 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using NucuCar.Domain.Http;
 using NucuCar.Telemetry;
-using NucuCar.Telemetry.Abstractions;
 using NucuCar.Telemetry.Publishers;
 using Xunit;
 using HttpClient = NucuCar.Domain.Http.HttpClient;
 
-namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
+namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
 {
     /// <summary>
     /// Class used to test the TelemetryPublisherFirestore by mocking the GetTelemetry method and HttpClient field.

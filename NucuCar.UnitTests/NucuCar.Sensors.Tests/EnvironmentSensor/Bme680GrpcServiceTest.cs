@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using NucuCar.Sensors;
 using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Modules.Environment;
 using NucuCarSensorsProto;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor.Tests
+namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor
 {
     public class Bme680GrpcServiceTest
     {
