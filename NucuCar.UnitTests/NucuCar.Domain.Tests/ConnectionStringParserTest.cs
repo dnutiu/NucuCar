@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NucuCar.Domain.Utilities;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Common.Tests
+namespace NucuCar.UnitTests.NucuCar.Domain.Tests
 {
     public class ConnectionStringParserTest
     {

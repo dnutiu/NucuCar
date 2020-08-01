@@ -23,6 +23,6 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8af539e_002D0b50_002D476d_002Daa84_002D80fbff5a748b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test_PublishAsync_OK" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_OK&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Domain.Tests.GuardTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
