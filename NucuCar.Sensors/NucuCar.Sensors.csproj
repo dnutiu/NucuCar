@@ -81,8 +81,4 @@
       <ProjectReference Include="..\NucuCar.Domain.Telemetry\NucuCar.Domain.Telemetry.csproj" />
       <ProjectReference Include="..\NucuCar.Domain\NucuCar.Domain.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Modules" />
-    </ItemGroup>
 </Project>

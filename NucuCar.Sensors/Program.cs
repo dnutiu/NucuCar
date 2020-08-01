@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Abstractions;
-using NucuCar.Sensors.Environment;
 using NucuCar.Sensors.Grpc;
-using NucuCar.Sensors.Health;
+using NucuCar.Sensors.Modules.Environment;
+using NucuCar.Sensors.Modules.Health;
 using NucuCar.Telemetry;
 
 namespace NucuCar.Sensors
