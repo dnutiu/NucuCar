@@ -4,11 +4,11 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using sNetHttp = System.Net.Http;
 using sNetHttpHeaders = System.Net.Http.Headers;
-using Microsoft.Extensions.Logging;
 
-namespace NucuCar.Common
+namespace NucuCar.Domain
 {
     /// <summary>
     /// A simple HttpClient wrapper designed to make it easier to work with web requests with media type application/json.

@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NucuCar.Common.Utilities;
 using NucuCar.Domain.Telemetry;
+using NucuCar.Domain.Utilities;
 
 namespace NucuCar.Telemetry
 {

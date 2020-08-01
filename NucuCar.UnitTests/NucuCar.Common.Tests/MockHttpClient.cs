@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using HttpClient = NucuCar.Common.HttpClient;
+using HttpClient = NucuCar.Domain.HttpClient;
 
 namespace NucuCar.UnitTests.NucuCar.Common.Tests
 {
-    public class MockHttpClient : HttpClient
+    public class MockHttpClient : Domain.HttpClient
     {
         public List<HttpRequestMessage> SendAsyncArgCalls;
         public List<HttpResponseMessage> SendAsyncResponses;

@@ -9,7 +9,7 @@ using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
 using NucuCar.UnitTests.NucuCar.Common.Tests;
 using Xunit;
-using HttpClient = NucuCar.Common.HttpClient;
+using HttpClient = NucuCar.Domain.HttpClient;
 
 namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
 {

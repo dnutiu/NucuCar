@@ -1,6 +1,6 @@
 using System;
 
-namespace NucuCar.Common.Utilities
+namespace NucuCar.Domain.Utilities
 {
     /// <summary>  
     ///  Helper class used for checking arguments and raise exception if the checks don't pass.

@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "NucuCar.Sensors": {
+    "NucuCar.Sensors.Development": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

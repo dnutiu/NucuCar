@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using NucuCar.Common;
-using NucuCar.Common.Utilities;
+using NucuCar.Domain;
 using NucuCar.Domain.Telemetry;
+using NucuCar.Domain.Utilities;
 
 namespace NucuCar.Telemetry
 {
