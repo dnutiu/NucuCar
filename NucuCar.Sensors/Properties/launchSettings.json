@@ -9,7 +9,8 @@
     "NucuCar.Sensors.Development": {
       "commandName": "Project",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development",
+        "Telemetry:Publisher": "Console"
       }
     }
   }

@@ -47,9 +47,10 @@ namespace NucuCar.Telemetry
         {
             return type switch
             {
-                TelemetryPublisherType.Azure => (TelemetryPublisher) new TelemetryPublisherAzure(opts),
+                TelemetryPublisherType.Azure => new TelemetryPublisherAzure(opts),
                 TelemetryPublisherType.Disk => new TelemetryPublisherDisk(opts),
                 TelemetryPublisherType.Firestore => new TelemetryPublisherFirestore(opts),
+                TelemetryPublisherType.Console => new TelemetryPublisherConsole(opts),
                 _ => throw new ArgumentException($"Invalid TelemetryPublisher type: {type}.")
             };
         }

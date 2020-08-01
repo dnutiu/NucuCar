@@ -37,6 +37,7 @@ namespace NucuCar.Domain.Telemetry
         /// </summary>
         public TelemetryPublisher()
         {
+            RegisteredTelemeters = new List<ITelemeter>(10);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace NucuCar.Domain.Telemetry
             ConnectionString = opts.ConnectionString;
             TelemetrySource = opts.TelemetrySource;
             Logger = opts.Logger;
-            RegisteredTelemeters = new List<ITelemeter>(5);
+            RegisteredTelemeters = new List<ITelemeter>(10);
         }
 
         /// <summary>
