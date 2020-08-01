@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using sNetHttp = System.Net.Http;
 using sNetHttpHeaders = System.Net.Http.Headers;
 
-namespace NucuCar.Domain
+namespace NucuCar.Domain.Http
 {
     /// <summary>
     /// A simple HttpClient wrapper designed to make it easier to work with web requests with media type application/json.

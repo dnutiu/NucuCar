@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NucuCar.Domain;
+using NucuCar.Domain.Http;
 using NucuCar.Domain.Telemetry;
 using NucuCar.Domain.Utilities;
 

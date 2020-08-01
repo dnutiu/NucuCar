@@ -3,6 +3,11 @@
   &lt;Assembly Path="/home/denis/.nuget/packages/iot.device.bindings/1.0.0/lib/netcoreapp2.1/Iot.Device.Bindings.dll" /&gt;
   &lt;Assembly Path="/home/denis/.nuget/packages/firebaseresttranslator/0.1.1/lib/netcoreapp3.0/FirebaseRestTranslator.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=271bcc38_002D67df_002D4a50_002D94ca_002D524c78a6d97e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test_PublishAsync_Cancel" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Cancel&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=59acec6f_002Dda48_002D4e34_002Dbf2a_002D5b52d718278a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test_PublishAsync_Authorization_OK" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::C6F07921-1052-4945-911E-F328A622F229::.NETCoreApp,Version=v3.1::NucuCar.UnitTests.NucuCar.Telemetry.Tests.TelemetryPublisherFirestoreTest.Test_PublishAsync_Authorization_OK&lt;/TestId&gt;&#xD;

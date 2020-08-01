@@ -5,11 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using NucuCar.Domain.Http;
 using NucuCar.Domain.Telemetry;
 using NucuCar.Telemetry;
-using NucuCar.UnitTests.NucuCar.Common.Tests;
 using Xunit;
-using HttpClient = NucuCar.Domain.HttpClient;
+using HttpClient = NucuCar.Domain.Http.HttpClient;
 
 namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
 {
@@ -115,7 +115,7 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry.Tests
             await publisher.PublishAsync(cts.Token);
 
             // Assert
-            Assert.Equal(mockHttpClient.SendAsyncArgCalls.Count, 0);
+            Assert.Empty(mockHttpClient.SendAsyncArgCalls);
         }
 
         [Fact]
