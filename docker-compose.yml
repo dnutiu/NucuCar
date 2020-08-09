@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  nucucar_sensors:
+    restart: on-failure
+    privileged: true
+    ports:
+      - 8000:8000
+    build:
+      context: .
+      dockerfile: ./NucuCar.Sensors/Dockerfile
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+    volumes:
+      - "/sys:/sys"
+    networks:
+      - nucunet
+
+networks:
+  nucunet:
+    driver: bridge
