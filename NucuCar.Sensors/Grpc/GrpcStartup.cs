@@ -26,7 +26,6 @@ namespace NucuCar.Sensors.Grpc
             }
 
             app.UseRouting();
-            app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {

@@ -18,7 +18,7 @@ namespace NucuCar.TestClient.Sensors
         public class SensorsCmdOptions
         {
             [Option('u', "url", Required = false, HelpText = "The url and port of the gRPC server.",
-                Default = "https://localhost:8000")]
+                Default = "http://localhost:8000")]
             public string GrpcServiceAddress { get; set; }
 
             [Option('s', "sensor", Required = false, HelpText = "The sensor name you'd like to test.",
