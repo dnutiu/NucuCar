@@ -43,3 +43,11 @@ To build the project and target the Raspberry Pi you can use the following comma
 dotnet build --runtime linux-arm -p:PublishSingleFile=true
 ```
 ---
+
+To run the project you can take advantage of `docker-compsose` and run it with the following commands:
+
+```bash
+git clone https://github.com/dnutiu/NucuCar.git
+cd NucuCar
+docker-compose up
+```
