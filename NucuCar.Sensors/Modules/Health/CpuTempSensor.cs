@@ -31,6 +31,7 @@ namespace NucuCar.Sensors.Modules.Health
             }
             else
             {
+                Logger?.LogDebug("CpuTempSensor is disabled!");
                 CurrentState = SensorStateEnum.Disabled;
             }
         }

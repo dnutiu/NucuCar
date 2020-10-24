@@ -5,6 +5,7 @@ using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Grpc;
 using NucuCar.Sensors.Modules.Environment;
 using NucuCar.Sensors.Modules.Health;
+using NucuCar.Sensors.Modules.Heartbeat;
 using NucuCar.Telemetry;
 
 namespace NucuCar.Sensors
@@ -23,16 +24,19 @@ namespace NucuCar.Sensors
                     services.Configure<TelemetryConfig>(hostContext.Configuration.GetSection("Telemetry"));
                     services.Configure<Bme680Config>(hostContext.Configuration.GetSection("EnvironmentSensor"));
                     services.Configure<CpuTempConfig>(hostContext.Configuration.GetSection("HealthSensor"));
+                    services.Configure<HeartbeatConfig>(hostContext.Configuration.GetSection("HeartbeatSensor"));
 
                     // Singletons
                     services.AddSingleton<Telemetry.Telemetry>();
                     services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
                     services.AddSingleton<ISensor<CpuTempSensor>, CpuTempSensor>();
+                    services.AddSingleton<ISensor<HeartbeatSensor>, HeartbeatSensor>();
                     
                     // Workers
                     services.AddHostedService<TelemetryWorker>();
                     services.AddHostedService<Bme680Worker>();
                     services.AddHostedService<CpuTempWorker>();
+                    services.AddHostedService<HeartbeatWorker>();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
     }

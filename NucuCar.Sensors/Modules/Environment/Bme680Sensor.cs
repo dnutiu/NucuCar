@@ -43,7 +43,7 @@ namespace NucuCar.Sensors.Modules.Environment
             Logger = logger;
             if (!options.Value.Enabled)
             {
-                Logger?.LogInformation("BME680 Sensor is disabled!");
+                Logger?.LogDebug("BME680 Sensor is disabled!");
                 CurrentState = SensorStateEnum.Disabled;
             }
 
