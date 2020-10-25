@@ -31,9 +31,11 @@ namespace NucuCar.Sensors
                     services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
                     services.AddSingleton<ISensor<CpuTempSensor>, CpuTempSensor>();
                     services.AddSingleton<ISensor<HeartbeatSensor>, HeartbeatSensor>();
-                    
+
                     // Workers
+                    // Telemetry
                     services.AddHostedService<TelemetryWorker>();
+                    // Sensors
                     services.AddHostedService<Bme680Worker>();
                     services.AddHostedService<CpuTempWorker>();
                     services.AddHostedService<HeartbeatWorker>();

@@ -67,9 +67,13 @@ namespace NucuCar.Sensors
 
                 TelemetryPublisher?.UnRegisterTelemeter(Sensor);
             }
+            catch (TaskCanceledException)
+            {
+                Logger?.LogInformation("The SensorWorker task was canceled.");
+            }
             catch (Exception e)
             {
-                Logger?.LogError($"Unhandled exception in SensorWorker {sensorIdentifier}: {e.Message}");
+                Logger?.LogError($"Unhandled exception in SensorWorker {sensorIdentifier}. {e.GetType()}: {e.Message}");
                 Logger?.LogDebug(e.StackTrace);
             }
         }

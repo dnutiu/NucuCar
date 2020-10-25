@@ -51,6 +51,10 @@ namespace NucuCar.Telemetry
                     await Task.Delay(_interval, stoppingToken);
                 }
             }
+            catch (TaskCanceledException)
+            {
+                _logger?.LogInformation("The TelemetryWorker task was canceled.");
+            }
             catch (Exception e)
             {
                 _logger?.LogError($"Unhandled exception in TelemetryWorker. {e.Message}");
