@@ -60,8 +60,7 @@ namespace NucuCar.Sensors.Modules.Health
                     _lastTemperatureCelsius = Math.Round(_lastTemperatureCelsius, 2);
                 }
             }
-            Logger?.LogDebug($"{DateTimeOffset.Now}:HealthSensor: reading");
-            Logger?.LogInformation($"CPU Temperature {_lastTemperatureCelsius}");
+            Logger?.LogInformation($"CPU Temperature {_lastTemperatureCelsius} \u00B0C.");
             return Task.FromResult(_lastTemperatureCelsius);
         }
 
