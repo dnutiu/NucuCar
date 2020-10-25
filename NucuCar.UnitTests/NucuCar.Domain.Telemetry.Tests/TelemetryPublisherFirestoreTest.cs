@@ -93,6 +93,27 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
             Assert.Equal("{\"fields\":{\"testData\":{\"integerValue\":1}}}",
                 request.Content.ReadAsStringAsync().GetAwaiter().GetResult());
         }
+        
+        [Fact]
+        private async Task Test_PublishAsync_InvalidJson()
+        {
+            // Setup
+            var opts = new TelemetryPublisherOptions()
+            {
+                ConnectionString = "ProjectId=test;CollectionName=test"
+            };
+            var publisher = new MockTelemetryPublisherFirestore(opts);
+            var mockHttpClient = new MockHttpClient("http://testing.com");
+            mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK));
+            publisher.SetHttpClient(mockHttpClient);
+            publisher.SetMockData(new Dictionary<string, object> {["testData"] = double.PositiveInfinity});
+
+            // Run
+            await publisher.PublishAsync(CancellationToken.None);
+
+            // Assert no request made.
+            Assert.Empty(mockHttpClient.SendAsyncArgCalls);
+        }
 
         [Fact]
         private async Task Test_PublishAsync_Cancel()

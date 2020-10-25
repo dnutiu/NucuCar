@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NucuCar.Domain.Http;
 using NucuCar.Domain.Utilities;
 using NucuCar.Telemetry.Abstractions;
+using HttpClient = NucuCar.Domain.Http.HttpClient;
 
 namespace NucuCar.Telemetry.Publishers
 {
@@ -103,7 +105,18 @@ namespace NucuCar.Telemetry.Publishers
             }
 
             var data = FirebaseRestTranslator.Translator.Translate(null, GetTelemetry());
-            var responseMessage = await HttpClient.PostAsync("", data);
+
+            HttpResponseMessage responseMessage = null;
+            try
+            {
+                responseMessage = await HttpClient.PostAsync("", data);
+            }
+            // ArgumentException occurs during json serialization errors.
+            catch (ArgumentException e)
+            {
+                Logger?.LogWarning(e.Message);
+            }
+            
 
             switch (responseMessage?.StatusCode)
             {

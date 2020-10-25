@@ -40,7 +40,7 @@ Command line utility to play around with the car functionality. You can use it t
 To build the project and target the Raspberry Pi you can use the following command:
 
 ```$xslt
-dotnet build --runtime linux-arm -p:PublishSingleFile=true
+dotnet build --runtime linux-arm -p:PublishSingleFile=true --configuration Release
 ```
 ---
 

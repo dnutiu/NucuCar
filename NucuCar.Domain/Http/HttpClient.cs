@@ -80,7 +80,6 @@ namespace NucuCar.Domain.Http
 
         #endregion
 
-
         #region Public Methods
 
         public void Authorization(string scheme, string token)
