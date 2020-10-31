@@ -32,6 +32,7 @@ namespace NucuCar.Telemetry.Publishers
         protected HttpClient HttpClient;
 
         private string _idToken;
+        private DateTime _nextExpiresTime;
 
         // Variables used for authentication
         private readonly string _webEmail;
@@ -73,7 +74,13 @@ namespace NucuCar.Telemetry.Publishers
 
         private async Task SetupAuthorization()
         {
-            // Make request
+            // Check if the token is about to expire in the next 5 minutes.
+            if (DateTime.UtcNow.AddMinutes(5) < _nextExpiresTime)
+            {
+                return;
+            }
+
+            // https://cloud.google.com/identity-platform/docs/use-rest-api#section-sign-in-email-password
             var requestUrl = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={_webApiKey}";
             var data = new Dictionary<string, object>()
             {
@@ -88,6 +95,9 @@ namespace NucuCar.Telemetry.Publishers
             {
                 var jsonContent = await response.GetJson();
                 _idToken = jsonContent.GetProperty("idToken").ToString();
+                // Setup next expire.
+                var expiresIn = double.Parse(jsonContent.GetProperty("expiresIn").ToString());
+                _nextExpiresTime = DateTime.UtcNow.AddSeconds(expiresIn);
                 HttpClient.Authorization(_idToken);
             }
             else
@@ -109,6 +119,7 @@ namespace NucuCar.Telemetry.Publishers
             HttpResponseMessage responseMessage = null;
             try
             {
+                await SetupAuthorization();
                 responseMessage = await HttpClient.PostAsync("", data);
             }
             // ArgumentException occurs during json serialization errors.
@@ -116,7 +127,7 @@ namespace NucuCar.Telemetry.Publishers
             {
                 Logger?.LogWarning(e.Message);
             }
-            
+
 
             switch (responseMessage?.StatusCode)
             {
