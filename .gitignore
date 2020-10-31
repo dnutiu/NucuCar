@@ -5,3 +5,5 @@ obj/
 .idea/
 .vs
 NucuCar.Sensors/firebaseConfig.json
+NucuCar.sln.DotSettings
+NucuCar.sln.DotSettings.user
