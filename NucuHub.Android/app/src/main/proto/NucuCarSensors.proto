@@ -1,0 +1,29 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package NucuCarSensorsProto;
+
+// General
+enum SensorStateEnum {
+    Error = 0;
+    Uninitialized = 1;
+    Initialized = 2;
+    Disabled = 3;
+    GrpcDisabled = 4;
+}
+
+// Environment Sensor
+service EnvironmentSensorGrpcService {
+    rpc GetMeasurement(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
+}
+
+// Health Sensor
+service HealthSensorGrpcService {
+    rpc GetCpuTemperature(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
+}
+
+// Responses
+message NucuCarSensorResponse {
+    SensorStateEnum State = 1;
+    string JsonData = 2;
+}
