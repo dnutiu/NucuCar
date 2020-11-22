@@ -3,6 +3,8 @@ package dev.nuculabs.grpc;
 import NucuCarSensorsProto.EnvironmentSensorGrpcServiceGrpc;
 import NucuCarSensorsProto.NucuCarSensors;
 import android.util.Log;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -17,11 +19,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class EnvironmentSensorService {
     private final String TAG = EnvironmentSensorService.class.getName();
-    private final ManagedChannel channel;
     private final EnvironmentSensorGrpcServiceGrpc.EnvironmentSensorGrpcServiceBlockingStub blockingStub;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> periodicGrpcRequestHandle = null;
-    private EnvironmentSensorData lastMeasurementData = new EnvironmentSensorData("{}", NucuCarSensors.SensorStateEnum.Uninitialized);
+    private final MutableLiveData<EnvironmentSensorData> lastMeasurementData;
 
     public EnvironmentSensorService(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
@@ -29,31 +30,40 @@ public class EnvironmentSensorService {
     }
 
     public EnvironmentSensorService(ManagedChannelBuilder<?> channelBuilder) {
-        channel = channelBuilder.build();
+        ManagedChannel channel = channelBuilder.build();
         blockingStub = EnvironmentSensorGrpcServiceGrpc.newBlockingStub(channel);
+        lastMeasurementData = new MutableLiveData<>();
+        lastMeasurementData.setValue(new EnvironmentSensorData("{}", NucuCarSensors.SensorStateEnum.Uninitialized));
     }
 
     public void start() {
         final Runnable grpcPoolingTask = new Runnable() {
             public void run() {
-                lastMeasurementData = getMeasurement();
+                try {
+                    EnvironmentSensorData data = getMeasurement();
+                    Log.i(TAG, "Got new data " + data.toString());
+                    lastMeasurementData.postValue(data);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getLocalizedMessage());
+                }
             }
         };
-        periodicGrpcRequestHandle = scheduler.scheduleAtFixedRate(grpcPoolingTask, 5, 10, SECONDS);
+        Log.i(TAG, "Scheduling automatic update.");
+        periodicGrpcRequestHandle = scheduler.scheduleAtFixedRate(grpcPoolingTask, 0, 10, SECONDS);
     }
 
     public void stop() {
+        Log.i(TAG, "Stopping automatic update.");
         periodicGrpcRequestHandle.cancel(true);
     }
 
-    public EnvironmentSensorData getLastMeasurementData() {
+    public LiveData<EnvironmentSensorData> getLastMeasurementData() {
         return lastMeasurementData;
     }
 
     private EnvironmentSensorData getMeasurement() {
         try {
-            NucuCarSensors.NucuCarSensorResponse response = null;
-            response = blockingStub.getMeasurement(null);
+            NucuCarSensors.NucuCarSensorResponse response = blockingStub.getMeasurement(null);
             Log.d(TAG, "getMeasurement " + response.getJsonData());
             return new EnvironmentSensorData(response.getJsonData(), response.getState());
         } catch (StatusRuntimeException e) {

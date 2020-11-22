@@ -3,12 +3,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/nav_home">
+            app:startDestination="@+id/nav_environment_sensor">
 
     <fragment
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_environment_sensor"
             android:name="dev.nuculabs.nucuhub.ui.sensors.SensorsFragment"
-            android:label="@string/menu_home"
+            android:label="@string/menu_environment_sensor"
             tools:layout="@layout/fragment_environment_sensor"/>
 
     <fragment

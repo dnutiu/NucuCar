@@ -3,12 +3,16 @@
     <string name="environment_status_description">Temperature sensor status</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">NucuHub</string>
+    <string name="nav_header_subtitle">denis@nuculabs.dev</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_environment_sensor">Environment Sensor</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="humidity_icon_desc">humidity image</string>
+    <string name="temperature_icon_desc">temperature icon</string>
+    <string name="barometer_icon_desc">barometer icon</string>
+    <string name="voc_icon_desc">voc icon</string>
 </resources>
