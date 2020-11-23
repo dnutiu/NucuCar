@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Domain", "NucuCar.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.UnitTests", "NucuCar.UnitTests\NucuCar.UnitTests.csproj", "{C6F07921-1052-4945-911E-F328A622F229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Domain.Telemetry", "NucuCar.Domain.Telemetry\NucuCar.Domain.Telemetry.csproj", "{C20407F3-AB62-4590-B4FF-A0DCFCFA232B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Telemetry", "NucuCar.Telemetry\NucuCar.Telemetry.csproj", "{C20407F3-AB62-4590-B4FF-A0DCFCFA232B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
