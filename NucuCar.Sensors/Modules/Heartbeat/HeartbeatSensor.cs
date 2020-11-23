@@ -52,7 +52,7 @@ namespace NucuCar.Sensors.Modules.Heartbeat
 
         public override string GetIdentifier()
         {
-            return "heartbeat-sensor";
+            return "Heartbeat";
         }
 
         public override Dictionary<string, object> GetTelemetryData()

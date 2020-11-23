@@ -144,7 +144,7 @@ namespace NucuCar.Sensors.Modules.Environment
 
         public override string GetIdentifier()
         {
-            return "Bme680-Sensor";
+            return "Environment";
         }
 
         public override Dictionary<string, object> GetTelemetryData()
