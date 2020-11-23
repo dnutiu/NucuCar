@@ -74,6 +74,11 @@ namespace NucuCar.Telemetry.Publishers
 
         private async Task SetupAuthorization()
         {
+            // If there are no credentials or partial credentials supplies there must be no authorization.
+            if (_webApiKey == null || _webEmail == null || _webPassword == null)
+            {
+                return;
+            }
             // Check if the token is about to expire in the next 5 minutes.
             if (DateTime.UtcNow.AddMinutes(5) < _nextExpiresTime)
             {
