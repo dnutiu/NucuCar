@@ -135,6 +135,7 @@ namespace NucuCar.Telemetry.Publishers
                     Logger?.LogInformation("Published data to Firestore!");
                     break;
                 case HttpStatusCode.Forbidden:
+                case HttpStatusCode.Unauthorized:
                 {
                     Logger?.LogError($"Failed to publish telemetry data! {responseMessage.StatusCode}. Retrying...");
                     await SetupAuthorization();
