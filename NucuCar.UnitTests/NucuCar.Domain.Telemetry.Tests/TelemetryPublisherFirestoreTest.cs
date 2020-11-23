@@ -75,7 +75,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
             // Setup
             var opts = new TelemetryPublisherOptions()
             {
-                ConnectionString = "ProjectId=test;CollectionName=test"
+                ConnectionString = "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
             var mockHttpClient = new MockHttpClient("http://testing.com");
@@ -103,7 +103,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
             // Setup
             var opts = new TelemetryPublisherOptions()
             {
-                ConnectionString = "ProjectId=test;CollectionName=test"
+                ConnectionString = "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
             var mockHttpClient = new MockHttpClient("http://testing.com");
