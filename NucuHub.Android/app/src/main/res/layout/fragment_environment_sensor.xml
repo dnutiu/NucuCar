@@ -29,10 +29,12 @@
                     tools:srcCompat="@drawable/status_neutral" android:adjustViewBounds="true"
                     android:scaleType="center"
             />
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="19dp" android:id="@+id/sensorStatusText"
-                    tools:text="Sensor Status Explain" android:textStyle="bold" android:layout_margin="20dp"/>
+            <com.google.android.material.chip.Chip
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/sensorStatusChip"
+                    android:layout_marginEnd="30dp" android:layout_marginStart="30dp" android:textAlignment="center"
+                    tools:text="Sensor Status Explain" android:textStyle="bold" android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp" android:clickable="false"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <LinearLayout
@@ -65,16 +67,30 @@
                             android:scaleType="fitCenter"
                             android:layout_marginStart="29dp"
                             android:layout_marginTop="21dp"/>
-                    <TextView
-                            android:layout_width="55dp"
-                            android:layout_height="52dp" android:id="@+id/envSensorTempText"
-                            android:gravity="center" android:foregroundGravity="center"
-                            android:backgroundTint="#00FFFEFE"
-                            android:clickable="false" android:drawableTint="#00FFFFFF"
-                            android:textStyle="bold" android:textColor="#000000"
-                            android:textSize="16sp" android:layout_marginTop="21dp"
-                            android:layout_marginStart="29dp" tools:text="10000"
-                            android:layout_marginBottom="25dp"/>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="29dp"
+                            android:layout_marginTop="21dp"
+                            android:layout_marginBottom="25dp"
+                    >
+                        <TextView
+                                android:layout_width="55dp"
+                                android:layout_height="26dp" android:id="@+id/envSensorTempText"
+                                android:gravity="center" android:foregroundGravity="center"
+                                android:backgroundTint="#00FFFEFE"
+                                android:clickable="false" android:drawableTint="#00FFFFFF"
+                                android:textStyle="bold" android:textColor="#000000"
+                                android:textSize="16sp"
+                                tools:text="10000"
+                        />
+                        <TextView
+                                android:text="@string/temp_sensor_unit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:id="@+id/envSensorTempUnitDesc"
+                                android:gravity="center"/>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -92,18 +108,29 @@
                             android:contentDescription="@string/humidity_icon_desc"
                             android:layout_marginStart="29dp"
                             android:layout_marginTop="21dp"/>
-                    <TextView
-                            android:layout_width="55dp"
-                            android:layout_height="52dp" android:id="@+id/envSensorHumidityText"
-                            android:gravity="center" android:foregroundGravity="center"
-                            android:backgroundTint="#00FFFEFE"
-                            android:clickable="false" android:drawableTint="#00FFFFFF"
-                            android:textStyle="bold" android:textColor="#000000"
-                            android:textSize="16sp"
-                            tools:text="100.11"
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="29dp"
                             android:layout_marginTop="21dp"
-                            android:layout_marginBottom="25dp"/>
+                            android:layout_marginBottom="25dp"
+                    >
+                        <TextView
+                                android:layout_width="55dp"
+                                android:layout_height="26dp" android:id="@+id/envSensorHumidityText"
+                                android:gravity="center" android:foregroundGravity="center"
+                                android:backgroundTint="#00FFFEFE"
+                                android:clickable="false" android:drawableTint="#00FFFFFF"
+                                android:textStyle="bold" android:textColor="#000000"
+                                android:textSize="16sp"
+                                tools:text="100.11"/>
+                        <TextView
+                                android:text="@string/humidity_sensor_unit"
+                                android:layout_width="55dp"
+                                android:layout_height="0dp" android:id="@+id/envSensorHumidityUnitDesc"
+                                android:layout_weight="1" android:gravity="center"/>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -126,18 +153,27 @@
                             android:contentDescription="@string/barometer_icon_desc"
                             android:layout_marginStart="29dp"
                             android:layout_marginTop="21dp"/>
-                    <TextView
-                            android:layout_width="55dp"
-                            android:layout_height="52dp" android:id="@+id/envSensorPressureText"
-                            android:gravity="center" android:foregroundGravity="center"
-                            android:backgroundTint="#00FFFEFE"
-                            android:clickable="false" android:drawableTint="#00FFFFFF"
-                            android:textStyle="bold" android:textColor="#000000"
-                            android:textSize="16sp"
-                            tools:text="1000.5"
-                            android:layout_marginStart="29dp"
-                            android:layout_marginTop="21dp"
-                            android:layout_marginBottom="25dp"/>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginStart="29dp"
+                            android:layout_marginTop="21dp" android:layout_marginBottom="25dp">
+                        <TextView
+                                android:layout_width="55dp"
+                                android:layout_height="26dp" android:id="@+id/envSensorPressureText"
+                                android:gravity="center" android:foregroundGravity="center"
+                                android:backgroundTint="#00FFFEFE"
+                                android:clickable="false" android:drawableTint="#00FFFFFF"
+                                android:textStyle="bold" android:textColor="#000000"
+                                android:textSize="16sp"
+                                tools:text="1000.5"
+                        />
+                        <TextView
+                                android:text="@string/pressure_unit_desc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:id="@+id/envSensorPressureUnitDesc"
+                                android:gravity="center"/>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -155,19 +191,27 @@
                             android:layout_marginStart="29dp"
                             android:layout_marginTop="21dp"
                     />
-                    <TextView
-                            android:layout_width="55dp"
-                            android:layout_height="52dp" android:id="@+id/envSensorVocText"
-                            android:gravity="center" android:foregroundGravity="center"
-                            android:backgroundTint="#00FFFEFE"
-                            android:clickable="false" android:drawableTint="#00FFFFFF"
-                            android:textStyle="bold" android:textColor="#000000"
-                            android:textSize="16sp"
-                            tools:text="100.11"
-                            android:layout_marginStart="29dp"
-                            android:layout_marginTop="21dp"
-                            android:layout_marginBottom="25dp"
-                    />
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginStart="29dp"
+                            android:layout_marginTop="21dp" android:layout_marginBottom="25dp">
+                        <TextView
+                                android:layout_width="55dp"
+                                android:layout_height="26dp" android:id="@+id/envSensorVocText"
+                                android:gravity="center" android:foregroundGravity="center"
+                                android:backgroundTint="#00FFFEFE"
+                                android:clickable="false" android:drawableTint="#00FFFFFF"
+                                android:textStyle="bold" android:textColor="#000000"
+                                android:textSize="16sp"
+                                tools:text="100.11"
+                        />
+                        <TextView
+                                android:text="@string/gasvoc_sensor_unit_descriptio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:id="@+id/textView5"
+                                android:gravity="center"/>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

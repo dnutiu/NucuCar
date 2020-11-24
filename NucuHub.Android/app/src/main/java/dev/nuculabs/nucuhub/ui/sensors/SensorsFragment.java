@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.google.android.material.chip.Chip;
 import dev.nuculabs.grpc.EnvironmentSensorData;
 import dev.nuculabs.grpc.EnvironmentSensorService;
 import dev.nuculabs.nucuhub.R;
@@ -19,7 +20,7 @@ public class SensorsFragment extends Fragment {
     private EnvironmentSensorService environmentSensorService;
     // ui elements
     private ImageView sensorStatusImageView;
-    private TextView sensorStatusText;
+    private Chip sensorStatusText;
     private TextView temperatureText;
     private TextView humidityText;
     private TextView pressureText;
@@ -34,7 +35,7 @@ public class SensorsFragment extends Fragment {
         pressureText = root.findViewById(R.id.envSensorPressureText);
         vocText = root.findViewById(R.id.envSensorVocText);
         sensorStatusImageView = root.findViewById(R.id.sensorStatusImageView);
-        sensorStatusText = root.findViewById(R.id.sensorStatusText);
+        sensorStatusText = root.findViewById(R.id.sensorStatusChip);
 
         environmentSensorService = new EnvironmentSensorService("192.168.0.100", 8000);
 
