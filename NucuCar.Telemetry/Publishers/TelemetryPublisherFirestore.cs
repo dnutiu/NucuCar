@@ -100,7 +100,7 @@ namespace NucuCar.Telemetry.Publishers
                 Logger?.LogDebug($"{response?.Content}");
             }
         }
-        
+
         private async Task CheckAndSetupAuthorization()
         {
             // If there are no credentials or partial credentials supplies there must be no authorization.
@@ -108,6 +108,7 @@ namespace NucuCar.Telemetry.Publishers
             {
                 return;
             }
+
             // Check if the token is about to expire in the next 5 minutes.
             if (DateTime.UtcNow.AddMinutes(5) < _authorizationExpiryTime)
             {
