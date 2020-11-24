@@ -104,18 +104,15 @@ sudo systemctl enable nucucar_sensors
 sudo systemctl disable nucucar_sensors
 ```
 
----
-
-#### Docker-Compose
-
-To run the project you can take advantage of `docker-compsose` and run it with the following commands:
+To browse the logs for the session and all logs of the service:
 
 ```bash
-git clone https://github.com/dnutiu/NucuCar.git
-cd NucuCar
-docker-compose up
+journalctl -e -u nucucar_sensors.service
+journalctl -u nucucar_sensors.service
 ```
-_(This is not recommended as the performance will take a significant hit.)_
+
+
+---
 
 ## Directory Structure Overview
 
