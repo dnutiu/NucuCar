@@ -87,6 +87,7 @@ namespace NucuCar.Telemetry.Publishers
 
             if (response?.StatusCode == HttpStatusCode.OK)
             {
+                Logger?.LogInformation("Firestore authentication OK!");
                 var jsonContent = await response.GetJson();
                 _idToken = jsonContent.GetProperty("idToken").ToString();
                 // Setup next expire.
@@ -109,8 +110,8 @@ namespace NucuCar.Telemetry.Publishers
                 return;
             }
 
-            // Check if the token is about to expire in the next 5 minutes.
-            if (DateTime.UtcNow.AddMinutes(5) < _authorizationExpiryTime)
+            // Check if the token is about to expire in the next 15 minutes.
+            if (DateTime.UtcNow.AddMinutes(15) < _authorizationExpiryTime)
             {
                 return;
             }
