@@ -61,6 +61,49 @@ chmod +x NucuCar.Sensors
 // Run the program
 ./NucuCar.Sensors
 ```
+
+To make it easier for you to run the project, you may define a SystemD service for it:
+
+1\. Create the SystemD service file with the following command:
+
+```bash
+sudo nano /etc/systemd/system/nucucar_sensors.service
+```
+
+2\. Paste the following contents and make sure to update the WorkingDirectory and ExecStarts paths:
+
+```
+[Unit]
+Description=NucuCar.Sensors SystemD Service.
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/NucuCar/bin/Release/netcoreapp3.1/linux-arm
+ExecStart=/home/pi/NucuCar/bin/Release/netcoreapp3.1/linux-arm/NucuCar.Sensors
+
+
+[Install]
+WantedBy=multi-user.target
+```
+
+3\. SystemD commands
+
+```bash
+sudo systemctl start nucucar_sensors
+sudo systemctl stop nucucar_sensors
+sudo systemctl restart nucucar_sensors
+sudo systemctl status nucucar_sensors
+```
+
+Enable starts the service after the pi has booted, disable undoes what enable does.
+
+```bash 
+sudo systemctl enable nucucar_sensors
+sudo systemctl disable nucucar_sensors
+```
+
 ---
 
 #### Docker-Compose
