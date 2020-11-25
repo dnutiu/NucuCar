@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using NucuCar.Domain.Http;
 using NucuCar.Domain.Utilities;
 using NucuCar.Telemetry.Abstractions;
-using HttpClient = NucuCar.Domain.Http.HttpClient;
 
 namespace NucuCar.Telemetry.Publishers
 {
@@ -29,7 +28,7 @@ namespace NucuCar.Telemetry.Publishers
     /// </summary>
     public class TelemetryPublisherFirestore : TelemetryPublisher
     {
-        protected HttpClient HttpClient;
+        protected MinimalHttpClient HttpClient;
 
         private string _idToken;
         private DateTime _authorizationExpiryTime;
@@ -67,13 +66,15 @@ namespace NucuCar.Telemetry.Publishers
             // Setup HttpClient
             var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
                              $"databases/(default)/documents/{firestoreCollection}/";
-            HttpClient = new HttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
+            HttpClient = new MinimalHttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
             Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
             Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
         }
 
         private async Task SetupAuthorization()
         {
+            HttpClient.ClearAuthorizationHeader();
+            
             // https://cloud.google.com/identity-platform/docs/use-rest-api#section-sign-in-email-password
             var requestUrl = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={_webApiKey}";
             var data = new Dictionary<string, object>()
@@ -82,7 +83,7 @@ namespace NucuCar.Telemetry.Publishers
                 ["password"] = _webPassword,
                 ["returnSecureToken"] = true
             };
-
+            
             var response = await HttpClient.PostAsync(requestUrl, data);
 
             if (response?.StatusCode == HttpStatusCode.OK)

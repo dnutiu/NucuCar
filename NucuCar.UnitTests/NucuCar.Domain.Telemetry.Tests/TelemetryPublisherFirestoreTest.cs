@@ -9,7 +9,6 @@ using NucuCar.Domain.Http;
 using NucuCar.Telemetry;
 using NucuCar.Telemetry.Publishers;
 using Xunit;
-using HttpClient = NucuCar.Domain.Http.HttpClient;
 
 namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
 {
@@ -25,7 +24,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
             _mockData = new Dictionary<string, object>();
         }
 
-        public void SetHttpClient(HttpClient client)
+        public void SetHttpClient(MinimalHttpClient client)
         {
             HttpClient = client;
         }
@@ -57,7 +56,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
         }
 
         [Fact]
-        private void Test_Construct_BadCollectiontName()
+        private void Test_Construct_BadCollectionName()
         {
             // Setup
             var opts = new TelemetryPublisherOptions()
@@ -78,7 +77,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
                 ConnectionString = "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new MockHttpClient("http://testing.com");
+            var mockHttpClient = new MockMinimalHttpClient("http://testing.com");
             var authResponse = new HttpResponseMessage(HttpStatusCode.OK)
                 {Content = new StringContent("{\"idToken\": \"1\",\"expiresIn\": \"3600\"}")};
             mockHttpClient.SendAsyncResponses.Add(authResponse);
@@ -106,7 +105,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
                 ConnectionString = "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new MockHttpClient("http://testing.com");
+            var mockHttpClient = new MockMinimalHttpClient("http://testing.com");
             var authResponse = new HttpResponseMessage(HttpStatusCode.OK)
                 {Content = new StringContent("{\"idToken\": \"1\",\"expiresIn\": \"3600\"}")};
             mockHttpClient.SendAsyncResponses.Add(authResponse);
@@ -130,7 +129,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
                 ConnectionString = "ProjectId=test;CollectionName=test"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new MockHttpClient("http://testing.com");
+            var mockHttpClient = new MockMinimalHttpClient("http://testing.com");
             mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK));
 
             publisher.SetHttpClient(mockHttpClient);
@@ -155,7 +154,7 @@ namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
                     "ProjectId=test;CollectionName=test;WebApiKey=TAPIKEY;WebApiEmail=t@emai.com;WebApiPassword=tpass"
             };
             var publisher = new MockTelemetryPublisherFirestore(opts);
-            var mockHttpClient = new MockHttpClient("http://testing.com");
+            var mockHttpClient = new MockMinimalHttpClient("http://testing.com");
 
             mockHttpClient.SendAsyncResponses.Add(new HttpResponseMessage(HttpStatusCode.OK)
                 {Content = new StringContent("{\"idToken\": \"1\",\"expiresIn\": \"0\"}")});

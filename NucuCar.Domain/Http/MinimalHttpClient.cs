@@ -5,8 +5,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using sNetHttp = System.Net.Http;
-using sNetHttpHeaders = System.Net.Http.Headers;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace NucuCar.Domain.Http
 {
@@ -14,7 +14,7 @@ namespace NucuCar.Domain.Http
     /// A simple HttpClient wrapper designed to make it easier to work with web requests with media type application/json.
     /// It implements a simple retry mechanism.
     /// </summary>
-    public class HttpClient : IDisposable
+    public class MinimalHttpClient : IDisposable
     {
         #region Fields
 
@@ -54,26 +54,26 @@ namespace NucuCar.Domain.Http
         protected int timeout;
         // ReSharper restore InconsistentNaming
 
-        private readonly sNetHttp.HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         #endregion
 
         #region Constructors
 
-        public HttpClient()
+        public MinimalHttpClient()
         {
-            _httpClient = new sNetHttp.HttpClient();
+            _httpClient = new HttpClient();
             maxRetries = 3;
             timeout = 10000;
             Logger = null;
         }
 
-        public HttpClient(string baseAddress) : this()
+        public MinimalHttpClient(string baseAddress) : this()
         {
             _httpClient.BaseAddress = new Uri(baseAddress);
         }
 
-        public HttpClient(string baseAddress, int maxRetries) : this(baseAddress)
+        public MinimalHttpClient(string baseAddress, int maxRetries) : this(baseAddress)
         {
             MaxRetries = maxRetries;
         }
@@ -82,10 +82,15 @@ namespace NucuCar.Domain.Http
 
         #region Public Methods
 
+        public void ClearAuthorizationHeader()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
         public void Authorization(string scheme, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization =
-                new sNetHttpHeaders.AuthenticationHeaderValue(scheme, token);
+                new AuthenticationHeaderValue(scheme, token);
         }
 
         public void Authorization(string token)
@@ -93,29 +98,29 @@ namespace NucuCar.Domain.Http
             Authorization("Bearer", token);
         }
 
-        public async Task<sNetHttp.HttpResponseMessage> GetAsync(string path)
+        public async Task<HttpResponseMessage> GetAsync(string path)
         {
-            var request = _makeRequest(sNetHttp.HttpMethod.Get, path);
+            var request = _makeRequest(HttpMethod.Get, path);
             return await SendAsync(request);
         }
 
-        public async Task<sNetHttp.HttpResponseMessage> PostAsync(string path, Dictionary<string, object> data)
+        public async Task<HttpResponseMessage> PostAsync(string path, Dictionary<string, object> data)
         {
-            var request = _makeRequest(sNetHttp.HttpMethod.Post, path);
+            var request = _makeRequest(HttpMethod.Post, path);
             request.Content = _makeContent(data);
             return await SendAsync(request);
         }
 
-        public async Task<sNetHttp.HttpResponseMessage> PutAsync(string path, Dictionary<string, object> data)
+        public async Task<HttpResponseMessage> PutAsync(string path, Dictionary<string, object> data)
         {
-            var request = _makeRequest(sNetHttp.HttpMethod.Put, path);
+            var request = _makeRequest(HttpMethod.Put, path);
             request.Content = _makeContent(data);
             return await SendAsync(request);
         }
 
-        public async Task<sNetHttp.HttpResponseMessage> DeleteAsync(string path, Dictionary<string, object> data)
+        public async Task<HttpResponseMessage> DeleteAsync(string path, Dictionary<string, object> data)
         {
-            var request = _makeRequest(sNetHttp.HttpMethod.Delete, path);
+            var request = _makeRequest(HttpMethod.Delete, path);
             request.Content = _makeContent(data);
             return await SendAsync(request);
         }
@@ -125,23 +130,28 @@ namespace NucuCar.Domain.Http
         /// </summary>
         /// <param name="requestMessage">The request to make.</param>
         /// <returns></returns>
-        public virtual async Task<sNetHttp.HttpResponseMessage> SendAsync(sNetHttp.HttpRequestMessage requestMessage)
+        public virtual async Task<HttpResponseMessage> SendAsync(HttpRequestMessage requestMessage)
         {
             var currentRetry = 0;
-            sNetHttp.HttpResponseMessage responseMessage = null;
+            HttpResponseMessage responseMessage = null;
 
             while (currentRetry < maxRetries)
             {
                 try
                 {
-                    responseMessage = await _sendAsync(requestMessage);
+                    // We need a request copy because we can't send the same request multiple times.
+                    var requestCopy = new HttpRequestMessage(requestMessage.Method, requestMessage.RequestUri);
+                    requestCopy.Headers.Authorization = requestMessage.Headers.Authorization;
+                    requestCopy.Content = requestMessage.Content;
+
+                    responseMessage = await _sendAsync(requestCopy);
                     break;
                 }
                 catch (TaskCanceledException)
                 {
                     Logger?.LogError($"Request timeout for {requestMessage.RequestUri}!");
                 }
-                catch (sNetHttp.HttpRequestException e)
+                catch (HttpRequestException e)
                 {
                     // The request failed due to an underlying issue such as network connectivity, DNS failure, 
                     //     server certificate validation or timeout.         
@@ -172,9 +182,9 @@ namespace NucuCar.Domain.Http
         /// </summary>
         /// <param name="data">A dictionary representing JSON data.</param>
         /// <returns></returns>
-        private sNetHttp.StringContent _makeContent(Dictionary<string, object> data)
+        private StringContent _makeContent(Dictionary<string, object> data)
         {
-            return new sNetHttp.StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            return new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
         }
 
         /// <summary>
@@ -183,11 +193,11 @@ namespace NucuCar.Domain.Http
         /// <param name="method">The HttpMethod to use</param>
         /// <param name="path">The path, whether it is relative to the base or a new one.</param>
         /// <returns></returns>
-        private sNetHttp.HttpRequestMessage _makeRequest(sNetHttp.HttpMethod method, string path)
+        private HttpRequestMessage _makeRequest(HttpMethod method, string path)
         {
             var uri = _httpClient.BaseAddress == null ? new Uri(path) : new Uri(_httpClient.BaseAddress, path);
-            
-            var requestMessage = new sNetHttp.HttpRequestMessage
+
+            var requestMessage = new HttpRequestMessage
             {
                 Method = method,
                 RequestUri = uri
@@ -202,17 +212,17 @@ namespace NucuCar.Domain.Http
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private async Task<sNetHttp.HttpResponseMessage> _sendAsync(sNetHttp.HttpRequestMessage requestMessage)
+        private async Task<HttpResponseMessage> _sendAsync(HttpRequestMessage requestMessage)
         {
             var cts = new CancellationTokenSource();
-            sNetHttp.HttpResponseMessage response;
+            HttpResponseMessage response;
 
             // Make sure we cancel after a certain timeout.
             cts.CancelAfter(timeout);
             try
             {
                 response = await _httpClient.SendAsync(requestMessage,
-                    sNetHttp.HttpCompletionOption.ResponseContentRead,
+                    HttpCompletionOption.ResponseContentRead,
                     cts.Token);
             }
             finally
@@ -242,9 +252,9 @@ namespace NucuCar.Domain.Http
         /// <summary>
         /// Extension used to deserialize the body of a HttpResponseMessage into Json.
         /// </summary>
-        /// <param name="responseMessage">The HttpResponseMessage message. <see cref="sNetHttp.HttpResponseMessage"/></param>
+        /// <param name="responseMessage">The HttpResponseMessage message. <see cref="HttpResponseMessage"/></param>
         /// <returns>A JsonElement. <see cref="JsonElement"/></returns>
-        public static async Task<JsonElement> GetJson(this sNetHttp.HttpResponseMessage responseMessage)
+        public static async Task<JsonElement> GetJson(this HttpResponseMessage responseMessage)
         {
             return JsonSerializer.Deserialize<JsonElement>(await responseMessage.Content.ReadAsStringAsync());
         }

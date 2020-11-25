@@ -15,7 +15,7 @@ namespace NucuCar.Telemetry
         /// Creates an instance of <see cref="TelemetryPublisher"/>. See <see cref="TelemetryPublisherType"/>
         /// </summary>
         /// <param name="type">The type of the publisher. <see cref="TelemetryPublisherType"/> </param>
-        /// <param name="connectionString">Device connection string for Microsoft Azure IoT hub device.</param>
+        /// <param name="connectionString">Device connection string for the telemetry publisher.</param>
         /// <param name="telemetrySource">String that is used to identify the source of the telemetry data.</param>
         /// <param name="logger">An <see cref="ILogger"/> logger instance. </param>
         /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
@@ -25,7 +25,7 @@ namespace NucuCar.Telemetry
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             Guard.ArgumentNotNullOrWhiteSpace(nameof(telemetrySource), telemetrySource);
             Guard.ArgumentNotNull(nameof(logger), logger);
-            var opts = new TelemetryPublisherOptions()
+            var opts = new TelemetryPublisherOptions
                 {ConnectionString = connectionString, TelemetrySource = telemetrySource, Logger = logger};
             return SpawnPublisher(type, opts);
         }
@@ -40,7 +40,7 @@ namespace NucuCar.Telemetry
         {
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             var opts = new TelemetryPublisherOptions()
-                {ConnectionString = connectionString, TelemetrySource = "TelemetryPublisherAzure"};
+                {ConnectionString = connectionString, TelemetrySource = "NucuCar.Sensors"};
             return SpawnPublisher(type, opts);
         }
 

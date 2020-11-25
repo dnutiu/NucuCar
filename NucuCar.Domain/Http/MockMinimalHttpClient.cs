@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace NucuCar.Domain.Http
 {
-    public class MockHttpClient : Domain.Http.HttpClient
+    public class MockMinimalHttpClient : MinimalHttpClient
     {
         public List<HttpRequestMessage> SendAsyncArgCalls;
         public List<HttpResponseMessage> SendAsyncResponses;
 
         private int _sendAsyncCallCounter;
 
-        public MockHttpClient(string baseAddress) : base(baseAddress)
+        public MockMinimalHttpClient(string baseAddress) : base(baseAddress)
         {
             _sendAsyncCallCounter = 0;
             SendAsyncArgCalls = new List<HttpRequestMessage>();
