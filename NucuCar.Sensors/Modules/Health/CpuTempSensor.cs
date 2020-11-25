@@ -49,7 +49,7 @@ namespace NucuCar.Sensors.Modules.Health
         {
             if (CurrentState == SensorStateEnum.Initialized)
             {
-                _lastTemperatureCelsius = _cpuTemperature.Temperature.Celsius;
+                _lastTemperatureCelsius = _cpuTemperature.Temperature.DegreesCelsius;
                 if (double.IsNaN(_lastTemperatureCelsius))
                 {
                     CurrentState = SensorStateEnum.Error;

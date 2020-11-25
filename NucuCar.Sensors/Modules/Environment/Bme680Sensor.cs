@@ -6,11 +6,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
-using NucuCar.Sensors.Modules.Environment.Bmxx80;
 using NucuCarSensorsProto;
-using Bme680 = NucuCar.Sensors.Modules.Environment.Bmxx80.Bme680;
-using Bme680PowerMode = NucuCar.Sensors.Modules.Environment.Bmxx80.PowerMode.Bme680PowerMode;
-using Sampling = NucuCar.Sensors.Modules.Environment.Bmxx80.Sampling;
+using Iot.Device.Bmxx80;
+using UnitsNet;
+using Bme680 = Iot.Device.Bmxx80.Bme680;
+using Bme680PowerMode = Iot.Device.Bmxx80.PowerMode.Bme680PowerMode;
+using Sampling = Iot.Device.Bmxx80.Sampling;
 
 namespace NucuCar.Sensors.Modules.Environment
 {
@@ -115,24 +116,25 @@ namespace NucuCar.Sensors.Modules.Environment
             {
                 throw new InvalidOperationException("Can't take measurement on uninitialized sensor!");
             }
-            
-            _bme680.ConfigureHeatingProfile(Bme680HeaterProfile.Profile2, 
-                280, 80, _lastMeasurement.Temperature);
+
+            _bme680.ConfigureHeatingProfile(Bme680HeaterProfile.Profile2,
+                Temperature.FromDegreesCelsius(280), Duration.FromMilliseconds(80),
+                Temperature.FromDegreesCelsius(_lastMeasurement.Temperature));
             var measurementDuration = _bme680.GetMeasurementDuration(_bme680.HeaterProfile);
-            
+
             /* Force the sensor to take a measurement. */
             _bme680.SetPowerMode(Bme680PowerMode.Forced);
-            await Task.Delay(measurementDuration);
+            await Task.Delay(measurementDuration.ToTimeSpan());
 
             _bme680.TryReadTemperature(out var temp);
             _bme680.TryReadHumidity(out var humidity);
             _bme680.TryReadPressure(out var pressure);
             _bme680.TryReadGasResistance(out var gasResistance);
 
-            _lastMeasurement.Temperature = Math.Round(temp.Celsius, 2);
-            _lastMeasurement.Pressure = Math.Round(pressure.Hectopascal, 2);
-            _lastMeasurement.Humidity = Math.Round(humidity, 2);
-            _lastMeasurement.VolatileOrganicCompounds = Math.Round(gasResistance / 1000, 2);
+            _lastMeasurement.Temperature = Math.Round(temp.DegreesCelsius, 2);
+            _lastMeasurement.Pressure = Math.Round(pressure.Hectopascals, 2);
+            _lastMeasurement.Humidity = Math.Round(humidity.Percent, 2);
+            _lastMeasurement.VolatileOrganicCompounds = Math.Round(gasResistance.Kiloohms, 2);
 
             Logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
             Logger?.LogInformation(
