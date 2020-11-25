@@ -98,7 +98,11 @@ namespace NucuCar.Telemetry.Publishers
             else
             {
                 Logger?.LogError($"Firestore authentication request failed! {response?.StatusCode}!");
-                Logger?.LogDebug($"{response?.Content}");
+                if (response != null)
+                {
+                    var contentBody = await response.Content.ReadAsStringAsync();
+                    Logger?.LogDebug(contentBody);
+                }
             }
         }
 
