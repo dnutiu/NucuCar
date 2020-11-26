@@ -18,5 +18,5 @@
     <string name="humidity_sensor_unit">Rh%</string>
     <string name="temp_sensor_unit">Celsius</string>
     <string name="pressure_unit_desc">hPa</string>
-    <string name="gasvoc_sensor_unit_descriptio">VOC Ω</string>
+    <string name="gasvoc_sensor_unit_descriptio">VOC kΩ</string>
 </resources>
