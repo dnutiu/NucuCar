@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.chip.Chip;
-import dev.nuculabs.grpc.EnvironmentSensorData;
-import dev.nuculabs.grpc.EnvironmentSensorService;
+import dev.nuculabs.nucuhub.domain.EnvironmentSensorData;
+import dev.nuculabs.nucuhub.grpc.EnvironmentSensorService;
 import dev.nuculabs.nucuhub.R;
 
 public class SensorsFragment extends Fragment {

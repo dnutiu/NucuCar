@@ -3,7 +3,7 @@ package dev.nuculabs.nucuhub.ui.sensors;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import dev.nuculabs.grpc.EnvironmentSensorData;
+import dev.nuculabs.nucuhub.domain.EnvironmentSensorData;
 import dev.nuculabs.nucuhub.R;
 
 public class EnvironmentSensorViewModel extends ViewModel {

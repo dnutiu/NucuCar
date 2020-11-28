@@ -1,4 +1,4 @@
-package dev.nuculabs.grpc;
+package dev.nuculabs.nucuhub.domain;
 
 import NucuCarSensorsProto.NucuCarSensors;
 import android.util.Log;

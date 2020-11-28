@@ -1,10 +1,11 @@
-package dev.nuculabs.grpc;
+package dev.nuculabs.nucuhub.grpc;
 
 import NucuCarSensorsProto.EnvironmentSensorGrpcServiceGrpc;
 import NucuCarSensorsProto.NucuCarSensors;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import dev.nuculabs.nucuhub.domain.EnvironmentSensorData;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
