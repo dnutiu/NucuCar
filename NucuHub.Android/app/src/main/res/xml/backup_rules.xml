@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://developer.android.com/guide/topics/data/autobackup-->
+<full-backup-content>
+    <include domain="sharedpref" path="." requireFlags="clientSideEncryption" />
+</full-backup-content>

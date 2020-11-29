@@ -7,10 +7,11 @@
     <string name="nav_header_subtitle">denis@nuculabs.dev</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
-    <string name="menu_environment_sensor">Environment Sensor</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <!-- Environment Sensor Data -->
+    <string name="menu_environment_sensor">Environment Sensor</string>
     <string name="humidity_icon_desc">humidity image</string>
     <string name="temperature_icon_desc">temperature icon</string>
     <string name="barometer_icon_desc">barometer icon</string>
@@ -19,4 +20,19 @@
     <string name="temp_sensor_unit">Celsius</string>
     <string name="pressure_unit_desc">hPa</string>
     <string name="gasvoc_sensor_unit_descriptio">VOC kΩ</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>
