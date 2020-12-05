@@ -211,7 +211,7 @@
                                         tools:text="100.11"
                                 />
                                 <TextView
-                                        android:text="@string/gasvoc_sensor_unit_descriptio"
+                                        android:text="@string/gasvoc_sensor_unit_description"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content" android:id="@+id/textView5"
                                         android:gravity="center"/>

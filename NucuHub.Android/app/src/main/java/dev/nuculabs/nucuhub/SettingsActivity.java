@@ -1,11 +1,12 @@
 package dev.nuculabs.nucuhub;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceFragmentCompat;
+import dev.nuculabs.nucuhub.ui.settings.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,19 +30,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO: Add settings menu
+        // getMenuInflater().inflate(R.menu.settings_actions, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // back button click
         if (item.getItemId()==android.R.id.home) {
             finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public static class SettingsFragment extends PreferenceFragmentCompat {
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
-        }
     }
 }

@@ -1,4 +1,7 @@
 <resources>
+    <string-array name="device_list_array">
+    </string-array>
+
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>
