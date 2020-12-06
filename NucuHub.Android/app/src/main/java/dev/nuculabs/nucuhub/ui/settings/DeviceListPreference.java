@@ -20,5 +20,9 @@ public class DeviceListPreference extends ListPreference {
     public DeviceListPreference(Context context) {
         super(context);
     }
-    // TODO: Create custom dialog, override onClick.
+
+    @Override
+    protected void onClick() {
+        new DeviceManagementDialog(getContext()).show(this);
+    }
 }

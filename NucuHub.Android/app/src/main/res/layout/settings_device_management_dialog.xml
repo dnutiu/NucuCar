@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical"
+>
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/settings_device_dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                tools:visibility="visible">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+            android:text="@string/settings_connect_new_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" android:paddingTop="10dp"
+            android:paddingLeft="10dp" android:paddingRight="10dp"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp" android:paddingRight="10dp">
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/settings_device_input_device">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/settings_device_add_new_device_input_hint"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+                android:text="$$Connection status$$"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/text_connection_status" android:gravity="center"/>
+        <Button
+                android:text="@string/settings_device_test_connection_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/settings_device_test_connection_button"
+                tools:text="Test Connection"/>
+
+        <Button
+                android:text="@string/settings_device_add_device_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/settings_device_add_device_button"
+                android:enabled="false"/>
+
+    </LinearLayout>
+
+    <View android:layout_height="1dp"
+          android:layout_width="fill_parent"
+          android:background="#800B001B"
+    />
+    <TextView
+            android:text="@string/settings_device_saved_devices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" android:paddingTop="10dp"
+            android:paddingLeft="10dp" android:paddingRight="10dp"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingLeft="20dp" android:paddingRight="20dp"
+            android:paddingTop="10dp" android:paddingBottom="10dp">
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/settings_device_dialog_list"/>
+    </LinearLayout>
+</LinearLayout>

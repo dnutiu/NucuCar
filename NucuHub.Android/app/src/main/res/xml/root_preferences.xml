@@ -41,8 +41,9 @@
         <dev.nuculabs.nucuhub.ui.settings.DeviceListPreference
                 app:key="device_list"
                 app:title="@string/device_selection_title"
-                app:entries="@array/device_list_array"
-                app:entryValues="@array/device_list_array"
+                app:entries="@array/reply_entries"
+                app:entryValues="@array/reply_values"
+                app:defaultValue="reply"
                 app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
