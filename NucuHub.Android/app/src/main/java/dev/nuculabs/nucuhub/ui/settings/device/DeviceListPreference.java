@@ -1,4 +1,4 @@
-package dev.nuculabs.nucuhub.ui.settings;
+package dev.nuculabs.nucuhub.ui.settings.device;
 
 import android.content.Context;
 import android.util.AttributeSet;

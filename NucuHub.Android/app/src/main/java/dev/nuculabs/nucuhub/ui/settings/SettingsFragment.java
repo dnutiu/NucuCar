@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 import dev.nuculabs.nucuhub.R;
+import dev.nuculabs.nucuhub.domain.SettingValues;
+import dev.nuculabs.nucuhub.ui.settings.device.DeviceListPreference;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-    private SharedPreferences sharedPreferences;
-
+    public static final String DEVICE_LIST_PREFERENCE = "device_list";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -18,15 +20,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         // SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
-        updateDeviceListItems();
+        initializeDeviceListItems();
     }
 
-    private void updateDeviceListItems() {
-        // dummy code to update device list entries
-        SharedPreferences sp = getContext().getSharedPreferences("settings", Activity.MODE_PRIVATE);
+    private void initializeDeviceListItems() {
+        // TODO dummy code to update device list entries
+        SharedPreferences sp = Objects.requireNonNull(getContext()).getSharedPreferences(SettingValues.NAME, Activity.MODE_PRIVATE);
         SharedPreferences.Editor spe = sp.edit();
-        DeviceListPreference devicesList = findPreference("device_list");
-        Set<String> savedEntries = sp.getStringSet("current_device_list", null);
+        DeviceListPreference devicesList = findPreference(DEVICE_LIST_PREFERENCE);
+        Set<String> savedEntries = sp.getStringSet(SettingValues.CURRENT_DEVICE_LIST, null);
         if (savedEntries != null) {
             CharSequence[] items = new CharSequence[savedEntries.size()];
             int index = 0;

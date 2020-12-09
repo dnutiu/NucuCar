@@ -30,6 +30,11 @@ public class EnvironmentSensorService {
         Log.i(TAG, String.format(Locale.ENGLISH, "Initializing channel host=%s port=%d", host, port));
     }
 
+    public EnvironmentSensorService(String target) {
+        this(ManagedChannelBuilder.forTarget(target).usePlaintext());
+        Log.i(TAG, String.format(Locale.ENGLISH, "Initializing channel target=%s", target));
+    }
+
     public EnvironmentSensorService(ManagedChannelBuilder<?> channelBuilder) {
         ManagedChannel channel = channelBuilder.build();
         blockingStub = EnvironmentSensorGrpcServiceGrpc.newBlockingStub(channel);

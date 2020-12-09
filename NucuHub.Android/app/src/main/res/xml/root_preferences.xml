@@ -38,7 +38,7 @@
     <PreferenceCategory
             app:title="@string/devices_header">
 
-        <dev.nuculabs.nucuhub.ui.settings.DeviceListPreference
+        <dev.nuculabs.nucuhub.ui.settings.device.DeviceListPreference
                 app:key="device_list"
                 app:title="@string/device_selection_title"
                 app:entries="@array/reply_entries"

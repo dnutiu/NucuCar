@@ -1,4 +1,4 @@
-package dev.nuculabs.nucuhub.ui.settings;
+package dev.nuculabs.nucuhub.ui.settings.device;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.ListPreference;
 import dev.nuculabs.nucuhub.R;
+import dev.nuculabs.nucuhub.domain.SettingValues;
 
 import java.util.HashSet;
 
@@ -34,13 +35,13 @@ public class DeviceManagementDialog extends Dialog {
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         setupToolbar();
 
-        sharedPreferences = getContext().getSharedPreferences("settings", Activity.MODE_PRIVATE);
+        sharedPreferences = getContext().getSharedPreferences(SettingValues.NAME, Activity.MODE_PRIVATE);
 
         final ListView deviceListView = findViewById(R.id.settings_device_dialog_list);
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
         deviceListView.setAdapter(adapter);
 
-        // dummy code to add simple items.
+        // todo: dummy code to add simple items.
         final CharSequence [] preferenceCharSeq = preference.getEntries();
         for (CharSequence item : preferenceCharSeq) {
             adapter.add(item.toString());
@@ -83,7 +84,7 @@ public class DeviceManagementDialog extends Dialog {
     }
 
     private void updatePreferenceEntryValues() {
-        // dummy code to update the entries.
+        // todo dummy code to update the entries.
         int itemsLength = adapter.getCount();
         CharSequence[] entries = new CharSequence[itemsLength];
         HashSet<String> entriesSet = new HashSet<>();
@@ -94,7 +95,7 @@ public class DeviceManagementDialog extends Dialog {
         preference.setEntries(entries);
 
         SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.putStringSet("current_device_list", entriesSet);
+        spe.putStringSet(SettingValues.CURRENT_DEVICE_LIST, entriesSet);
     }
 
     private void setupToolbar() {

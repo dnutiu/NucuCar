@@ -37,7 +37,7 @@ public class SensorsFragment extends Fragment {
         sensorStatusImageView = root.findViewById(R.id.sensorStatusImageView);
         sensorStatusText = root.findViewById(R.id.sensorStatusChip);
 
-        environmentSensorService = new EnvironmentSensorService("192.168.0.100", 8000);
+        environmentSensorService = new EnvironmentSensorService("192.168.0.100:8000");
 
         setupSensorStatusImage();
         setupSensorMeasurementsDisplays();
