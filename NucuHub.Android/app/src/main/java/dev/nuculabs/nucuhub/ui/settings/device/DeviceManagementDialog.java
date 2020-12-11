@@ -10,19 +10,23 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.ListPreference;
+import com.google.android.material.textfield.TextInputLayout;
 import dev.nuculabs.nucuhub.R;
 import dev.nuculabs.nucuhub.domain.SettingValues;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class DeviceManagementDialog extends Dialog {
     private SharedPreferences sharedPreferences;
     private ListPreference preference = null;
     private ArrayAdapter<String> adapter;
+    private TextInputLayout deviceTextInputLayout;
 
     public DeviceManagementDialog(@NonNull Context context) {
         super(context, R.style.ThemeOverlay_AppCompat_ActionBar);
@@ -36,24 +40,22 @@ public class DeviceManagementDialog extends Dialog {
         setupToolbar();
 
         sharedPreferences = getContext().getSharedPreferences(SettingValues.NAME, Activity.MODE_PRIVATE);
-
-        final ListView deviceListView = findViewById(R.id.settings_device_dialog_list);
+        final ListView deviceListView = requireViewById(R.id.settings_device_dialog_list);
+        final Button addDeviceButton = requireViewById(R.id.settings_device_add_button);
+        deviceTextInputLayout = requireViewById(R.id.settings_device_input_device);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+
         deviceListView.setAdapter(adapter);
 
-        // todo: dummy code to add simple items.
+        // Add the existing items in the list adapter so they will be displayed.
         final CharSequence [] preferenceCharSeq = preference.getEntries();
         for (CharSequence item : preferenceCharSeq) {
             adapter.add(item.toString());
         }
 
-        Button testConnectionButton = findViewById(R.id.settings_device_test_connection_button);
-        testConnectionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.add("new object.");
-            }
-        });
+        // on-click handlers.
+        addDeviceButton.setOnClickListener(new AddNewDeviceAction());
+        // TODO add support for selecting device and deleting.
     }
 
     @Override
@@ -84,7 +86,6 @@ public class DeviceManagementDialog extends Dialog {
     }
 
     private void updatePreferenceEntryValues() {
-        // todo dummy code to update the entries.
         int itemsLength = adapter.getCount();
         CharSequence[] entries = new CharSequence[itemsLength];
         HashSet<String> entriesSet = new HashSet<>();
@@ -108,5 +109,17 @@ public class DeviceManagementDialog extends Dialog {
                 saveChangesAndDismiss();
             }
         });
+    }
+
+    private class AddNewDeviceAction implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            // TODO: Test connection before adding. loading -> testing connection -> show dialog.
+            EditText editText = Objects.requireNonNull(deviceTextInputLayout.getEditText());
+            String target = editText.getText().toString();
+            adapter.add(target);
+            editText.setText(null);
+        }
     }
 }

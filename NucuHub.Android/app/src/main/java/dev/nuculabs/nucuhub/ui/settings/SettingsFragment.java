@@ -24,9 +24,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void initializeDeviceListItems() {
-        // TODO dummy code to update device list entries
         SharedPreferences sp = Objects.requireNonNull(getContext()).getSharedPreferences(SettingValues.NAME, Activity.MODE_PRIVATE);
-        SharedPreferences.Editor spe = sp.edit();
         DeviceListPreference devicesList = findPreference(DEVICE_LIST_PREFERENCE);
         Set<String> savedEntries = sp.getStringSet(SettingValues.CURRENT_DEVICE_LIST, null);
         if (savedEntries != null) {
@@ -38,6 +36,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
             devicesList.setEntries(items);
         }
-
+        // TODO: Set default device.
     }
 }

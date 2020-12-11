@@ -1,5 +1,7 @@
 package dev.nuculabs.nucuhub.domain;
 
+import androidx.annotation.NonNull;
+
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,5 +56,11 @@ public class Device {
             throw new IllegalArgumentException(String.format(Locale.ENGLISH,
                     "Malformed URL provided for device: %s", url));
         }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.target;
     }
 }
