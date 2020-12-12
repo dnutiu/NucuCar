@@ -26,7 +26,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private void initializeDeviceListItems() {
         SharedPreferences sp = Objects.requireNonNull(getContext()).getSharedPreferences(SettingValues.NAME, Activity.MODE_PRIVATE);
         DeviceListPreference devicesList = findPreference(DEVICE_LIST_PREFERENCE);
-        Set<String> savedEntries = sp.getStringSet(SettingValues.CURRENT_DEVICE_LIST, null);
+        Set<String> savedEntries = sp.getStringSet(SettingValues.DEVICE_LIST, null);
         if (savedEntries != null) {
             CharSequence[] items = new CharSequence[savedEntries.size()];
             int index = 0;

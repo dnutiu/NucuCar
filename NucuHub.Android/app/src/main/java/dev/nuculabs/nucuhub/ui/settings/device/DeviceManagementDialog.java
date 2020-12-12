@@ -96,7 +96,8 @@ public class DeviceManagementDialog extends Dialog {
         preference.setEntries(entries);
 
         SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.putStringSet(SettingValues.CURRENT_DEVICE_LIST, entriesSet);
+        spe.putStringSet(SettingValues.DEVICE_LIST, entriesSet);
+        spe.commit();
     }
 
     private void setupToolbar() {
