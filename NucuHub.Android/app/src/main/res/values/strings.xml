@@ -36,7 +36,7 @@
     <string name="device_management_title">Device Management</string>
     <string name="settings_connect_new_device">Connect new device</string>
     <string name="settings_device_test_connection_btn">Add Device</string>
-    <string name="settings_device_add_new_device_input_hint">hostname:port</string>
+    <string name="settings_device_add_new_device_input_hint">http://hostname:port</string>
     <string name="settings_device_saved_devices">Saved Devices</string>
 
 

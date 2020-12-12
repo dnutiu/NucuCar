@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,15 +17,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.preference.ListPreference;
 import com.google.android.material.textfield.TextInputLayout;
 import dev.nuculabs.nucuhub.R;
+import dev.nuculabs.nucuhub.domain.Device;
 import dev.nuculabs.nucuhub.domain.SettingValues;
 
 import java.util.HashSet;
 import java.util.Objects;
 
 public class DeviceManagementDialog extends Dialog {
+    private final String TAG = DeviceManagementDialog.class.getName();
     private SharedPreferences sharedPreferences;
     private ListPreference preference = null;
-    private ArrayAdapter<String> adapter;
+    private DeviceListAdapter adapter;
     private TextInputLayout deviceTextInputLayout;
 
     public DeviceManagementDialog(@NonNull Context context) {
@@ -43,14 +45,14 @@ public class DeviceManagementDialog extends Dialog {
         final ListView deviceListView = requireViewById(R.id.settings_device_dialog_list);
         final Button addDeviceButton = requireViewById(R.id.settings_device_add_button);
         deviceTextInputLayout = requireViewById(R.id.settings_device_input_device);
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+        adapter = new DeviceListAdapter(getContext());
 
         deviceListView.setAdapter(adapter);
 
         // Add the existing items in the list adapter so they will be displayed.
         final CharSequence [] preferenceCharSeq = preference.getEntries();
         for (CharSequence item : preferenceCharSeq) {
-            adapter.add(item.toString());
+            adapter.add(new Device(item.toString()));
         }
 
         // on-click handlers.
@@ -90,7 +92,7 @@ public class DeviceManagementDialog extends Dialog {
         CharSequence[] entries = new CharSequence[itemsLength];
         HashSet<String> entriesSet = new HashSet<>();
         for (int i = 0; i < itemsLength; i++) {
-            entries[i] = adapter.getItem(i);
+            entries[i] = adapter.getItem(i).toString();
             entriesSet.add(entries[i].toString());
         }
         preference.setEntries(entries);
@@ -117,10 +119,15 @@ public class DeviceManagementDialog extends Dialog {
         @Override
         public void onClick(View v) {
             // TODO: Test connection before adding. loading -> testing connection -> show dialog.
-            EditText editText = Objects.requireNonNull(deviceTextInputLayout.getEditText());
-            String target = editText.getText().toString();
-            adapter.add(target);
-            editText.setText(null);
+            try {
+                EditText editText = Objects.requireNonNull(deviceTextInputLayout.getEditText());
+                String target = editText.getText().toString();
+                adapter.add(new Device(target));
+                editText.setText("http://");
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, e.getMessage());
+            }
+
         }
     }
 }

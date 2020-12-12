@@ -2,15 +2,15 @@ package dev.nuculabs.nucuhub.domain;
 
 import androidx.annotation.NonNull;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Device represents a NucuHub device.
  */
 public class Device {
-    private String target;
+    private URL target;
 
     public Device() {
     }
@@ -21,46 +21,37 @@ public class Device {
      * @param url Url of the form http://localhost:port
      */
     public Device(String url) {
-        validateUrlAgainstRegex(url);
-        target = url;
+        stringToURL(url);
     }
 
     public Device(String host, int port) {
         String temp = String.format(Locale.ENGLISH, "%s:%d", host, port);
-        validateUrlAgainstRegex(temp);
-        target = temp;
+        stringToURL(temp);
     }
 
     public String getTarget() {
-        return target;
+        return target.toString();
     }
 
     public void setTarget(String target) {
-        validateUrlAgainstRegex(target);
-        this.target = target;
+        stringToURL(target);
     }
 
     public boolean testConnection() {
         return true;
     }
 
-    private void validateUrlAgainstRegex(String url) {
-        String urlValidationRegex = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
-        Pattern p = Pattern.compile(urlValidationRegex);
-        Matcher m = p.matcher(url);
-        if (m.matches()) {
-            if (url.contains("http://") || url.contains("https://")) {
-                throw new IllegalArgumentException("Don't include schema with URL");
-            }
-        } else {
-            throw new IllegalArgumentException(String.format(Locale.ENGLISH,
-                    "Malformed URL provided for device: %s", url));
+    private void stringToURL(String url) {
+        try {
+            target = new URL(url);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
     @NonNull
     @Override
     public String toString() {
-        return this.target;
+        return this.target.toString();
     }
 }
