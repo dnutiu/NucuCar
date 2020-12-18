@@ -2,6 +2,7 @@ package dev.nuculabs.nucuhub.domain;
 
 import NucuCarSensorsProto.NucuCarSensors;
 import android.util.Log;
+import lombok.Getter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,10 +11,10 @@ import java.text.DecimalFormat;
 public class EnvironmentSensorData {
     @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = EnvironmentSensorData.class.getName();
-    private double temperature;
-    private double humidity;
-    private double pressure;
-    private double volatileOrganicCompounds;
+    @Getter private double temperature;
+    @Getter private double humidity;
+    @Getter private double pressure;
+    @Getter private double volatileOrganicCompounds;
     private NucuCarSensors.SensorStateEnum sensorState;
 
     public EnvironmentSensorData(String data, NucuCarSensors.SensorStateEnum state) {
@@ -63,22 +64,6 @@ public class EnvironmentSensorData {
             airQualityScore += 1;
         }
         return airQualityScore;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public double getPressure() {
-        return pressure;
-    }
-
-    public double getVolatileOrganicCompounds() {
-        return volatileOrganicCompounds;
     }
 
     @SuppressWarnings("NullableProblems")

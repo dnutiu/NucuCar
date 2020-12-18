@@ -60,5 +60,6 @@ dependencies {
     implementation 'io.grpc:grpc-protobuf-lite:1.33.1' // CURRENT_GRPC_VERSION
     implementation 'io.grpc:grpc-stub:1.33.1' // CURRENT_GRPC_VERSION
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
-
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
 }
