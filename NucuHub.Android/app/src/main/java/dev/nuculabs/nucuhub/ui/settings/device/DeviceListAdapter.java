@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import dev.nuculabs.nucuhub.R;
 import dev.nuculabs.nucuhub.domain.Device;
 
 import java.util.ArrayList;
@@ -44,13 +45,14 @@ public class DeviceListAdapter extends BaseAdapter  {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        final TextView text;
         if (view == null) {
-            view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            view = inflater.inflate(R.layout.settings_device_list_item, null);
         }
-
-        text = (TextView) view;
+        final TextView text = view.findViewById(R.id.settingsDeviceListDeviceListItemText);
         text.setText(items.get(position).toString());
+
+        // TODO: Add click listeners for Delete And Select Buttons.
+        // TODO: Mark selected item row?
 
         return view;
     }

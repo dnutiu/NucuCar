@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingStart="10dp" android:paddingEnd="10dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceListItemText"
+            tools:text="Device Name" android:textSize="18sp"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1">
+        <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceItemSelectButton"
+                android:src="@drawable/ic_baseline_star_border_24"
+                android:contentDescription="@string/select_icon"/>
+        <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceItemDeleteButton"
+                android:src="@drawable/ic_baseline_delete_24" android:contentDescription="@string/delete_icon"/>
+    </LinearLayout>
+</LinearLayout>
