@@ -7,19 +7,23 @@
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceListItemText"
+            android:layout_height="wrap_content" android:id="@+id/settings_device_list_item_text"
             tools:text="Device Name" android:textSize="18sp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/settings_device_list_item_position"
+            android:visibility="gone"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp" android:layout_weight="1">
         <ImageButton
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceItemSelectButton"
+                android:layout_height="wrap_content" android:id="@+id/settings_device_list_item_select_button"
                 android:src="@drawable/ic_baseline_star_border_24"
                 android:contentDescription="@string/select_icon"/>
         <ImageButton
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" android:id="@+id/settingsDeviceListDeviceItemDeleteButton"
+                android:layout_height="wrap_content" android:id="@+id/settings_device_list_item_delete_button"
                 android:src="@drawable/ic_baseline_delete_24" android:contentDescription="@string/delete_icon"/>
     </LinearLayout>
 </LinearLayout>

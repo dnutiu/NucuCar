@@ -45,7 +45,7 @@ public class DeviceManagementDialog extends Dialog {
         final ListView deviceListView = requireViewById(R.id.settings_device_dialog_list);
         final Button addDeviceButton = requireViewById(R.id.settings_device_add_button);
         deviceTextInputLayout = requireViewById(R.id.settings_device_input_device);
-        adapter = new DeviceListAdapter(getContext());
+        adapter = new DeviceListAdapter(getContext(), this);
 
         deviceListView.setAdapter(adapter);
 
@@ -87,7 +87,7 @@ public class DeviceManagementDialog extends Dialog {
         dismiss();
     }
 
-    private void updatePreferenceEntryValues() {
+    public void updatePreferenceEntryValues() {
         int itemsLength = adapter.getCount();
         CharSequence[] entries = new CharSequence[itemsLength];
         HashSet<String> entriesSet = new HashSet<>();
