@@ -31,8 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO: Add settings menu
-        // getMenuInflater().inflate(R.menu.settings_actions, menu);
         return true;
     }
 
