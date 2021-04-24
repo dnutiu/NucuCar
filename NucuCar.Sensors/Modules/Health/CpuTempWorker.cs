@@ -1,14 +1,16 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
 
 namespace NucuCar.Sensors.Modules.Health
 {
     public class CpuTempWorker : SensorWorker
     {
-        public CpuTempWorker(ILogger<CpuTempWorker> logger, Telemetry.Telemetry telemetry, ISensor<CpuTempSensor> sensor)
+        public CpuTempWorker(ILogger<CpuTempWorker> logger, Telemetry.Telemetry telemetry,
+            ISensor<CpuTempSensor> sensor, IOptions<CpuTempConfig> options)
         {
             Logger = logger;
-            MeasurementInterval = 3000;
+            MeasurementInterval = options.Value.MeasurementInterval;
             TelemetryPublisher = telemetry.Publisher;
             Sensor = sensor.Object;
         }

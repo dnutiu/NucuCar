@@ -1,9 +1,7 @@
 ﻿namespace NucuCar.Sensors.Modules.Heartbeat
 {
-    public class HeartbeatConfig
+    public class HeartbeatConfig : BaseSensorConfig
     {
-        public bool Enabled { get; set; }
-        public bool Telemetry { get; set; }
         public bool Grpc { get; } = false;
     }
 }

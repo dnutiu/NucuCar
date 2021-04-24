@@ -43,13 +43,14 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests
             {
                 Enabled = true,
             });
-            var service = new Bme680Worker(_mockLogger.Object, _mockSensorTelemetry.Object, _mockBme680ISensor.Object);
+            var service = new Bme680Worker(_mockLogger.Object, _mockSensorTelemetry.Object, _mockBme680ISensor.Object,
+                new OptionsWrapper<Bme680Config>(new Bme680Config()));
 
             await service.StartAsync(_cts.Token);
             _mockTestBme680Sensor.Verify(s => s.Initialize(), Times.AtLeastOnce);
             await service.StopAsync(_cts.Token);
         }
-        
+
         [Fact]
         public async Task Test_Bme680Worker_SensorIsBeingMeasured()
         {
@@ -58,8 +59,9 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests
                 Enabled = true,
             });
             _mockTestBme680Sensor.Setup(s => s.GetState()).Returns(SensorStateEnum.Initialized);
-            
-            var service = new Bme680Worker(_mockLogger.Object, _mockSensorTelemetry.Object, _mockBme680ISensor.Object);
+
+            var service = new Bme680Worker(_mockLogger.Object, _mockSensorTelemetry.Object, _mockBme680ISensor.Object,
+                new OptionsWrapper<Bme680Config>(new Bme680Config()));
             await service.StartAsync(_cts.Token);
             _mockTestBme680Sensor.Verify(s => s.Initialize(), Times.AtLeastOnce);
             _mockTestBme680Sensor.Verify(s => s.TakeMeasurementAsync(), Times.AtLeastOnce);
