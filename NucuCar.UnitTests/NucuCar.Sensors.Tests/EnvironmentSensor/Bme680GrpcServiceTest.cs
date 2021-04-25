@@ -60,7 +60,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor
 
             // Verify that the sensor get measurement method is not called.
             _mockSensor.Verify(s => s.Object.GetMeasurement(), Times.Never());
-            Assert.Equal(SensorStateEnum.GrpcDisabled, result.Result.State);
+            Assert.Equal(SensorStateEnum.Disabled, result.Result.State);
         }
     }
 }

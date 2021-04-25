@@ -2,6 +2,6 @@
 {
     public class HeartbeatConfig : BaseSensorConfig
     {
-        public bool Grpc { get; } = false;
+        public new bool Grpc { get; } = false;
     }
 }

@@ -6,7 +6,7 @@ namespace NucuCar.Sensors.Grpc
     {
         public static NucuCarSensorResponse GrpcIsDisabledResponse = new NucuCarSensorResponse()
         {
-            State = SensorStateEnum.GrpcDisabled,
+            State = SensorStateEnum.Disabled,
             JsonData = "{}"
         };
     }

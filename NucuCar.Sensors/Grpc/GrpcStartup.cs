@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Modules.Environment;
 using NucuCar.Sensors.Modules.Health;
+using NucuCar.Sensors.Modules.PMS5003;
 
 namespace NucuCar.Sensors.Grpc
 {
@@ -32,6 +33,7 @@ namespace NucuCar.Sensors.Grpc
                 // Add the gRPC services here.
                 endpoints.MapGrpcService<Bme680GrpcService>();
                 endpoints.MapGrpcService<CpuTempGrpcService>();
+                endpoints.MapGrpcService<Pms5003GrpcService>();
 
                 endpoints.MapGet("/",
                     async context =>

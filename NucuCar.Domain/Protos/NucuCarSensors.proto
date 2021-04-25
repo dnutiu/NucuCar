@@ -9,7 +9,6 @@ enum SensorStateEnum {
     Uninitialized = 1;
     Initialized = 2;
     Disabled = 3;
-    GrpcDisabled = 4;
 }
 
 // Environment Sensor
@@ -20,6 +19,11 @@ service EnvironmentSensorGrpcService {
 // Health Sensor
 service HealthSensorGrpcService {
     rpc GetCpuTemperature(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
+}
+
+// Pms5003 Sensor
+service Pms5003SensorGrpcService {
+    rpc GetMeasurement(google.protobuf.Empty) returns (NucuCarSensorResponse) {}
 }
 
 // Responses

@@ -36,17 +36,26 @@ namespace NucuCar.Sensors.Modules.PMS5003
         public override void Initialize()
         {
             _pms5003 = new Pms5003(23, 24);
+            CurrentState = SensorStateEnum.Initialized;
         }
 
         public override Task TakeMeasurementAsync()
         {
             try
             {
+                _pms5003.WakeUp();
                 _pms5003Data = _pms5003.ReadData();
+                CurrentState = SensorStateEnum.Initialized;
             }
             catch (ReadFailedException e)
             {
-                Logger?.LogError("{message}", e.Message);
+                Logger?.LogError("{Message}", e.Message);
+                CurrentState = SensorStateEnum.Error;
+                _pms5003.Reset();
+            }
+            finally
+            {
+                _pms5003.Sleep();
             }
 
             return Task.CompletedTask;
@@ -54,9 +63,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
 
         public override NucuCarSensorResponse GetMeasurement()
         {
-            string jsonResponse = null;
-            jsonResponse = _pms5003Data != null ? JsonConvert.SerializeObject(_pms5003Data) : "{}";
-
+            var jsonResponse = _pms5003Data != null ? JsonConvert.SerializeObject(_pms5003Data) : "{}";
             return new NucuCarSensorResponse()
             {
                 State = GetState(),
