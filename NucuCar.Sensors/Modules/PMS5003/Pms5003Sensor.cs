@@ -15,7 +15,6 @@ namespace NucuCar.Sensors.Modules.PMS5003
     {
         private Pms5003 _pms5003;
         private Pms5003Data _pms5003Data;
-
         public Pms5003Sensor()
         {
         }
@@ -35,16 +34,32 @@ namespace NucuCar.Sensors.Modules.PMS5003
 
         public override void Initialize()
         {
-            _pms5003 = new Pms5003(23, 24);
-            CurrentState = SensorStateEnum.Initialized;
+            if (_pms5003 != null) return;
+            try
+            {
+                _pms5003 = new Pms5003(23, 24);
+                _pms5003.Reset();
+                CurrentState = SensorStateEnum.Initialized;
+                Logger.LogInformation("Pms5003Sensor has initialized");
+            }
+            catch (ArgumentException e)
+            {
+                Logger.LogError("{Message}", e.Message);
+                CurrentState = SensorStateEnum.Error;
+            }
         }
 
         public override Task TakeMeasurementAsync()
         {
+            if (CurrentState == SensorStateEnum.Disabled)
+            {
+                throw new InvalidOperationException("Can't take measurement on disabled sensor!");
+            }
             try
             {
                 _pms5003.WakeUp();
                 _pms5003Data = _pms5003.ReadData();
+                Logger?.LogDebug("{Message}",_pms5003Data.ToString());
                 CurrentState = SensorStateEnum.Initialized;
             }
             catch (ReadFailedException e)
