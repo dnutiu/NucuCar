@@ -15,6 +15,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
     {
         private Pms5003 _pms5003;
         private Pms5003Data _pms5003Data;
+
         public Pms5003Sensor()
         {
         }
@@ -39,6 +40,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
                 CurrentState = SensorStateEnum.Initialized;
                 return;
             }
+
             try
             {
                 Pms5003.Logger = (Logger<Pms5003>) Logger;
@@ -60,11 +62,12 @@ namespace NucuCar.Sensors.Modules.PMS5003
             {
                 throw new InvalidOperationException("Can't take measurement on disabled sensor!");
             }
+
             try
             {
                 _pms5003.WakeUp();
                 _pms5003Data = _pms5003.ReadData();
-                Logger?.LogDebug("{Message}",_pms5003Data.ToString());
+                Logger?.LogDebug("{Message}", _pms5003Data.ToString());
                 CurrentState = SensorStateEnum.Initialized;
             }
             catch (ReadFailedException e)
@@ -110,18 +113,18 @@ namespace NucuCar.Sensors.Modules.PMS5003
                 returnValue = new Dictionary<string, object>
                 {
                     ["sensor_state"] = GetState(),
-                    ["Pm1Atmospheric"] = (int) _pms5003Data.Pm1Atmospheric,
-                    ["Pm1Standard"] = (int) _pms5003Data.Pm1Standard,
-                    ["Pm10Atmospheric"] = (int) _pms5003Data.Pm10Atmospheric,
-                    ["Pm10Standard"] = (int) _pms5003Data.Pm10Standard,
-                    ["Pm2Dot5Atmospheric"] = (int) _pms5003Data.Pm2Dot5Atmospheric,
-                    ["Pm2Dot5Standard"] = (int) _pms5003Data.Pm2Dot5Standard,
-                    ["ParticlesDiameterBeyond0Dot3"] = (int) _pms5003Data.ParticlesDiameterBeyond0Dot3,
-                    ["ParticlesDiameterBeyond0Dot5"] = (int) _pms5003Data.ParticlesDiameterBeyond0Dot5,
-                    ["ParticlesDiameterBeyond1Dot0"] = (int) _pms5003Data.ParticlesDiameterBeyond1Dot0,
-                    ["ParticlesDiameterBeyond2Dot5"] = (int) _pms5003Data.ParticlesDiameterBeyond2Dot5,
-                    ["ParticlesDiameterBeyond5Dot0"] = (int) _pms5003Data.ParticlesDiameterBeyond5Dot0,
-                    ["ParticlesDiameterBeyond10Dot0"] = (int) _pms5003Data.ParticlesDiameterBeyond10Dot0,
+                    ["Pm1Atmospheric"] = _pms5003Data.Pm1Atmospheric,
+                    ["Pm1Standard"] = _pms5003Data.Pm1Standard,
+                    ["Pm10Atmospheric"] = _pms5003Data.Pm10Atmospheric,
+                    ["Pm10Standard"] = _pms5003Data.Pm10Standard,
+                    ["Pm2Dot5Atmospheric"] = _pms5003Data.Pm2Dot5Atmospheric,
+                    ["Pm2Dot5Standard"] = _pms5003Data.Pm2Dot5Standard,
+                    ["ParticlesDiameterBeyond0Dot3"] = _pms5003Data.ParticlesDiameterBeyond0Dot3,
+                    ["ParticlesDiameterBeyond0Dot5"] = _pms5003Data.ParticlesDiameterBeyond0Dot5,
+                    ["ParticlesDiameterBeyond1Dot0"] = _pms5003Data.ParticlesDiameterBeyond1Dot0,
+                    ["ParticlesDiameterBeyond2Dot5"] = _pms5003Data.ParticlesDiameterBeyond2Dot5,
+                    ["ParticlesDiameterBeyond5Dot0"] = _pms5003Data.ParticlesDiameterBeyond5Dot0,
+                    ["ParticlesDiameterBeyond10Dot0"] = _pms5003Data.ParticlesDiameterBeyond10Dot0,
                 };
             }
 
