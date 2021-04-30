@@ -25,8 +25,6 @@ To build this project you will need to install .Net Core 3.1 and Android Studio.
 
 To run this project on the Raspberry Pi you will need dotnet core 3.1. installed.
 
-
-
 ## Building
 
 The following script provides instructions on how to build the whole project and deploy the NucuCar.Sensors module on the Raspberry Pi.

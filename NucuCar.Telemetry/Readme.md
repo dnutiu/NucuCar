@@ -1,12 +1,26 @@
-﻿## Telemetry
+﻿# Telemetry
 
-It provides useful classes and abstractions for implementing telemetry
-in individual components. All telemetry publishers use the MQTT protocol unless specified
-otherwise.
+This package provides useful classes and abstractions for implementing telemetry
+in individual components.
 
-### Azure Telemetry
+The telemetry service is used by other packages in order to implement telemetry reporting. It may be configured via the `appsettings.json` file or environment variables.
 
-#### Publisher
+# Configuration
+
+The following configurations is available for the Telemetry service:
+
+- Publisher: (string) The telemetry publisher. i.e: `Azure`, `Disk`, `Firestore`, `Console`.
+- ServiceEnabled: (bool) Enables or disables the telemetry collection service.
+- PublishInterval: (int) The interval in which to publish the telemetry data.
+- ConnectionString: (string) Connection string for the telemetry publisher.
+
+# Telemetry Publishers
+
+Telemetry publishers are used by the telemetry service in order to publish data.
+
+## Azure Telemetry
+
+### Publisher
 
 You can use cloud telemetry for free via Azure-IoT-Hub.
 You still need a backend application that will process the messages.
@@ -26,7 +40,7 @@ dotnet run --Telemetry:ConnectionString=CONNECTION_STRING
 export Telemetry:ConnectionString=CONNECTION_STRING
 ```
 
-The Telemetry:Publisher must be set to: Azure
+The `Telemetry:Publisher` must be set to: Azure
 
 You may also use the format from above to override any settings in appsettings.json.
 
@@ -37,16 +51,16 @@ Azure's IoT Hub Build-In Endpoints setting.
 
 ---
 
-### Disk Telemetry
+## Disk Telemetry
 
-#### Publisher
+### Publisher
 
 Publishes telemetry on the disk.
 
 Example connection string:
 `Filename=telemetry;FileExtension=csv;Separator=,;BufferSize=4096`
 
-The Telemetry:Publisher must be set to: Disk
+The `Telemetry:Publisher` must be set to: Disk
 
 See the source code for comments on the ConnectionString.
 
@@ -56,13 +70,13 @@ You will need to parse the file by yourself.
 
 ---
 
-### Firebase Firestore Database
+## Firebase Firestore Database
 
-#### Publisher
+### Publisher
 
 Publishes telemetry on the firestore.
 
-The Telemetry:Publisher must be set to: Firestore
+The `Telemetry:Publisher` must be set to: Firestore
 
 Example connection string:
 `ProjectId=nucuhub;CollectionName=sensors-telemetry-test;Timeout=1000`
