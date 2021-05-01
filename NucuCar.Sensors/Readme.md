@@ -7,11 +7,11 @@ For installing see instructions from the Readme.md file located at the root dire
 
 # Wiring
 
-_You may download the Fritzing diagrams from `Docs/fritzing/` in order to play with them._
+_You may download the Kicad diagrams from `Docs/kicad/`._
 
 Wire your sensor according to the following diagram:
 
-![raspberry pi wiring diagram](../Docs/images/nucucar.sensors_bb.jpg)
+![raspberry pi wiring diagram](../Docs/images/nucucar_wiring.png)
 
 #### BME680
 
@@ -19,6 +19,17 @@ Connect the BME680 sensor to the I2C bus 1 (I2C.1) of the Raspberry Pi.
 The address ` 0x76` will be used to communicate with the sensor.
 
 Make sure I2C is enabled. Use `raspi-config`.
+
+#### PMS5003
+
+Make sure to enable the serial hardware via `raspi-config`. Interfacing Options > Serial and disable the login shell and enable the serial port hardware.
+Then edit `/boot/config.txt` file and add `enable_uart=1` and `dtoverlay=pi3-miniuart-bt` to the bottom.
+
+SENSOR 1 (VCC) -> RPI 5V
+SENSOR 2 (GND) -> RPI Ground
+SENSOR 3 & 6 (SET & RESET) -> 10k OHM -> RPI 3.3V
+SENSOR 4 (RXD) -> RPI Gpio 14 (UART TX)
+SENSOR 6 (TXD) -> RPI Gpio 15 (UART RX)
 
 # Configuration
 
