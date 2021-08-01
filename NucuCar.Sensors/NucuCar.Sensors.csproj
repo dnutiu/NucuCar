@@ -6,13 +6,11 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.37.0" />
-        <PackageReference Include="Iot.Device.Bindings" Version="1.4.0" />
+        <PackageReference Include="Iot.Device.Bindings" Version="1.5.0" />
         <PackageReference Include="jose-jwt" Version="3.1.1" />
-        <PackageReference Include="libgrpc_csharp_ext.arm7" Version="1.1.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-preview.3.21201.4" />
         <PackageReference Include="PMS5003" Version="1.0.4" />
-        <PackageReference Include="System.Device.Gpio" Version="1.4.0" />
+        <PackageReference Include="System.Device.Gpio" Version="1.5.0" />
     </ItemGroup>
 
     <ItemGroup>

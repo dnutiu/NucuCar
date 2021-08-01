@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iot.Device.CpuTemperature;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
+using Iot.Device.CpuTemperature;
 
 namespace NucuCar.Sensors.Modules.Health
 {
