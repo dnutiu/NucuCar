@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Sensors", "NucuCar.Sensors\NucuCar.Sensors.csproj", "{94C44683-F5AF-4D7D-83AE-1F94A81E1E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.TestClient", "NucuCar.TestClient\NucuCar.TestClient.csproj", "{402BE859-07C7-4C77-8F3A-E727988CCFAD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Domain", "NucuCar.Domain\NucuCar.Domain.csproj", "{36BDA186-4C90-43C6-8991-A16DE245F91A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.UnitTests", "NucuCar.UnitTests\NucuCar.UnitTests.csproj", "{C6F07921-1052-4945-911E-F328A622F229}"
@@ -20,10 +18,6 @@ Global
 		{94C44683-F5AF-4D7D-83AE-1F94A81E1E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94C44683-F5AF-4D7D-83AE-1F94A81E1E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94C44683-F5AF-4D7D-83AE-1F94A81E1E91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{402BE859-07C7-4C77-8F3A-E727988CCFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{402BE859-07C7-4C77-8F3A-E727988CCFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{402BE859-07C7-4C77-8F3A-E727988CCFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{402BE859-07C7-4C77-8F3A-E727988CCFAD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36BDA186-4C90-43C6-8991-A16DE245F91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36BDA186-4C90-43C6-8991-A16DE245F91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BDA186-4C90-43C6-8991-A16DE245F91A}.Release|Any CPU.ActiveCfg = Release|Any CPU

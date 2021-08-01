@@ -149,14 +149,14 @@ namespace NucuCar.Domain.Http
                 }
                 catch (TaskCanceledException)
                 {
-                    Logger?.LogError($"Request timeout for {requestMessage.RequestUri}!");
+                    Logger?.LogError("Request timeout for {Uri}!", requestMessage.RequestUri);
                 }
                 catch (HttpRequestException e)
                 {
                     // The request failed due to an underlying issue such as network connectivity, DNS failure, 
                     //     server certificate validation or timeout.         
-                    Logger?.LogError($"HttpRequestException timeout for {requestMessage.RequestUri}!");
-                    Logger?.LogError($"{e.Message}");
+                    Logger?.LogError("HttpRequestException timeout for {Uri}!", requestMessage.RequestUri);
+                    Logger?.LogError("{ErrorMessage}", e.Message);
                 }
                 finally
                 {
