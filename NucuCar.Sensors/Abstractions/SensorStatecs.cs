@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NucuCar.Sensors.Abstractions
+﻿namespace NucuCar.Sensors.Abstractions
 {
     public enum SensorStateEnum : ushort
     {

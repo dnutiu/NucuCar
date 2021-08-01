@@ -6,8 +6,8 @@ namespace NucuCar.Domain.Http
 {
     public class MockMinimalHttpClient : MinimalHttpClient
     {
-        public List<HttpRequestMessage> SendAsyncArgCalls;
-        public List<HttpResponseMessage> SendAsyncResponses;
+        public readonly List<HttpRequestMessage> SendAsyncArgCalls;
+        public readonly List<HttpResponseMessage> SendAsyncResponses;
 
         private int _sendAsyncCallCounter;
 

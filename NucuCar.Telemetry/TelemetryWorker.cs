@@ -53,12 +53,12 @@ namespace NucuCar.Telemetry
             }
             catch (TaskCanceledException)
             {
-                _logger?.LogInformation("The TelemetryWorker task was canceled.");
+                _logger?.LogInformation("The TelemetryWorker task was canceled");
             }
             catch (Exception e)
             {
-                _logger?.LogError($"Unhandled exception in TelemetryWorker. {e.Message}");
-                _logger?.LogDebug(e.StackTrace);
+                _logger?.LogError("Unhandled exception in TelemetryWorker. {Message}",e.Message);
+                _logger?.LogDebug("{StackTrace}", e.StackTrace);
             }
         }
     }

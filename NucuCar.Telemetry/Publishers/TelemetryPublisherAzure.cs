@@ -40,7 +40,7 @@ namespace NucuCar.Telemetry.Publishers
             var data = GetTelemetry();
 
             var messageString = JsonConvert.SerializeObject(data);
-            Logger?.LogDebug($"Telemetry message: {messageString}");
+            Logger?.LogDebug("Telemetry message: {Message}", messageString);
             var message = new Message(Encoding.UTF8.GetBytes(messageString));
 
             await PublishToCloudAsync(message, cancellationToken);
@@ -70,7 +70,7 @@ namespace NucuCar.Telemetry.Publishers
                 catch (OperationCanceledException)
                 {
                     retry += 1;
-                    Logger?.LogWarning($"Telemetry not sent! Retry {retry}.");
+                    Logger?.LogWarning("Telemetry not sent! Retry attempt #{Retry}", retry);
                 }
             }
         }

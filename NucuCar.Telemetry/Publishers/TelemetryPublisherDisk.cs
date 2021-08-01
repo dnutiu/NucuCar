@@ -38,8 +38,10 @@ namespace NucuCar.Telemetry.Publishers
             var bufferSize = connectionStringParams.GetValueOrDefault("BufferSize", "4096");
             _separator = connectionStringParams.GetValueOrDefault("Separator", ",");
             
-            _fileStream = new FileStream(NormalizeFilename(fileName, fileExtension), FileMode.Append, FileAccess.Write,
-                FileShare.Read, int.Parse(bufferSize), true);
+            _fileStream = new FileStream(
+                NormalizeFilename(fileName, fileExtension), FileMode.Append, FileAccess.Write, FileShare.Read, 
+                // ReSharper disable once AssignNullToNotNullAttribute
+                int.Parse(bufferSize), true);
             Logger?.LogDebug("Initialized the TelemetryPublisherDisk!");
         }
 
@@ -47,7 +49,7 @@ namespace NucuCar.Telemetry.Publishers
         {
             var data = GetTelemetry();
             var messageString = JsonConvert.SerializeObject(data);
-            Logger?.LogDebug($"Telemetry message: {messageString}");
+            Logger?.LogDebug("Telemetry message: {Message}", messageString);
             var encodedText = Encoding.UTF8.GetBytes($"{messageString}{_separator}");
 
             try
@@ -58,7 +60,7 @@ namespace NucuCar.Telemetry.Publishers
             }
             catch (ObjectDisposedException e)
             {
-                Logger.LogCritical(e.Message);
+                Logger.LogCritical("{Message}", e.Message);
             }
 
         }

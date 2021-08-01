@@ -45,16 +45,16 @@ namespace NucuCar.Telemetry.Publishers
             if (!options.TryGetValue("ProjectId", out var firestoreProjectId))
             {
                 Logger?.LogCritical(
-                    $"Can't start {nameof(TelemetryPublisherFirestore)}! Malformed connection string! " +
-                    $"Missing ProjectId!");
+                    "Can't start {Name}! Malformed connection string! Missing ProjectId!",
+                    nameof(TelemetryPublisherFirestore));
                 throw new ArgumentException("Malformed connection string!");
             }
 
             if (!options.TryGetValue("CollectionName", out var firestoreCollection))
             {
                 Logger?.LogCritical(
-                    $"Can't start {nameof(TelemetryPublisherFirestore)}! Malformed connection string! " +
-                    $"Missing CollectionName!");
+                    "Can't start {Name}! Malformed connection string! Missing CollectionName!",
+                    nameof(TelemetryPublisherFirestore));
                 throw new ArgumentException("Malformed connection string!");
             }
 
@@ -67,14 +67,15 @@ namespace NucuCar.Telemetry.Publishers
             var requestUrl = $"https://firestore.googleapis.com/v1/projects/{firestoreProjectId}/" +
                              $"databases/(default)/documents/{firestoreCollection}/";
             HttpClient = new MinimalHttpClient(requestUrl) {Timeout = timeout, Logger = Logger};
-            Logger?.LogInformation($"Initialized {nameof(TelemetryPublisherFirestore)}");
-            Logger?.LogInformation($"ProjectId: {firestoreProjectId}; CollectionName: {firestoreCollection}.");
+            Logger?.LogInformation("Initialized {Name}", nameof(TelemetryPublisherFirestore));
+            Logger?.LogInformation("ProjectId: {FirestoreProjectId}; CollectionName: {FirestoreCollection}",
+                firestoreProjectId, firestoreCollection);
         }
 
         private async Task SetupAuthorization()
         {
             HttpClient.ClearAuthorizationHeader();
-            
+
             // https://cloud.google.com/identity-platform/docs/use-rest-api#section-sign-in-email-password
             var requestUrl = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={_webApiKey}";
             var data = new Dictionary<string, object>()
@@ -83,7 +84,7 @@ namespace NucuCar.Telemetry.Publishers
                 ["password"] = _webPassword,
                 ["returnSecureToken"] = true
             };
-            
+
             var response = await HttpClient.PostAsync(requestUrl, data);
 
             if (response?.StatusCode == HttpStatusCode.OK)
@@ -98,11 +99,11 @@ namespace NucuCar.Telemetry.Publishers
             }
             else
             {
-                Logger?.LogError($"Firestore authentication request failed! {response?.StatusCode}!");
+                Logger?.LogError("Firestore authentication request failed! {StatusCode}!", response?.StatusCode);
                 if (response != null)
                 {
                     var contentBody = await response.Content.ReadAsStringAsync();
-                    Logger?.LogDebug(contentBody);
+                    Logger?.LogDebug("{Body}", contentBody);
                 }
             }
         }
@@ -142,7 +143,7 @@ namespace NucuCar.Telemetry.Publishers
             // ArgumentException occurs during json serialization errors.
             catch (ArgumentException e)
             {
-                Logger?.LogWarning(e.Message);
+                Logger?.LogWarning("{Message}", e.Message);
             }
 
 
@@ -154,7 +155,8 @@ namespace NucuCar.Telemetry.Publishers
                 case HttpStatusCode.Forbidden:
                 case HttpStatusCode.Unauthorized:
                 {
-                    Logger?.LogError($"Failed to publish telemetry data! {responseMessage.StatusCode}. Retrying...");
+                    Logger?.LogError("Failed to publish telemetry data! {StatusCode}. Retrying...",
+                        responseMessage.StatusCode);
                     await SetupAuthorization();
                     responseMessage = await HttpClient.PostAsync("", data);
                     if (responseMessage != null && responseMessage.IsSuccessStatusCode)
@@ -163,13 +165,13 @@ namespace NucuCar.Telemetry.Publishers
                     }
                     else
                     {
-                        Logger?.LogError($"Failed to publish telemetry data! {responseMessage?.StatusCode}");
+                        Logger?.LogError("Failed to publish telemetry data! {StatusCode}", responseMessage?.StatusCode);
                     }
 
                     break;
                 }
                 default:
-                    Logger?.LogError($"Failed to publish telemetry data! {responseMessage?.StatusCode}");
+                    Logger?.LogError("Failed to publish telemetry data! {StatusCode}", responseMessage?.StatusCode);
                     break;
             }
         }

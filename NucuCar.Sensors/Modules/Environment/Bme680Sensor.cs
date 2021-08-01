@@ -97,7 +97,7 @@ namespace NucuCar.Sensors.Modules.Environment
 
                 CurrentState = SensorStateEnum.Initialized;
 
-                Logger?.LogInformation($"{DateTimeOffset.Now}:BME680 Sensor initialization OK.");
+                Logger?.LogInformation("{DateTime}:BME680 Sensor initialization OK", DateTimeOffset.Now);
             }
             catch (System.IO.IOException e)
             {
@@ -135,12 +135,12 @@ namespace NucuCar.Sensors.Modules.Environment
             _lastMeasurement.Humidity = Math.Round(humidity.Percent, 2);
             _lastMeasurement.VolatileOrganicCompounds = Math.Round(gasResistance.Kiloohms, 2);
 
-            Logger?.LogDebug($"{DateTimeOffset.Now}:BME680: reading");
+            Logger?.LogDebug("{DateTime}:BME680: reading", DateTimeOffset.Now);
             Logger?.LogInformation(
-                $"temperature:{_lastMeasurement.Temperature:N2} \u00B0C|" +
-                $"pressure:{_lastMeasurement.Pressure:N2} hPa|" +
-                $"humidity:{_lastMeasurement.Humidity:N2} %rH|" +
-                $"voc:{_lastMeasurement.VolatileOrganicCompounds}");
+                // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
+                string.Format("temperature:{0:N2} °C|pressure:{1:N2} hPa|humidity:{2:N2} %rH|voc:{3}",
+                    _lastMeasurement.Temperature, _lastMeasurement.Pressure, _lastMeasurement.Humidity,
+                    _lastMeasurement.VolatileOrganicCompounds));
         }
 
         public override string GetIdentifier()
@@ -175,8 +175,8 @@ namespace NucuCar.Sensors.Modules.Environment
 
         private void HandleInitializationException(Exception e)
         {
-            Logger?.LogError($"{DateTimeOffset.Now}:BME680 Sensor initialization FAIL.");
-            Logger?.LogDebug(e.Message);
+            Logger?.LogError("{DateTime}:BME680 Sensor initialization FAIL", DateTimeOffset.Now);
+            Logger?.LogDebug("{Message}", e.Message);
             CurrentState = SensorStateEnum.Error;
         }
     }

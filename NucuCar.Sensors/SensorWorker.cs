@@ -29,7 +29,7 @@ namespace NucuCar.Sensors
             }
 
             var sensorIdentifier = Sensor.GetIdentifier();
-            Logger?.LogInformation($"Starting sensor worker for {sensorIdentifier}");
+            Logger?.LogInformation("Starting sensor worker for {SensorId}", sensorIdentifier);
             try
             {
                 TelemetryPublisher?.RegisterTelemeter(Sensor);
@@ -41,7 +41,7 @@ namespace NucuCar.Sensors
                     /* If sensor is ok attempt to read. */
                     if (sensorState == SensorStateEnum.Initialized)
                     {
-                        Logger?.LogTrace($"{sensorIdentifier} is taking a measurement!");
+                        Logger?.LogTrace("{SensorId} is taking a measurement!", sensorIdentifier);
                         await Sensor.TakeMeasurementAsync();
                     }
                     /* Else attempt to re-initialize. */
@@ -49,7 +49,8 @@ namespace NucuCar.Sensors
                              sensorState == SensorStateEnum.Error)
                     {
                         Logger?.LogWarning(
-                            $"{sensorIdentifier} is in {sensorState}! Attempting to re-initialize in {_intializationDelay}ms.");
+                            "{SensorId} is in {SensorState}! Attempting to re-initialize in {InitDelay}ms",
+                            sensorIdentifier, sensorState, _intializationDelay);
                         _intializationDelay += 10000;
                         await Task.Delay(_intializationDelay, stoppingToken);
                         Sensor.Initialize();
@@ -57,7 +58,7 @@ namespace NucuCar.Sensors
                     else if (sensorState == SensorStateEnum.Disabled)
                     {
                         // Break from while.
-                        Logger?.LogInformation($"{sensorIdentifier} has been disabled!");
+                        Logger?.LogInformation("{SensorIdentifier} has been disabled!", sensorIdentifier);
                         break;
                     }
 
@@ -68,12 +69,13 @@ namespace NucuCar.Sensors
             }
             catch (TaskCanceledException)
             {
-                Logger?.LogInformation("The SensorWorker task was canceled.");
+                Logger?.LogInformation("The SensorWorker task was canceled");
             }
             catch (Exception e)
             {
-                Logger?.LogError($"Unhandled exception in SensorWorker {sensorIdentifier}. {e.GetType()}: {e.Message}");
-                Logger?.LogDebug(e.StackTrace);
+                Logger?.LogError("Unhandled exception in SensorWorker {SensorId}. {Type}: {Message}",
+                    sensorIdentifier, e.GetType(), e.Message);
+                Logger?.LogDebug("{StackTrace}", e.StackTrace);
             }
         }
     }

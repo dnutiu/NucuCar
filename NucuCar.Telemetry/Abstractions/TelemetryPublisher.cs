@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using NucuCar.Telemetry.Publishers;
 
 namespace NucuCar.Telemetry.Abstractions
 {
@@ -64,7 +63,7 @@ namespace NucuCar.Telemetry.Abstractions
         public bool RegisterTelemeter(ITelemeter t)
         {
             if (RegisteredTelemeters.Contains(t) || !t.IsTelemetryEnabled()) return false;
-            Logger?.LogDebug($"Registering telemeter {t.GetIdentifier()}");
+            Logger?.LogDebug("Registering telemeter {Identifier}", t.GetIdentifier());
             RegisteredTelemeters.Add(t);
             return true;
         }
@@ -77,7 +76,7 @@ namespace NucuCar.Telemetry.Abstractions
         public bool UnRegisterTelemeter(ITelemeter t)
         {
             if (!RegisteredTelemeters.Contains(t)) return false;
-            Logger?.LogDebug($"UnRegistering telemeter {t.GetIdentifier()}");
+            Logger?.LogDebug("UnRegistering telemeter {Identifier}", t.GetIdentifier());
             RegisteredTelemeters.Remove(t);
             return true;
         }
@@ -107,7 +106,7 @@ namespace NucuCar.Telemetry.Abstractions
                 var telemetryData = telemeter.GetTelemetryData();
                 if (telemetryData == null)
                 {
-                    Logger?.LogWarning($"Warning! Data for {telemeter.GetIdentifier()} is null!");
+                    Logger?.LogWarning("Warning! Data for {Identifier} is null!", telemeter.GetIdentifier());
                     continue;
                 }
 

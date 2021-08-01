@@ -17,8 +17,7 @@ namespace NucuCar.Telemetry.Publishers
         {
             var data = GetTelemetry();
             var messageString = JsonConvert.SerializeObject(data);
-            Logger?.LogDebug($"Telemetry message: {messageString}");
-            Logger?.LogInformation(messageString);
+            Logger?.LogDebug("Telemetry message: {Message}", messageString);
             return Task.CompletedTask;
         }
 

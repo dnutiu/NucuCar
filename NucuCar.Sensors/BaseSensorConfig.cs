@@ -1,5 +1,9 @@
-﻿namespace NucuCar.Sensors
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace NucuCar.Sensors
 {
+    [SuppressMessage("ReSharper", "RedundantDefaultMemberInitializer")]
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class BaseSensorConfig
     {
         public bool Enabled { get; set; } = false;
