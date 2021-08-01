@@ -7,7 +7,7 @@ namespace NucuCar.Sensors.Abstractions
     /// The GenericSensor is an abstract class, which provides a base for abstracting hardware sensors
     /// with telemetry support.
     /// See: <see cref="ITelemeter"/>
-    /// See: <see cref="NucuCar.Sensors.GenericSensor"/>
+    /// See: <see cref="NucuCar.Sensors.Abstractions.GenericSensor"/>
     /// </summary>
     public abstract class GenericTelemeterSensor : GenericSensor, ITelemeter
     {

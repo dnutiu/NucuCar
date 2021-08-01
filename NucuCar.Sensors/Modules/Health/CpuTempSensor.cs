@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
-using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.Modules.Health
 {

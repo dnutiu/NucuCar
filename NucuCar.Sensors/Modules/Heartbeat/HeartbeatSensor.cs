@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
-using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors.Modules.Heartbeat
 {

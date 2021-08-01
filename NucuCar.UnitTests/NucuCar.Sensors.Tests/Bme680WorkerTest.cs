@@ -6,7 +6,6 @@ using Moq;
 using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Modules.Environment;
 using NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor;
-using NucuCarSensorsProto;
 using Xunit;
 
 namespace NucuCar.UnitTests.NucuCar.Sensors.Tests

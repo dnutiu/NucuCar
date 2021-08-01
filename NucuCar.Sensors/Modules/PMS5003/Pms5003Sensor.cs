@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
-using NucuCarSensorsProto;
 using PMS5003;
 using PMS5003.Exceptions;
 

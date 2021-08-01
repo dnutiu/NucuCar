@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Abstractions;
-using NucuCar.Sensors.Grpc;
 using NucuCar.Sensors.Modules.Environment;
 using NucuCar.Sensors.Modules.Health;
 using NucuCar.Sensors.Modules.Heartbeat;
@@ -43,7 +41,6 @@ namespace NucuCar.Sensors
                     services.AddHostedService<CpuTempWorker>();
                     services.AddHostedService<HeartbeatWorker>();
                     services.AddHostedService<Pms5003Worker>();
-                })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
+                });
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NucuCar.Sensors.Abstractions;
 using NucuCar.Telemetry.Abstractions;
-using NucuCarSensorsProto;
 
 namespace NucuCar.Sensors
 {

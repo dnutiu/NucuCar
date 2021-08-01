@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
-using NucuCarSensorsProto;
 using Iot.Device.Bmxx80;
 using UnitsNet;
 using Bme680 = Iot.Device.Bmxx80.Bme680;
