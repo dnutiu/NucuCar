@@ -8,6 +8,7 @@ using NucuCar.Telemetry.Publishers;
 namespace NucuCar.Telemetry.Abstractions
 {
     /// <summary>
+    /// TODO: make an interface.
     /// The TelemetryPublisher is an abstract class, which provides a base for implementing telemetry publishers.
     /// </summary>
     public abstract class TelemetryPublisher : IDisposable

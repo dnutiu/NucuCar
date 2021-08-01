@@ -27,6 +27,7 @@ service Pms5003SensorGrpcService {
 }
 
 // Responses
+// TODO: Create a normal map and clean this.
 message NucuCarSensorResponse {
     SensorStateEnum State = 1;
     string JsonData = 2;
