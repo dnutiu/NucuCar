@@ -4,7 +4,7 @@ An attempt to create a remote weather station hub on the Raspberry Pi.
 
 The repository consists on several modules written in C# and an Android application written in Java.
 
-Communication between the Raspberry and the Android application is done via [gRPC](https://grpc.io/).
+Communication between the Raspberry and the Android application is done via the telemetry publishers.
 
 **The project is still undergoing development and it's not production ready.**
 
@@ -139,11 +139,6 @@ Manages all the sensors. For more info see the readme file located in the projec
 
 This module is runnable and is deployed on the Raspberry Pi.
 
-### NucuCar.TestClient
-
-Command line utility to play around with the car functionality. 
-You can use it to remotely read data from the sensors via gRPC methods and 
-to publish and read telemetry data.
 
 ### Docs
 
