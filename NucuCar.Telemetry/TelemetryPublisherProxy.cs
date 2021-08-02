@@ -1,24 +1,25 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Telemetry.Abstractions;
 
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace NucuCar.Telemetry
 {
-    public class Telemetry
+    public class TelemetryPublisherProxy : ITelemetryPublisher
     {
-        public TelemetryPublisher Publisher { get; set; }
+        private ITelemetryPublisher Publisher { get; set; }
 
         /// <summary>
         /// Class used together with the DI, holds a Publisher instance that's being create by options from
         /// TelemetryConfig.
         /// </summary>
-        public Telemetry()
+        public TelemetryPublisherProxy()
         {
         }
 
-        public Telemetry(ILogger<Telemetry> logger, IOptions<TelemetryConfig> options)
+        public TelemetryPublisherProxy(ILogger<TelemetryPublisherProxy> logger, IOptions<TelemetryConfig> options)
         {
             if (options.Value.ServiceEnabled)
             {
@@ -29,6 +30,21 @@ namespace NucuCar.Telemetry
             {
                 Publisher = null;
             }
+        }
+
+        public Task PublishAsync(CancellationToken cancellationToken)
+        {
+            return Publisher.PublishAsync(cancellationToken);
+        }
+
+        public bool RegisterTelemeter(ITelemeter t)
+        {
+            return Publisher.RegisterTelemeter(t);
+        }
+
+        public bool UnRegisterTelemeter(ITelemeter t)
+        {
+            return Publisher.UnRegisterTelemeter(t);
         }
     }
 }

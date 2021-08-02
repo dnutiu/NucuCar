@@ -7,10 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace NucuCar.Telemetry.Abstractions
 {
     /// <summary>
-    /// TODO: make an interface.
     /// The TelemetryPublisher is an abstract class, which provides a base for implementing telemetry publishers.
     /// </summary>
-    public abstract class TelemetryPublisher : IDisposable
+    public abstract class TelemetryPublisher : IDisposable, ITelemetryPublisher
     {
         /// <summary>
         /// Raw connection string that is used to connect to the cloud service. Should be parsed if required.
@@ -40,6 +39,19 @@ namespace NucuCar.Telemetry.Abstractions
         {
             RegisteredTelemeters = new List<ITelemeter>(10);
         }
+        
+        /// <summary>
+        /// Constructor for <see cref="TelemetryPublisher"/>.
+        /// </summary>
+        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherOptions"/></param>
+        protected TelemetryPublisher(TelemetryPublisherOptions opts)
+        {
+            ConnectionString = opts.ConnectionString;
+            TelemetrySource = opts.TelemetrySource;
+            Logger = opts.Logger;
+            RegisteredTelemeters = new List<ITelemeter>(10);
+        }
+
 
         /// <summary>
         /// Method that sends all data from the (<see cref="RegisteredTelemeters"/>) to the cloud.
@@ -80,19 +92,7 @@ namespace NucuCar.Telemetry.Abstractions
             RegisteredTelemeters.Remove(t);
             return true;
         }
-
-        /// <summary>
-        /// Constructor for <see cref="TelemetryPublisher"/>.
-        /// </summary>
-        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherOptions"/></param>
-        protected TelemetryPublisher(TelemetryPublisherOptions opts)
-        {
-            ConnectionString = opts.ConnectionString;
-            TelemetrySource = opts.TelemetrySource;
-            Logger = opts.Logger;
-            RegisteredTelemeters = new List<ITelemeter>(10);
-        }
-
+        
         /// <summary>
         /// Iterates through the registered telemeters and returns the telemetry data as dictionary.
         /// It also adds metadata information such as: source and timestamp.

@@ -6,6 +6,7 @@ using NucuCar.Sensors.Modules.CpuTemperature;
 using NucuCar.Sensors.Modules.Heartbeat;
 using NucuCar.Sensors.Modules.PMS5003;
 using NucuCar.Telemetry;
+using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Sensors
 {
@@ -27,7 +28,7 @@ namespace NucuCar.Sensors
                     services.Configure<Pms5003Config>(hostContext.Configuration.GetSection("Pms5003Sensor"));
 
                     // Singletons
-                    services.AddSingleton<Telemetry.Telemetry>();
+                    services.AddSingleton<ITelemetryPublisher, TelemetryPublisherProxy>();
                     services.AddSingleton<ISensor<Bme680Sensor>, Bme680Sensor>();
                     services.AddSingleton<ISensor<CpuTempSensor>, CpuTempSensor>();
                     services.AddSingleton<ISensor<HeartbeatSensor>, HeartbeatSensor>();

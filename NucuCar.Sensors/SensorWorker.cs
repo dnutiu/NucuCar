@@ -17,7 +17,7 @@ namespace NucuCar.Sensors
         private int _intializationDelay = 10000;
         protected int MeasurementInterval;
         protected ILogger Logger;
-        protected TelemetryPublisher TelemetryPublisher;
+        protected ITelemetryPublisher TelemetryPublisher;
         protected GenericTelemeterSensor Sensor;
 
 
@@ -25,6 +25,7 @@ namespace NucuCar.Sensors
         {
             if (Sensor == null)
             {
+                Logger?.LogDebug("{Message}","Sensor is null, abandoning execution.");
                 return;
             }
 

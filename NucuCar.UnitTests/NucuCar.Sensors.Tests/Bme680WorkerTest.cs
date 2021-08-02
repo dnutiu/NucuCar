@@ -18,7 +18,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests
     {
         private readonly Mock<ILogger<Bme680Worker>> _mockLogger;
         private readonly Mock<IOptions<Bme680Config>> _mockOptions;
-        private readonly Mock<global::NucuCar.Telemetry.Telemetry> _mockSensorTelemetry;
+        private readonly Mock<global::NucuCar.Telemetry.TelemetryPublisherProxy> _mockSensorTelemetry;
         private readonly Mock<TestBme680Sensor> _mockTestBme680Sensor;
         private readonly Mock<ISensor<Bme680Sensor>> _mockBme680ISensor;
         private readonly CancellationTokenSource _cts;
@@ -28,7 +28,7 @@ namespace NucuCar.UnitTests.NucuCar.Sensors.Tests
             _cts = new CancellationTokenSource();
             _mockLogger = new Mock<ILogger<Bme680Worker>>();
             _mockOptions = new Mock<IOptions<Bme680Config>>();
-            _mockSensorTelemetry = new Mock<global::NucuCar.Telemetry.Telemetry>();
+            _mockSensorTelemetry = new Mock<global::NucuCar.Telemetry.TelemetryPublisherProxy>();
             _mockTestBme680Sensor = new Mock<TestBme680Sensor>();
             _mockBme680ISensor = new Mock<ISensor<Bme680Sensor>>();
 

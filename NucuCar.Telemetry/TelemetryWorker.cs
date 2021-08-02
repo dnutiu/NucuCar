@@ -16,15 +16,15 @@ namespace NucuCar.Telemetry
         private readonly int _interval;
         private readonly bool _serviceEnabled;
         private readonly ILogger _logger;
-        private readonly TelemetryPublisher _telemetryPublisher;
+        private readonly ITelemetryPublisher _telemetryPublisher;
 
         public TelemetryWorker(ILogger<TelemetryWorker> logger, IOptions<TelemetryConfig> options,
-            Telemetry telemetry)
+            ITelemetryPublisher telemetryPublisherProxy)
         {
             _logger = logger;
             _interval = options.Value.PublishInterval;
             _serviceEnabled = options.Value.ServiceEnabled;
-            _telemetryPublisher = telemetry.Publisher;
+            _telemetryPublisher = telemetryPublisherProxy;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

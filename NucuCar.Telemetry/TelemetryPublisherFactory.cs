@@ -19,7 +19,7 @@ namespace NucuCar.Telemetry
         /// <param name="telemetrySource">String that is used to identify the source of the telemetry data.</param>
         /// <param name="logger">An <see cref="ILogger"/> logger instance. </param>
         /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
-        public static TelemetryPublisher Create(string type, string connectionString,
+        public static ITelemetryPublisher Create(string type, string connectionString,
             string telemetrySource, ILogger logger)
         {
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
@@ -36,7 +36,7 @@ namespace NucuCar.Telemetry
         /// <param name="type">The type of the publisher. See <see cref="TelemetryPublisherType"/> </param>
         /// <param name="connectionString">The device connection string for the selected publisher.</param>
         /// <returns>A <see cref="TelemetryPublisher"/> instance.</returns>
-        public static TelemetryPublisher CreateFromConnectionString(string type, string connectionString)
+        public static ITelemetryPublisher CreateFromConnectionString(string type, string connectionString)
         {
             Guard.ArgumentNotNullOrWhiteSpace(nameof(connectionString), connectionString);
             var opts = new TelemetryPublisherOptions()
@@ -44,7 +44,7 @@ namespace NucuCar.Telemetry
             return SpawnPublisher(type, opts);
         }
 
-        private static TelemetryPublisher SpawnPublisher(string type, TelemetryPublisherOptions opts)
+        private static ITelemetryPublisher SpawnPublisher(string type, TelemetryPublisherOptions opts)
         {
             return type switch
             {
