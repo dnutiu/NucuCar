@@ -54,7 +54,7 @@ Example config:
         "PublishInterval": 3000,
         "ConnectionString": "FileName=nucucar.telemetry;FileExtension=txt;Separator=\n"
     },
-    "EnvironmentSensor": {
+    "Bme680Sensor": {
         "Enabled": true,
         "Telemetry": true,
         "Grpc": true
@@ -66,9 +66,9 @@ Example config:
 
 # Sensors
 
-#### Environment Sensor
+#### Bme680 Sensor
 
-We use [BME680](https://www.bosch-sensortec.com/bst/products/all_products/bme680) environmental sensor from Bosh.
+The [BME680](https://www.bosch-sensortec.com/bst/products/all_products/bme680) environmental sensor from Bosh.
 
 Sensor capabilities:
 
@@ -76,3 +76,8 @@ Sensor capabilities:
 * Barometric Pressure
 * Humidity
 * VOC Gas (Gas Resistance)
+
+#### Pms5003 Sensor
+
+The [Plantower PMS5003](http://www.plantower.com/en/content/?108.html) air quality sensor.
+
