@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
 
-namespace NucuCar.Sensors.Modules.Environment
+namespace NucuCar.Sensors.Modules.BME680
 {
     public class Bme680Worker : SensorWorker
     {

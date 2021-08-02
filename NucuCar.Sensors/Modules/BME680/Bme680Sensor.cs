@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Device.I2c;
 using System.Threading.Tasks;
+using Iot.Device.Bmxx80;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
-using Iot.Device.Bmxx80;
 using UnitsNet;
 using Bme680 = Iot.Device.Bmxx80.Bme680;
 using Bme680PowerMode = Iot.Device.Bmxx80.PowerMode.Bme680PowerMode;
 using Sampling = Iot.Device.Bmxx80.Sampling;
 
-namespace NucuCar.Sensors.Modules.Environment
+namespace NucuCar.Sensors.Modules.BME680
 {
     internal class Bme680MeasurementData
     {

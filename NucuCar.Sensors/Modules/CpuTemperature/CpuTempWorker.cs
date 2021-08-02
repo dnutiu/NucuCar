@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
 
-namespace NucuCar.Sensors.Modules.Health
+namespace NucuCar.Sensors.Modules.CpuTemperature
 {
     public class CpuTempWorker : SensorWorker
     {

@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NucuCar.Sensors.Abstractions;
-using Iot.Device.CpuTemperature;
 
-namespace NucuCar.Sensors.Modules.Health
+namespace NucuCar.Sensors.Modules.CpuTemperature
 {
     public class CpuTempSensor : GenericTelemeterSensor, ISensor<CpuTempSensor>
     {
-        private readonly CpuTemperature _cpuTemperature;
+        private readonly Iot.Device.CpuTemperature.CpuTemperature _cpuTemperature;
         private double _lastTemperatureCelsius;
 
         public CpuTempSensor()
@@ -23,7 +22,7 @@ namespace NucuCar.Sensors.Modules.Health
             if (options.Value.Enabled)
             {
                 CurrentState = SensorStateEnum.Uninitialized;
-                _cpuTemperature = new CpuTemperature();
+                _cpuTemperature = new Iot.Device.CpuTemperature.CpuTemperature();
                 Object = this;
                 TelemetryEnabled = options.Value.Telemetry;
             }

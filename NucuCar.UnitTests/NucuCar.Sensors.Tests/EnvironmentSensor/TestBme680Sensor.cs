@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using NucuCar.Sensors.Abstractions;
-using NucuCar.Sensors.Modules.Environment;
+using NucuCar.Sensors.Modules.BME680;
 
 namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor
 {

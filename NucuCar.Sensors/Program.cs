@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NucuCar.Sensors.Abstractions;
-using NucuCar.Sensors.Modules.Environment;
-using NucuCar.Sensors.Modules.Health;
+using NucuCar.Sensors.Modules.BME680;
+using NucuCar.Sensors.Modules.CpuTemperature;
 using NucuCar.Sensors.Modules.Heartbeat;
 using NucuCar.Sensors.Modules.PMS5003;
 using NucuCar.Telemetry;
@@ -21,8 +21,8 @@ namespace NucuCar.Sensors
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.Configure<TelemetryConfig>(hostContext.Configuration.GetSection("Telemetry"));
-                    services.Configure<Bme680Config>(hostContext.Configuration.GetSection("EnvironmentSensor"));
-                    services.Configure<CpuTempConfig>(hostContext.Configuration.GetSection("HealthSensor"));
+                    services.Configure<Bme680Config>(hostContext.Configuration.GetSection("Bme680Sensor"));
+                    services.Configure<CpuTempConfig>(hostContext.Configuration.GetSection("CpuTemperatureSensor"));
                     services.Configure<HeartbeatConfig>(hostContext.Configuration.GetSection("HeartbeatSensor"));
                     services.Configure<Pms5003Config>(hostContext.Configuration.GetSection("Pms5003Sensor"));
 
