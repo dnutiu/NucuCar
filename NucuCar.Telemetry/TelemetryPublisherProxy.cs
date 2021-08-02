@@ -9,7 +9,8 @@ namespace NucuCar.Telemetry
 {
     public class TelemetryPublisherProxy : ITelemetryPublisher
     {
-        private ITelemetryPublisher Publisher { get; set; }
+        // TODO: Add support for chaining publishers.
+        private ITelemetryPublisher Publisher { get; }
 
         /// <summary>
         /// Class used together with the DI, holds a Publisher instance that's being create by options from

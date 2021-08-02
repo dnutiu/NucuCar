@@ -11,6 +11,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
 {
     public class Pms5003Sensor : GenericTelemeterSensor, IDisposable, ISensor<Pms5003Sensor>
     {
+        private readonly ILoggerFactory _loggerFactory;
         private Pms5003 _pms5003;
         private Pms5003Data _pms5003Data;
 
@@ -18,16 +19,17 @@ namespace NucuCar.Sensors.Modules.PMS5003
         {
         }
 
-        public Pms5003Sensor(ILogger<Pms5003Sensor> logger, IOptions<Pms5003Config> options)
+        public Pms5003Sensor(ILoggerFactory loggingFactory, IOptions<Pms5003Config> options)
         {
             CurrentState = SensorStateEnum.Uninitialized;
-            Logger = logger;
+            Logger = loggingFactory.CreateLogger(nameof(Pms5003Sensor));
             if (!options.Value.Enabled)
             {
                 Logger?.LogDebug("Pms5003 Sensor is disabled!");
                 CurrentState = SensorStateEnum.Disabled;
             }
-
+            
+            _loggerFactory = loggingFactory;
             TelemetryEnabled = options.Value.Telemetry;
         }
 
@@ -41,7 +43,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
 
             try
             {
-                Pms5003.Logger = (Logger<Pms5003>) Logger;
+                Pms5003.Logger = new Logger<Pms5003>(_loggerFactory);
                 _pms5003 = new Pms5003(23, 24);
                 _pms5003.Reset();
                 CurrentState = SensorStateEnum.Initialized;
