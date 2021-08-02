@@ -4,7 +4,6 @@ using System.Device.I2c;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
 using Iot.Device.Bmxx80;
 using UnitsNet;
@@ -54,11 +53,17 @@ namespace NucuCar.Sensors.Modules.Environment
 
         public override NucuCarSensorResponse GetMeasurement()
         {
-            var jsonResponse = JsonConvert.SerializeObject(_lastMeasurement);
             return new NucuCarSensorResponse
             {
+                SensorId = GetIdentifier(),
                 State = GetState(),
-                JsonData = jsonResponse
+                Data = new List<SensorMeasurement>
+                {
+                    new SensorMeasurement("temperature", "celsius", _lastMeasurement.Temperature),
+                    new SensorMeasurement("humidity", "rh", _lastMeasurement.Humidity),
+                    new SensorMeasurement("pressure", "hPa", _lastMeasurement.Pressure),
+                    new SensorMeasurement("volatileOrganicCoumpounds", "", _lastMeasurement.VolatileOrganicCompounds),
+                }
             };
         }
 

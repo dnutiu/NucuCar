@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
 using PMS5003;
 using PMS5003.Exceptions;
@@ -85,11 +84,31 @@ namespace NucuCar.Sensors.Modules.PMS5003
 
         public override NucuCarSensorResponse GetMeasurement()
         {
-            var jsonResponse = _pms5003Data != null ? JsonConvert.SerializeObject(_pms5003Data) : "{}";
             return new NucuCarSensorResponse()
             {
+                SensorId = GetIdentifier(),
                 State = GetState(),
-                JsonData = jsonResponse
+                Data = new List<SensorMeasurement>
+                {
+                    new SensorMeasurement("Pm1Atmospheric", "?", _pms5003Data.Pm1Atmospheric),
+                    new SensorMeasurement("Pm1Standard", "?", _pms5003Data.Pm1Standard),
+                    new SensorMeasurement("Pm10Atmospheric", "?", _pms5003Data.Pm10Atmospheric),
+                    new SensorMeasurement("Pm10Standard", "?", _pms5003Data.Pm10Standard),
+                    new SensorMeasurement("Pm2Dot5Atmospheric", "?", _pms5003Data.Pm2Dot5Atmospheric),
+                    new SensorMeasurement("Pm2Dot5Standard", "?", _pms5003Data.Pm2Dot5Standard),
+                    new SensorMeasurement("ParticlesDiameterBeyond0Dot3", "?",
+                        _pms5003Data.ParticlesDiameterBeyond0Dot3),
+                    new SensorMeasurement("ParticlesDiameterBeyond0Dot5", "?",
+                        _pms5003Data.ParticlesDiameterBeyond0Dot5),
+                    new SensorMeasurement("ParticlesDiameterBeyond1Dot0", "?",
+                        _pms5003Data.ParticlesDiameterBeyond1Dot0),
+                    new SensorMeasurement("ParticlesDiameterBeyond2Dot5", "?",
+                        _pms5003Data.ParticlesDiameterBeyond2Dot5),
+                    new SensorMeasurement("ParticlesDiameterBeyond5Dot0", "?",
+                        _pms5003Data.ParticlesDiameterBeyond5Dot0),
+                    new SensorMeasurement("ParticlesDiameterBeyond10Dot0", "?",
+                        _pms5003Data.ParticlesDiameterBeyond10Dot0),
+                }
             };
         }
 

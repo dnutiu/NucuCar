@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NucuCar.Sensors.Abstractions;
 using Iot.Device.CpuTemperature;
 
@@ -65,14 +64,14 @@ namespace NucuCar.Sensors.Modules.Health
 
         public override NucuCarSensorResponse GetMeasurement()
         {
-            var jsonResponse = JsonConvert.SerializeObject(new Dictionary<string, object>
-            {
-                ["cpu_temperature"] = _lastTemperatureCelsius,
-            });
             return new NucuCarSensorResponse()
             {
+                SensorId = GetIdentifier(),
                 State = CurrentState,
-                JsonData = jsonResponse
+                Data = new List<SensorMeasurement>
+                {
+                    new SensorMeasurement("temperature", "celsius", _lastTemperatureCelsius)
+                }
             };
         }
 
