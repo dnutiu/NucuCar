@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using NucuCar.Sensors.Abstractions;
 using NucuCar.Sensors.Modules.BME680;
 
-namespace NucuCar.UnitTests.NucuCar.Sensors.Tests.EnvironmentSensor
+namespace NucuCar.UnitTests.NucuCar.Sensors.Bme680
 {
     public class TestBme680Sensor : Bme680Sensor
     {

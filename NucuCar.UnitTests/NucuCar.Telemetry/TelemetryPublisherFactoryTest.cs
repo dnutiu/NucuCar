@@ -3,7 +3,7 @@ using NucuCar.Telemetry;
 using NucuCar.Telemetry.Publishers;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
+namespace NucuCar.UnitTests.NucuCar.Telemetry
 {
     public class TelemetryPublisherFactoryTest
     {

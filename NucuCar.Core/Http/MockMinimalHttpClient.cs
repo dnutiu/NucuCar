@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NucuCar.Domain.Http
+namespace NucuCar.Core.Http
 {
     public class MockMinimalHttpClient : MinimalHttpClient
     {

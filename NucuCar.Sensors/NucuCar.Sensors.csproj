@@ -77,7 +77,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\NucuCar.Domain\NucuCar.Domain.csproj" />
+      <ProjectReference Include="..\NucuCar.Core\NucuCar.Core.csproj" />
       <ProjectReference Include="..\NucuCar.Telemetry\NucuCar.Telemetry.csproj" />
     </ItemGroup>
 </Project>

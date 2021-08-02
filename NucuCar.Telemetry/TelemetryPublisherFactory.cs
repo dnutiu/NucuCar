@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NucuCar.Domain.Utilities;
+using NucuCar.Core.Utilities;
 using NucuCar.Telemetry.Abstractions;
 using NucuCar.Telemetry.Publishers;
 

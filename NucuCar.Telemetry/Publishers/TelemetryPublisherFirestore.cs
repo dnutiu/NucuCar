@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using NucuCar.Domain.Http;
-using NucuCar.Domain.Utilities;
+using NucuCar.Core.Http;
+using NucuCar.Core.Utilities;
 using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Telemetry.Publishers

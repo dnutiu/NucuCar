@@ -1,8 +1,8 @@
 ﻿using System;
-using NucuCar.Domain.Utilities;
+using NucuCar.Core.Utilities;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Domain.Tests
+namespace NucuCar.UnitTests.NucuCar.Core
 {
     public class GuardTest
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NucuCar.Domain.Utilities
+namespace NucuCar.Core.Utilities
 {
     /// <summary>
     /// ConnectionStringParser is an utility service to parse and validate connection strings.

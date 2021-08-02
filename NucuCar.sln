@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Sensors", "NucuCar.Sensors\NucuCar.Sensors.csproj", "{94C44683-F5AF-4D7D-83AE-1F94A81E1E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Domain", "NucuCar.Domain\NucuCar.Domain.csproj", "{36BDA186-4C90-43C6-8991-A16DE245F91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.Core", "NucuCar.Core\NucuCar.Core.csproj", "{36BDA186-4C90-43C6-8991-A16DE245F91A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NucuCar.UnitTests", "NucuCar.UnitTests\NucuCar.UnitTests.csproj", "{C6F07921-1052-4945-911E-F328A622F229}"
 EndProject

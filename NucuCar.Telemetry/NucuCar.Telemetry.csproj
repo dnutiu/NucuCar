@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\NucuCar.Domain\NucuCar.Domain.csproj" />
+      <ProjectReference Include="..\NucuCar.Core\NucuCar.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using NucuCar.Domain.Http;
+using NucuCar.Core.Http;
 using NucuCar.Telemetry;
 using NucuCar.Telemetry.Publishers;
 using Xunit;
 
-namespace NucuCar.UnitTests.NucuCar.Domain.Telemetry.Tests
+namespace NucuCar.UnitTests.NucuCar.Telemetry
 {
     /// <summary>
     /// Class used to test the TelemetryPublisherFirestore by mocking the GetTelemetry method and HttpClient field.
