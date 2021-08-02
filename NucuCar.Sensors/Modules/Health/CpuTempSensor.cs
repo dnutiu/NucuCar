@@ -62,9 +62,9 @@ namespace NucuCar.Sensors.Modules.Health
             return Task.FromResult(_lastTemperatureCelsius);
         }
 
-        public override NucuCarSensorResponse GetMeasurement()
+        public override SensorResponse GetMeasurement()
         {
-            return new NucuCarSensorResponse()
+            return new SensorResponse()
             {
                 SensorId = GetIdentifier(),
                 State = CurrentState,

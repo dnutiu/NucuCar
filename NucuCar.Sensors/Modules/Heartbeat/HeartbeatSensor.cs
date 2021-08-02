@@ -39,9 +39,9 @@ namespace NucuCar.Sensors.Modules.Heartbeat
             return Task.CompletedTask;
         }
 
-        public override NucuCarSensorResponse GetMeasurement()
+        public override SensorResponse GetMeasurement()
         {
-            return new NucuCarSensorResponse()
+            return new SensorResponse()
             {
                 SensorId = GetIdentifier(),
                 State = CurrentState,

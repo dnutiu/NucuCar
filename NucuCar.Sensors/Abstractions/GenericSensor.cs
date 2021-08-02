@@ -13,7 +13,7 @@ namespace NucuCar.Sensors.Abstractions
 
         public abstract void Initialize();
         public abstract Task TakeMeasurementAsync();
-        public abstract NucuCarSensorResponse GetMeasurement();
+        public abstract SensorResponse GetMeasurement();
         public abstract SensorStateEnum GetState();
     }
 }

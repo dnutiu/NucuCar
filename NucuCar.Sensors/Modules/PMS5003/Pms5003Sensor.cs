@@ -82,9 +82,9 @@ namespace NucuCar.Sensors.Modules.PMS5003
             return Task.CompletedTask;
         }
 
-        public override NucuCarSensorResponse GetMeasurement()
+        public override SensorResponse GetMeasurement()
         {
-            return new NucuCarSensorResponse()
+            return new SensorResponse()
             {
                 SensorId = GetIdentifier(),
                 State = GetState(),

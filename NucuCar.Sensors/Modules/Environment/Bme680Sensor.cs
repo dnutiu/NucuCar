@@ -51,9 +51,9 @@ namespace NucuCar.Sensors.Modules.Environment
             Object = this;
         }
 
-        public override NucuCarSensorResponse GetMeasurement()
+        public override SensorResponse GetMeasurement()
         {
-            return new NucuCarSensorResponse
+            return new SensorResponse
             {
                 SensorId = GetIdentifier(),
                 State = GetState(),

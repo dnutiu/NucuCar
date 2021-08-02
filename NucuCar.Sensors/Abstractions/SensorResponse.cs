@@ -2,9 +2,8 @@
 
 namespace NucuCar.Sensors.Abstractions
 {
-    public class NucuCarSensorResponse
+    public class SensorResponse
     {
-        // TODO: Fix names in NucuCar.Sensors.Modules.
         public SensorStateEnum State;
         public string SensorId;
         public List<SensorMeasurement> Data;
