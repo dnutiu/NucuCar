@@ -14,14 +14,14 @@ namespace NucuCar.Telemetry.Abstractions
         /// <returns>An identifier for the telemetry source.</returns>
         string GetIdentifier();
 
-        // TODO: Perhaps here it's better if we return a string.
+        // TODO: Perhaps here it's better if we return a string or a json object from  Newtonsoft.
         /// <summary>
         /// This function should return a dictionary containing the telemetry data.
         /// When implementing this function you should return null if the telemetry is disabled.
         /// See: <see cref="IsTelemetryEnabled"/>
         /// </summary>
         /// <returns>The telemetry data. It should be JSON serializable.</returns>
-        Dictionary<string, object> GetTelemetryData();
+        Dictionary<string, object> GetTelemetryJson();
 
         /// <summary>
         /// This function should return whether the sensor has telemetry enabled or not.

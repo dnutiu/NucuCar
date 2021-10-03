@@ -103,7 +103,7 @@ namespace NucuCar.Telemetry.Abstractions
             var data = new List<Dictionary<string, object>>();
             foreach (var telemeter in RegisteredTelemeters)
             {
-                var telemetryData = telemeter.GetTelemetryData();
+                var telemetryData = telemeter.GetTelemetryJson();
                 if (telemetryData == null)
                 {
                     Logger?.LogWarning("Warning! Data for {Identifier} is null!", telemeter.GetIdentifier());

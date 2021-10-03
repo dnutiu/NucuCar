@@ -13,7 +13,7 @@ namespace NucuCar.Sensors.Abstractions
     {
         protected bool TelemetryEnabled;
         public abstract string GetIdentifier();
-        public abstract Dictionary<string, object> GetTelemetryData();
+        public abstract Dictionary<string, object> GetTelemetryJson();
         public abstract bool IsTelemetryEnabled();
     }
 }

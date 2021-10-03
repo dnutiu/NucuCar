@@ -124,7 +124,7 @@ namespace NucuCar.Sensors.Modules.PMS5003
             return "Pms5003";
         }
 
-        public override Dictionary<string, object> GetTelemetryData()
+        public override Dictionary<string, object> GetTelemetryJson()
         {
             Dictionary<string, object> returnValue = null;
             if (_pms5003Data != null && TelemetryEnabled)

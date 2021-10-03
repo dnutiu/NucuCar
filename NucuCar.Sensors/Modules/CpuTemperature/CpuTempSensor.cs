@@ -84,7 +84,7 @@ namespace NucuCar.Sensors.Modules.CpuTemperature
             return "CpuTemperature";
         }
 
-        public override Dictionary<string, object> GetTelemetryData()
+        public override Dictionary<string, object> GetTelemetryJson()
         {
             Dictionary<string, object> returnValue = null;
             if (!double.IsNaN(_lastTemperatureCelsius) && TelemetryEnabled)

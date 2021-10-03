@@ -153,7 +153,7 @@ namespace NucuCar.Sensors.Modules.BME680
             return "Environment";
         }
 
-        public override Dictionary<string, object> GetTelemetryData()
+        public override Dictionary<string, object> GetTelemetryJson()
         {
             Dictionary<string, object> returnValue = null;
             if (_lastMeasurement != null && TelemetryEnabled)

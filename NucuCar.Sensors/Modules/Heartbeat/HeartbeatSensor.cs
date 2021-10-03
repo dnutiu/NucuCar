@@ -59,7 +59,7 @@ namespace NucuCar.Sensors.Modules.Heartbeat
             return "Heartbeat";
         }
 
-        public override Dictionary<string, object> GetTelemetryData()
+        public override Dictionary<string, object> GetTelemetryJson()
         {
             var returnValue = new Dictionary<string, object>
                 {
