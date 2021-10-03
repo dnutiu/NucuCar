@@ -6,7 +6,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <PackageReference Include="FirebaseRestTranslator" Version="0.1.2" />
       <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.29.0-preview-002" />
     </ItemGroup>
 </Project>
