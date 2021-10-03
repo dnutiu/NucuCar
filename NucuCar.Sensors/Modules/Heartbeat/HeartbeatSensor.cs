@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using NucuCar.Sensors.Abstractions;
 
 namespace NucuCar.Sensors.Modules.Heartbeat
@@ -59,15 +61,17 @@ namespace NucuCar.Sensors.Modules.Heartbeat
             return "Heartbeat";
         }
 
-        public override Dictionary<string, object> GetTelemetryJson()
+        public override JObject GetTelemetryJson()
         {
-            var returnValue = new Dictionary<string, object>
+            if (TelemetryEnabled)
+            {
+                return new JObject
                 {
-                    ["sensor_state"] = CurrentState,
-                    ["value"] = 1,
+                    ["sensor_state"] = GetState().ToString(),
+                    ["last_seen"] = DateTime.UtcNow,
                 };
-
-            return returnValue;
+            }
+            return null;
         }
 
         public override bool IsTelemetryEnabled()

@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Telemetry.Publishers
 {
-    public class TelemetryPublisherConsole : TelemetryPublisher
+    public class Console : BasePublisher
     {
 
-        public TelemetryPublisherConsole(TelemetryPublisherOptions opts) : base(opts)
+        public Console(PublisherOptions opts) : base(opts)
         {
         }
         

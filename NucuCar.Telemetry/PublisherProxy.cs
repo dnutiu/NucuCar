@@ -7,7 +7,7 @@ using NucuCar.Telemetry.Abstractions;
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 namespace NucuCar.Telemetry
 {
-    public class TelemetryPublisherProxy : ITelemetryPublisher
+    public class PublisherProxy : ITelemetryPublisher
     {
         // TODO: Add support for chaining publishers.
         private ITelemetryPublisher Publisher { get; }
@@ -16,15 +16,15 @@ namespace NucuCar.Telemetry
         /// Class used together with the DI, holds a Publisher instance that's being create by options from
         /// TelemetryConfig.
         /// </summary>
-        public TelemetryPublisherProxy()
+        public PublisherProxy()
         {
         }
 
-        public TelemetryPublisherProxy(ILogger<TelemetryPublisherProxy> logger, IOptions<TelemetryConfig> options)
+        public PublisherProxy(ILogger<PublisherProxy> logger, IOptions<Config> options)
         {
             if (options.Value.ServiceEnabled)
             {
-                Publisher = TelemetryPublisherFactory.Create(options.Value.Publisher, options.Value.ConnectionString,
+                Publisher = PublisherFactory.Create(options.Value.Publisher, options.Value.ConnectionString,
                     "NucuCar.Sensors", logger);
             }
             else

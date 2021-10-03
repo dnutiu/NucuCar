@@ -69,21 +69,3 @@ See the source code for comments on the ConnectionString.
 You will need to parse the file by yourself.
 
 ---
-
-## Firebase Firestore Database
-
-### Publisher
-
-Publishes telemetry on the firestore.
-
-The `Telemetry:Publisher` must be set to: Firestore
-
-Example connection string:
-`ProjectId=nucuhub;CollectionName=sensors-telemetry-test;Timeout=1000`
-
-If you want to use Authentication you can do so by providing the following keys
-in the connection string: WebApiEmail, WebApiPassword, WebApiKey.
-
-### Reader
-
-You will need use a firebase client or rest API.

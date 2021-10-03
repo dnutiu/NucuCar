@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using NucuCar.Sensors.Abstractions;
 using PMS5003;
 using PMS5003.Exceptions;
@@ -124,15 +125,15 @@ namespace NucuCar.Sensors.Modules.PMS5003
             return "Pms5003";
         }
 
-        public override Dictionary<string, object> GetTelemetryJson()
+        public override JObject GetTelemetryJson()
         {
-            Dictionary<string, object> returnValue = null;
+            JObject returnValue = null;
             if (_pms5003Data != null && TelemetryEnabled)
             {
                 // The telemetry handled by FirebaseRestTranslator wants the values to be int or double.
-                returnValue = new Dictionary<string, object>
+                returnValue = new JObject()
                 {
-                    ["sensor_state"] = GetState(),
+                    ["sensor_state"] = GetState().ToString(),
                     ["Pm1Atmospheric"] = _pms5003Data.Pm1Atmospheric,
                     ["Pm1Standard"] = _pms5003Data.Pm1Standard,
                     ["Pm10Atmospheric"] = _pms5003Data.Pm10Atmospheric,

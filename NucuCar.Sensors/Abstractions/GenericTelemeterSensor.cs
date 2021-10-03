@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Sensors.Abstractions
@@ -13,7 +13,7 @@ namespace NucuCar.Sensors.Abstractions
     {
         protected bool TelemetryEnabled;
         public abstract string GetIdentifier();
-        public abstract Dictionary<string, object> GetTelemetryJson();
+        public abstract JObject GetTelemetryJson();
         public abstract bool IsTelemetryEnabled();
     }
 }

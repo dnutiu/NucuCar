@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iot.Device.Bmxx80;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using NucuCar.Sensors.Abstractions;
 using UnitsNet;
 using Bme680 = Iot.Device.Bmxx80.Bme680;
@@ -153,14 +154,14 @@ namespace NucuCar.Sensors.Modules.BME680
             return "Environment";
         }
 
-        public override Dictionary<string, object> GetTelemetryJson()
+        public override JObject GetTelemetryJson()
         {
-            Dictionary<string, object> returnValue = null;
+            JObject jsonObject = null;
             if (_lastMeasurement != null && TelemetryEnabled)
             {
-                returnValue = new Dictionary<string, object>
+                jsonObject = new JObject()
                 {
-                    ["sensor_state"] = CurrentState,
+                    ["sensor_state"] = GetState().ToString(),
                     ["temperature"] = _lastMeasurement.Temperature,
                     ["humidity"] = _lastMeasurement.Humidity,
                     ["pressure"] = _lastMeasurement.Pressure,
@@ -168,7 +169,7 @@ namespace NucuCar.Sensors.Modules.BME680
                 };
             }
 
-            return returnValue;
+            return jsonObject;
         }
 
         public override bool IsTelemetryEnabled()

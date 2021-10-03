@@ -1,11 +1,11 @@
-using NucuCar.Telemetry.Abstractions;
+using NucuCar.Telemetry.Publishers;
 
 namespace NucuCar.Telemetry
 {
     /// <summary>
-    /// TelemetryPublisherType holds constants for instantiating <see cref="TelemetryPublisher"/>,
+    /// TelemetryPublisherType holds constants for instantiating <see cref="BasePublisher"/>,
     /// </summary>
-    public static class TelemetryPublisherType
+    public static class PublisherType
     {
         public const string Azure = "Azure";
         public const string Disk = "Disk";

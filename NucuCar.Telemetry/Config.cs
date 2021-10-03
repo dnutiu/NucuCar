@@ -1,14 +1,14 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-using NucuCar.Telemetry.Abstractions;
+using NucuCar.Telemetry.Publishers;
 
 namespace NucuCar.Telemetry
 {
-    public class TelemetryConfig
+    public class Config
     {
         /// <summary>
-        ///  The Publisher is used by <see cref="TelemetryPublisherFactory"/> to instantiate
-        /// the correct <see cref="TelemetryPublisher"/>. For available types see <see cref="TelemetryPublisherType"/>
+        ///  The Publisher is used by <see cref="PublisherFactory"/> to instantiate
+        /// the correct <see cref="BasePublisher"/>. For available types see <see cref="PublisherType"/>
         /// </summary>
         public string Publisher { get; set; }
 

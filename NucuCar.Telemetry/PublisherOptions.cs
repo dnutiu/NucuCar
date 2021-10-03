@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Logging;
-using NucuCar.Telemetry.Abstractions;
+using NucuCar.Telemetry.Publishers;
 
 namespace NucuCar.Telemetry
 {
     /// <summary>
-    /// This class contains options for the <see cref="TelemetryPublisher"/>.
+    /// This class contains options for the <see cref="BasePublisher"/>.
     /// </summary>
-    public class TelemetryPublisherOptions
+    public class PublisherOptions
     {
         /// <summary>
         ///  The ConnectionString used by the publisher to connect to the cloud service.

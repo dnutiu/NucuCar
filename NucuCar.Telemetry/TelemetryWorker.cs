@@ -18,7 +18,7 @@ namespace NucuCar.Telemetry
         private readonly ILogger _logger;
         private readonly ITelemetryPublisher _telemetryPublisher;
 
-        public TelemetryWorker(ILogger<TelemetryWorker> logger, IOptions<TelemetryConfig> options,
+        public TelemetryWorker(ILogger<TelemetryWorker> logger, IOptions<Config> options,
             ITelemetryPublisher telemetryPublisherProxy)
         {
             _logger = logger;

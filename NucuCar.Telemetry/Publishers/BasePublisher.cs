@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using NucuCar.Telemetry.Abstractions;
 
-namespace NucuCar.Telemetry.Abstractions
+namespace NucuCar.Telemetry.Publishers
 {
     /// <summary>
     /// The TelemetryPublisher is an abstract class, which provides a base for implementing telemetry publishers.
     /// </summary>
-    public abstract class TelemetryPublisher : IDisposable, ITelemetryPublisher
+    public abstract class BasePublisher : IDisposable, ITelemetryPublisher
     {
         /// <summary>
         /// Raw connection string that is used to connect to the cloud service. Should be parsed if required.
@@ -35,16 +37,16 @@ namespace NucuCar.Telemetry.Abstractions
         /// <summary>
         /// Parameter less constructor, mainly used for testing.
         /// </summary>
-        public TelemetryPublisher()
+        public BasePublisher()
         {
             RegisteredTelemeters = new List<ITelemeter>(10);
         }
         
         /// <summary>
-        /// Constructor for <see cref="TelemetryPublisher"/>.
+        /// Constructor for <see cref="BasePublisher"/>.
         /// </summary>
-        /// <param name="opts">TelemetryPublisher options, see: <see cref="TelemetryPublisherOptions"/></param>
-        protected TelemetryPublisher(TelemetryPublisherOptions opts)
+        /// <param name="opts">TelemetryPublisher options, see: <see cref="PublisherOptions"/></param>
+        protected BasePublisher(PublisherOptions opts)
         {
             ConnectionString = opts.ConnectionString;
             TelemetrySource = opts.TelemetrySource;
@@ -97,10 +99,11 @@ namespace NucuCar.Telemetry.Abstractions
         /// Iterates through the registered telemeters and returns the telemetry data as dictionary.
         /// It also adds metadata information such as: source and timestamp.
         /// </summary>
-        /// <returns>A dictionary containing all telemetry data.</returns>
-        protected virtual Dictionary<string, object> GetTelemetry()
+        /// <returns>A dictionary containing all telemetry data. <see cref="DataAggregate"/></returns>
+        protected virtual DataAggregate GetTelemetry()
         {
-            var data = new List<Dictionary<string, object>>();
+            var source = TelemetrySource ?? nameof(BasePublisher);
+            var allTelemetryData = new List<JObject>();
             foreach (var telemeter in RegisteredTelemeters)
             {
                 var telemetryData = telemeter.GetTelemetryJson();
@@ -110,17 +113,10 @@ namespace NucuCar.Telemetry.Abstractions
                     continue;
                 }
 
-                telemetryData["_id"] = telemeter.GetIdentifier();
-                data.Add(telemetryData);
+                telemetryData["sensor_name"] = telemeter.GetIdentifier();
+                allTelemetryData.Add(telemetryData);
             }
-
-            var metadata = new Dictionary<string, object>
-            {
-                ["source"] = TelemetrySource ?? nameof(TelemetryPublisher),
-                ["timestamp"] = DateTime.UtcNow,
-                ["data"] = data.ToArray()
-            };
-            return metadata;
+            return new DataAggregate(source, allTelemetryData);
         }
     }
 }

@@ -5,22 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NucuCar.Telemetry.Abstractions;
 
 namespace NucuCar.Telemetry.Publishers
 {
     /// <summary>
-    /// Constructs an instance of <see cref="TelemetryPublisherAzure"/>. It is used to publish telemetry to Microsoft
+    /// Constructs an instance of <see cref="Azure"/>. It is used to publish telemetry to Microsoft
     /// Azure IotHub
     /// <remarks>
     ///    The connection string can be found in your Azure IotHub.
     /// </remarks>
     /// </summary>
-    public class TelemetryPublisherAzure : TelemetryPublisher
+    public class Azure : BasePublisher
     {
         protected readonly DeviceClient DeviceClient;
 
-        public TelemetryPublisherAzure(TelemetryPublisherOptions opts) : base(opts)
+        public Azure(PublisherOptions opts) : base(opts)
         {
             try
             {

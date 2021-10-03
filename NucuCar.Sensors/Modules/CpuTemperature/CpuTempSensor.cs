@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using NucuCar.Sensors.Abstractions;
 
 namespace NucuCar.Sensors.Modules.CpuTemperature
@@ -84,14 +85,14 @@ namespace NucuCar.Sensors.Modules.CpuTemperature
             return "CpuTemperature";
         }
 
-        public override Dictionary<string, object> GetTelemetryJson()
+        public override JObject GetTelemetryJson()
         {
-            Dictionary<string, object> returnValue = null;
+            JObject returnValue = null;
             if (!double.IsNaN(_lastTemperatureCelsius) && TelemetryEnabled)
             {
-                returnValue = new Dictionary<string, object>
+                returnValue = new JObject
                 {
-                    ["sensor_state"] = CurrentState,
+                    ["sensor_state"] = GetState().ToString(),
                     ["cpu_temperature"] = _lastTemperatureCelsius,
                 };
             }

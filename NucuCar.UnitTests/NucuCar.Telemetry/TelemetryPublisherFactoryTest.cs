@@ -13,8 +13,8 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry
             const string connectionString =
                 "HostName=something.azure-devices.net;DeviceId=something;SharedAccessKey=test";
             var telemetryPublisher =
-                TelemetryPublisherFactory.CreateFromConnectionString(TelemetryPublisherType.Azure, connectionString);
-            Assert.IsType<TelemetryPublisherAzure>(telemetryPublisher);
+                PublisherFactory.CreateFromConnectionString(PublisherType.Azure, connectionString);
+            Assert.IsType<Azure>(telemetryPublisher);
         }
         
         [Fact]
@@ -23,26 +23,16 @@ namespace NucuCar.UnitTests.NucuCar.Telemetry
             const string connectionString =
                 "Filename=test;BufferSize=4096";
             var telemetryPublisher =
-                TelemetryPublisherFactory.CreateFromConnectionString(TelemetryPublisherType.Disk, connectionString);
-            Assert.IsType<TelemetryPublisherDisk>(telemetryPublisher);
+                PublisherFactory.CreateFromConnectionString(PublisherType.Disk, connectionString);
+            Assert.IsType<Disk>(telemetryPublisher);
         }
         
-        [Fact]
-        private void Test_Build_TelemetryPublisherFiresstore()
-        {
-            const string connectionString =
-                "ProjectId=test;CollectionName=test";
-            var telemetryPublisher =
-                TelemetryPublisherFactory.CreateFromConnectionString(TelemetryPublisherType.Firestore, connectionString);
-            Assert.IsType<TelemetryPublisherFirestore>(telemetryPublisher);
-        }
-
         [Fact]
         private void Test_Build_ThrowsOnInvalidType()
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                TelemetryPublisherFactory.CreateFromConnectionString("_1", "a=b");
+                PublisherFactory.CreateFromConnectionString("_1", "a=b");
             });
         }
     }
